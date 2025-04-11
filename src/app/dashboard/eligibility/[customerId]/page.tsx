@@ -7,7 +7,7 @@ import {
   Share, CheckCircle, AlertCircle, Smartphone
 } from "lucide-react";
 import Image from "next/image";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { db } from "@/lib/db";
 import { Customer, CreditCard as CreditCardType } from "@/types";
 import { cn } from "@/lib/utils";

@@ -10,7 +10,7 @@ import {
   MapPin, DollarSign, FileText, AlertCircle, CheckCircle
 } from "lucide-react";
 import { db } from "@/lib/db";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { cn } from "@/lib/utils";
 
 // Form validation schema
@@ -69,7 +69,15 @@ export default function CustomerFormPage() {
     try {
       // Create new customer
       const customer = db.customers.create({
-        ...data,
+        name: data.name,
+        phone: data.phone,
+        email: data.email,
+        dob: data.dob,
+        pan: data.pan,
+        salary: data.salary,
+        pin: data.pin,
+        address: data.address,
+        cibilScore: data.cibilScore,
         linkedAgent: agent.phone,
       });
       

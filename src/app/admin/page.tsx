@@ -5,12 +5,13 @@ import { useRouter } from "next/navigation";
 import { 
   Users, CreditCard, Activity, LogOut,
   Edit, Trash2, Plus, Filter, Search,
-  ArrowUp, ArrowDown, CheckCircle, XCircle
+  ArrowUp, ArrowDown, CheckCircle, XCircle,
+  Phone, Mail
 } from "lucide-react";
 import { db } from "@/lib/db";
 import { CreditCard as CreditCardType } from "@/types";
 import { cn } from "@/lib/utils";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -101,14 +102,14 @@ export default function AdminPage() {
     const form = e.target as HTMLFormElement;
     
     const cardData = {
-      name: form.name.value,
-      minCibilScore: parseInt(form.minCibilScore.value),
-      annualFee: parseInt(form.annualFee.value),
-      utmLink: form.utmLink.value,
-      benefits: form.benefits.value.split('\n').filter(Boolean),
-      tags: form.tags.value.split(',').map((tag: string) => tag.trim()).filter(Boolean),
-      status: form.status.value as "active" | "inactive",
-      imageUrl: form.imageUrl.value || "https://images.unsplash.com/photo-1523281353252-5e14672131b0?q=80&w=500&auto=format&fit=crop"
+      name: (form.elements.namedItem('name') as HTMLInputElement).value,
+      minCibilScore: parseInt((form.elements.namedItem('minCibilScore') as HTMLInputElement).value),
+      annualFee: parseInt((form.elements.namedItem('annualFee') as HTMLInputElement).value),
+      utmLink: (form.elements.namedItem('utmLink') as HTMLInputElement).value,
+      benefits: (form.elements.namedItem('benefits') as HTMLTextAreaElement).value.split('\n').filter(Boolean),
+      tags: (form.elements.namedItem('tags') as HTMLInputElement).value.split(',').map((tag: string) => tag.trim()).filter(Boolean),
+      status: (form.elements.namedItem('status') as HTMLSelectElement).value as "active" | "inactive",
+      imageUrl: (form.elements.namedItem('imageUrl') as HTMLInputElement).value || "https://images.unsplash.com/photo-1523281353252-5e14672131b0?q=80&w=500&auto=format&fit=crop"
     };
     
     if (editingCard) {
