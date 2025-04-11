@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import bcrypt from "bcrypt";
+import { hash } from "bcrypt";
 import dbConnect from "./db-connect";
 import Agent from "./models/agent";
 import Admin from "./models/admin";
@@ -26,21 +26,21 @@ async function seedDatabase() {
       {
         name: "Agent 3210",
         phone: "9876543210",
-        password: await bcrypt.hash("password123", 10),
+        password: await hash("password123", 10),
         status: "active",
         lastLogin: new Date()
       },
       {
         name: "Agent 3211",
         phone: "9876543211",
-        password: await bcrypt.hash("password123", 10),
+        password: await hash("password123", 10),
         status: "active",
         lastLogin: new Date()
       },
       {
         name: "Agent 3212",
         phone: "9876543212",
-        password: await bcrypt.hash("password123", 10),
+        password: await hash("password123", 10),
         status: "active",
         lastLogin: new Date()
       }
@@ -53,7 +53,7 @@ async function seedDatabase() {
     // Seed Admin
     const admin = {
       email: "admin@example.com",
-      password: await bcrypt.hash("admin123", 10),
+      password: await hash("admin123", 10),
       role: "admin"
     };
 
