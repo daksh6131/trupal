@@ -5,23 +5,36 @@ import { MockDatabase, Customer, CreditCard, ActivityLog, SalesAgent } from "@/t
 // Initial mock data
 const initialData: MockDatabase = {
   agents: [{
+    _id: "agent1",
+    id: "agent1",
     name: "Agent 3210",
     phone: "9876543210",
     status: "active",
-    lastLogin: new Date().toISOString()
+    lastLogin: new Date().toISOString(),
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   }, {
+    _id: "agent2",
+    id: "agent2",
     name: "Agent 3211",
     phone: "9876543211",
     status: "active",
-    lastLogin: new Date().toISOString()
+    lastLogin: new Date().toISOString(),
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   }, {
+    _id: "agent3",
+    id: "agent3",
     name: "Agent 3212",
     phone: "9876543212",
     status: "active",
-    lastLogin: new Date().toISOString()
+    lastLogin: new Date().toISOString(),
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   }],
   customers: [],
   creditCards: [{
+    _id: "card1",
     id: "card1",
     name: "Premium Travel Card",
     minCibilScore: 750,
@@ -30,8 +43,11 @@ const initialData: MockDatabase = {
     benefits: ["4x reward points on travel", "Complimentary lounge access", "Zero forex markup fee"],
     tags: ["travel", "premium", "rewards"],
     status: "active",
-    imageUrl: "https://images.unsplash.com/photo-1523281353252-5e14672131b0?q=80&w=500&auto=format&fit=crop"
+    imageUrl: "https://images.unsplash.com/photo-1523281353252-5e14672131b0?q=80&w=500&auto=format&fit=crop",
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   }, {
+    _id: "card2",
     id: "card2",
     name: "Cashback Pro",
     minCibilScore: 700,
@@ -40,8 +56,11 @@ const initialData: MockDatabase = {
     benefits: ["5% cashback on groceries", "3% cashback on fuel", "1% on all other spends"],
     tags: ["cashback", "essentials", "value"],
     status: "active",
-    imageUrl: "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?q=80&w=500&auto=format&fit=crop"
+    imageUrl: "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?q=80&w=500&auto=format&fit=crop",
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   }, {
+    _id: "card3",
     id: "card3",
     name: "Basic Credit Builder",
     minCibilScore: 650,
@@ -50,8 +69,11 @@ const initialData: MockDatabase = {
     benefits: ["No annual fee", "Fuel surcharge waiver", "EMI conversion facility"],
     tags: ["starter", "no-fee", "credit-builder"],
     status: "active",
-    imageUrl: "https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?q=80&w=500&auto=format&fit=crop"
+    imageUrl: "https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?q=80&w=500&auto=format&fit=crop",
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   }, {
+    _id: "card4",
     id: "card4",
     name: "Lifestyle Elite",
     minCibilScore: 800,
@@ -60,8 +82,11 @@ const initialData: MockDatabase = {
     benefits: ["Movie ticket discounts", "Dining privileges at select restaurants", "Premium concierge service"],
     tags: ["lifestyle", "entertainment", "premium"],
     status: "active",
-    imageUrl: "https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?q=80&w=500&auto=format&fit=crop"
+    imageUrl: "https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?q=80&w=500&auto=format&fit=crop",
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   }, {
+    _id: "card5",
     id: "card5",
     name: "Student Starter",
     minCibilScore: 600,
@@ -70,7 +95,9 @@ const initialData: MockDatabase = {
     benefits: ["Special discounts on education platforms", "Low credit limit", "No joining fee"],
     tags: ["student", "starter", "no-fee"],
     status: "active",
-    imageUrl: "https://picsum.photos/200"
+    imageUrl: "https://picsum.photos/200",
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   }],
   activityLogs: []
 };
@@ -122,8 +149,11 @@ export const db = {
       const db = initializeDB();
       const newCustomer: Customer = {
         ...customer,
+        _id: `cust_${Date.now()}${Math.floor(Math.random() * 1000)}`,
         id: `cust_${Date.now()}${Math.floor(Math.random() * 1000)}`,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
       };
       db.customers.push(newCustomer);
       saveDB(db);
@@ -159,7 +189,10 @@ export const db = {
       const db = initializeDB();
       const newCard: CreditCard = {
         ...card,
-        id: `card_${Date.now()}${Math.floor(Math.random() * 1000)}`
+        _id: `card_${Date.now()}${Math.floor(Math.random() * 1000)}`,
+        id: `card_${Date.now()}${Math.floor(Math.random() * 1000)}`,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
       };
       db.creditCards.push(newCard);
       saveDB(db);
@@ -197,8 +230,11 @@ export const db = {
       const db = initializeDB();
       const newLog: ActivityLog = {
         ...log,
+        _id: `log_${Date.now()}${Math.floor(Math.random() * 1000)}`,
         id: `log_${Date.now()}${Math.floor(Math.random() * 1000)}`,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
       };
       db.activityLogs.push(newLog);
       saveDB(db);
