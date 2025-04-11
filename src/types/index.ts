@@ -1,5 +1,6 @@
 export interface SalesAgent {
   _id: string;
+  id: string; // For backward compatibility
   name: string;
   phone: string;
   status: "active" | "inactive";
@@ -10,6 +11,7 @@ export interface SalesAgent {
 
 export interface Customer {
   _id: string;
+  id: string; // For backward compatibility
   name: string;
   phone: string;
   email: string;
@@ -22,10 +24,12 @@ export interface Customer {
   linkedAgent: string;
   createdAt: string;
   updatedAt: string;
+  timestamp?: string; // For backward compatibility
 }
 
 export interface CreditCard {
   _id: string;
+  id: string; // For backward compatibility
   name: string;
   minCibilScore: number;
   annualFee: number;
@@ -40,6 +44,7 @@ export interface CreditCard {
 
 export interface ActivityLog {
   _id: string;
+  id: string; // For backward compatibility
   action: "form_submit" | "card_shared" | "login" | "logout";
   agentPhone: string;
   agentName: string;
@@ -49,6 +54,7 @@ export interface ActivityLog {
   details?: Record<string, any>;
   createdAt: string;
   updatedAt: string;
+  timestamp?: string; // For backward compatibility
 }
 
 export interface Admin {

@@ -185,7 +185,7 @@ export default function CustomersPage() {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredCustomers.map((customer) => (
-                  <tr key={customer.id} className="hover:bg-gray-50">
+                  <tr key={customer._id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-900">{customer.name}</div>
                       <div className="text-sm text-gray-500">{customer.pan}</div>
@@ -212,12 +212,12 @@ export default function CustomersPage() {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       <div className="flex items-center">
                         <Calendar className="h-4 w-4 mr-1" />
-                        {format(new Date(customer.timestamp), 'dd MMM yyyy')}
+                        {format(new Date(customer.createdAt), 'dd MMM yyyy')}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
                       <button 
-                        onClick={() => router.push(`/dashboard/eligibility/${customer.id}`)}
+                        onClick={() => router.push(`/dashboard/eligibility/${customer._id}`)}
                         className="text-blue-600 hover:text-blue-900"
                       >
                         View Eligibility

@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { Phone, Lock, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { authApi } from "@/lib/api-service";
-import { authApi } from "@/lib/api-service";
 
 export default function HomePage() {
   const router = useRouter();

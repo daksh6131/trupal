@@ -97,7 +97,10 @@ export default function EligibilityPage() {
         sharedCards: selectedCards,
         details: {
           messageContent: message
-        }
+        },
+        _id: "", // Will be assigned by MongoDB
+        createdAt: "",
+        updatedAt: ""
       });
       
       // Simulate API call delay
@@ -237,10 +240,10 @@ export default function EligibilityPage() {
                 <div className="space-y-6">
                   {eligibleCards.map(card => (
                     <div 
-                      key={card.id}
+                      key={card._id}
                       className={cn(
                         "bg-white rounded-lg shadow-md overflow-hidden transition-all",
-                        selectedCards.includes(card.id) 
+                        selectedCards.includes(card._id) 
                           ? "border-2 border-blue-500" 
                           : "border border-gray-200"
                       )}
@@ -304,15 +307,15 @@ export default function EligibilityPage() {
                           
                           <div className="mt-6 flex items-center">
                             <button
-                              onClick={() => handleSelectCard(card.id)}
+                              onClick={() => handleSelectCard(card._id)}
                               className={cn(
                                 "inline-flex items-center px-3 py-2 border rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500",
-                                selectedCards.includes(card.id)
+                                selectedCards.includes(card._id)
                                   ? "bg-blue-100 text-blue-700 border-blue-300"
                                   : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
                               )}
                             >
-                              {selectedCards.includes(card.id) ? (
+                              {selectedCards.includes(card._id) ? (
                                 <>
                                   <CheckCircle className="h-4 w-4 mr-2" /> Selected
                                 </>

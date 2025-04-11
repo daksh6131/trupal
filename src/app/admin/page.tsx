@@ -124,10 +124,15 @@ export default function AdminPage() {
     
     try {
       if (editingCard) {
-        await creditCardsApi.update(editingCard.id, cardData);
+        await creditCardsApi.update(editingCard._id, cardData);
         toast.success("Card updated successfully");
       } else {
-        await creditCardsApi.create(cardData);
+        await creditCardsApi.create({
+          ...cardData,
+          _id: "",
+          createdAt: "",
+          updatedAt: ""
+        });
         toast.success("New card added successfully");
       }
       
@@ -357,7 +362,7 @@ export default function AdminPage() {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {filteredCards.map((card) => (
-                    <tr key={card.id}>
+                    <tr key={card._id}>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm font-medium text-gray-900">{card.name}</div>
                       </td>
@@ -399,7 +404,7 @@ export default function AdminPage() {
                           <Edit className="h-4 w-4" />
                         </button>
                         <button
-                          onClick={() => handleDeleteCard(card.id)}
+                          onClick={() => handleDeleteCard(card._id)}
                           className="text-red-600 hover:text-red-900"
                         >
                           <Trash2 className="h-4 w-4" />
@@ -598,49 +603,16 @@ export default function AdminPage() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {db.customers.getAll().map((customer) => (
-                    <tr key={customer.id}>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">{customer.name}</div>
-                        <div className="text-sm text-gray-500">{customer.pan}</div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center text-sm text-gray-500">
-                          <Phone className="h-4 w-4 mr-1" /> {customer.phone}
-                        </div>
-                        <div className="flex items-center text-sm text-gray-500">
-                          <Mail className="h-4 w-4 mr-1" /> {customer.email}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          (customer.cibilScore ?? 0) >= 750 ? 'bg-green-100 text-green-800' :
-                          (customer.cibilScore ?? 0) >= 700 ? 'bg-blue-100 text-blue-800' :
-                          (customer.cibilScore ?? 0) >= 650 ? 'bg-yellow-100 text-yellow-800' :
-                          (customer.cibilScore ?? 0) > 0 ? 'bg-red-100 text-red-800' :
-                          'bg-gray-100 text-gray-800'
-                        }`}>
-                          {customer.cibilScore ?? 'N/A'}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">
-                          {db.agents.getByPhone(customer.linkedAgent)?.name ?? customer.linkedAgent}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {new Date(customer.timestamp).toLocaleDateString()}
-                      </td>
-                    </tr>
-                  ))}
+                  {/* Customer data will be fetched from API */}
+                  <tr>
+                    <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
+                      Customer data will be available via API
+                    </td>
+                  </tr>
                 </tbody>
               </table>
               
-              {db.customers.getAll().length === 0 && (
-                <div className="text-center py-8">
-                  <p className="text-gray-500">No customers registered yet</p>
-                </div>
-              )}
+              {/* Empty state handled above */}
             </div>
           </div>
         )}
@@ -675,52 +647,16 @@ export default function AdminPage() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {[...db.logs.getAll()]
-                    .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
-                    .map((log) => (
-                    <tr key={log.id}>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {new Date(log.timestamp).toLocaleString()}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          log.action === "login" || log.action === "logout" ? 'bg-blue-100 text-blue-800' :
-                          log.action === "form_submit" ? 'bg-green-100 text-green-800' :
-                          log.action === "card_shared" ? 'bg-purple-100 text-purple-800' :
-                          'bg-gray-100 text-gray-800'
-                        }`}>
-                          {log.action === "login" && "Login"}
-                          {log.action === "logout" && "Logout"}
-                          {log.action === "form_submit" && "Customer Added"}
-                          {log.action === "card_shared" && "Cards Shared"}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{log.agentName}</div>
-                        <div className="text-sm text-gray-500">{log.agentPhone}</div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">
-                          {log.customerName ?? "N/A"}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {log.action === "card_shared" && (
-                          <div className="text-sm text-gray-900">
-                            Shared {log.sharedCards?.length ?? 0} cards
-                          </div>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
+                  {/* Activity logs will be fetched from API */}
+                  <tr>
+                    <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
+                      Activity logs will be available via API
+                    </td>
+                  </tr>
                 </tbody>
               </table>
               
-              {db.logs.getAll().length === 0 && (
-                <div className="text-center py-8">
-                  <p className="text-gray-500">No activity logs yet</p>
-                </div>
-              )}
+              {/* Empty state handled above */}
             </div>
             
             {/* Export Button */}

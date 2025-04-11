@@ -22,6 +22,7 @@
         "@hookform/resolvers": "^5.0.1",
         "@jest/globals": "^29.7.0",
         "@t3-oss/env-nextjs": "^0.11.1",
+        "@types/bcrypt": "^5.0.2",
         "@types/eslint": "^8.56.10",
         "@types/jest": "^29.5.14",
         "@types/node": "^20.14.10",

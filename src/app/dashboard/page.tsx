@@ -128,7 +128,7 @@ export default function DashboardPage() {
               View all <ChevronRight className="h-4 w-4 ml-1" />
             </button>
           </div>
-          
+            
           {recentCustomers.length > 0 ? (
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
@@ -153,7 +153,7 @@ export default function DashboardPage() {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {recentCustomers.map((customer) => (
-                    <tr key={customer.id} className="hover:bg-gray-50">
+                    <tr key={customer._id} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm font-medium text-gray-900">{customer.name}</div>
                         <div className="text-sm text-gray-500">{customer.pan}</div>
@@ -177,11 +177,11 @@ export default function DashboardPage() {
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {format(new Date(customer.timestamp), 'dd MMM yyyy')}
+                        {format(new Date(customer.createdAt), 'dd MMM yyyy')}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm">
                         <button 
-                          onClick={() => router.push(`/dashboard/eligibility/${customer.id}`)}
+                          onClick={() => router.push(`/dashboard/eligibility/${customer._id}`)}
                           className="text-blue-600 hover:text-blue-900"
                         >
                           View Cards
@@ -222,7 +222,7 @@ export default function DashboardPage() {
                     Total Customers
                   </dt>
                   <dd className="text-lg font-semibold text-gray-900">
-                    {db.customers.getAll().filter(c => c.linkedAgent === agent.phone).length}
+                    {recentCustomers.length}
                   </dd>
                 </dl>
               </div>
@@ -240,9 +240,7 @@ export default function DashboardPage() {
                     Cards Recommended
                   </dt>
                   <dd className="text-lg font-semibold text-gray-900">
-                    {db.logs.getAll().filter(
-                      log => log.action === "card_shared" && log.agentPhone === agent.phone
-                    ).length}
+                    {0} {/* Will be implemented with API */}
                   </dd>
                 </dl>
               </div>
@@ -260,16 +258,7 @@ export default function DashboardPage() {
                     Activities Today
                   </dt>
                   <dd className="text-lg font-semibold text-gray-900">
-                    {db.logs.getAll().filter(
-                      log => {
-                        const today = new Date();
-                        const logDate = new Date(log.timestamp);
-                        return log.agentPhone === agent.phone && 
-                          logDate.getDate() === today.getDate() &&
-                          logDate.getMonth() === today.getMonth() &&
-                          logDate.getFullYear() === today.getFullYear();
-                      }
-                    ).length}
+                    {0} {/* Will be implemented with API */}
                   </dd>
                 </dl>
               </div>

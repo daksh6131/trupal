@@ -79,6 +79,9 @@ export default function CustomerFormPage() {
         address: data.address,
         cibilScore: data.cibilScore,
         linkedAgent: agent.phone,
+        _id: "",
+        createdAt: "",
+        updatedAt: ""
       });
       
       toast.success("Customer information saved successfully");
