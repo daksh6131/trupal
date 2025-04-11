@@ -19,6 +19,7 @@
         "test:all": "pnpm run test && pnpm run test:types"
     },
     "dependencies": {
+        "@hookform/resolvers": "^5.0.1",
         "@jest/globals": "^29.7.0",
         "@t3-oss/env-nextjs": "^0.11.1",
         "@types/eslint": "^8.56.10",
@@ -30,10 +31,12 @@
         "@typescript-eslint/parser": "^8.1.0",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
+        "date-fns": "^4.1.0",
         "eslint": "^8.57.0",
         "eslint-config-next": "^15.0.1",
         "eslint-import-resolver-node": "^0.3.9",
         "eslint-import-resolver-typescript": "^3.7.0",
+        "firebase-admin": "^13.2.0",
         "framer-motion": "^11.16.6",
         "geist": "^1.3.0",
         "lucide-react": "^0.468.0",
@@ -45,6 +48,8 @@
         "prettier-plugin-tailwindcss": "^0.6.5",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
+        "react-hook-form": "^7.55.0",
+        "react-hot-toast": "^2.5.2",
         "recharts": "^2.15.0",
         "stylelint": "^16.13.0",
         "stylelint-config-standard": "^37.0.0",
@@ -54,7 +59,7 @@
         "tailwindcss-animate": "^1.0.7",
         "ts-jest": "^29.2.5",
         "typescript": "^5.5.3",
-        "zod": "^3.24.1",
+        "zod": "^3.24.2",
         "zustand": "^5.0.2"
     }
 }

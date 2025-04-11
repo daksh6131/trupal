@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
+import { Toaster } from "react-hot-toast";
 
 export const viewport = {
   width: "device-width",
@@ -12,15 +13,15 @@ export const viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "Creatr",
-    template: "%s | Creatr",
+    default: "CardSales Pro",
+    template: "%s | CardSales Pro",
   },
-  description: "A modern web application built with Next.js and TypeScript",
-  applicationName: "Creatr",
-  keywords: ["next.js", "react", "typescript", "web application"],
-  authors: [{ name: "Creatr Team" }],
-  creator: "Creatr Team",
-  publisher: "Creatr Team",
+  description: "Internal tool for sales agents to recommend credit cards",
+  applicationName: "CardSales Pro",
+  keywords: ["credit card", "sales tool", "internal application", "eligibility"],
+  authors: [{ name: "Sales Team" }],
+  creator: "FinTech Solutions",
+  publisher: "FinTech Solutions",
   icons: {
     icon: [
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
@@ -35,7 +36,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Creatr",
+    title: "CardSales Pro",
   },
   formatDetection: {
     telephone: false,
@@ -47,7 +48,10 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
-      <body>{children}</body>
+      <body className="bg-gray-50">
+        {children}
+        <Toaster position="top-center" />
+      </body>
     </html>
   );
 }
