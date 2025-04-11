@@ -9,9 +9,9 @@ import {
   ArrowLeft, User, Phone, Mail, Calendar, CreditCard,
   MapPin, DollarSign, FileText, AlertCircle, CheckCircle
 } from "lucide-react";
-import { db } from "@/lib/db";
 import { toast } from "react-hot-toast";
 import { cn } from "@/lib/utils";
+import { customersApi } from "@/lib/api-service";
 
 // Form validation schema
 const customerSchema = z.object({
@@ -67,8 +67,8 @@ export default function CustomerFormPage() {
     setIsSubmitting(true);
     
     try {
-      // Create new customer
-      const customer = db.customers.create({
+      // Create new customer via API
+      const { customer } = await customersApi.create({
         name: data.name,
         phone: data.phone,
         email: data.email,
@@ -81,19 +81,10 @@ export default function CustomerFormPage() {
         linkedAgent: agent.phone,
       });
       
-      // Log the activity
-      db.logs.create({
-        action: "form_submit",
-        agentPhone: agent.phone,
-        agentName: agent.name,
-        customerId: customer.id,
-        customerName: customer.name,
-      });
-      
       toast.success("Customer information saved successfully");
       
       // Redirect to eligibility page
-      router.push(`/dashboard/eligibility/${customer.id}`);
+      router.push(`/dashboard/eligibility/${customer._id}`);
     } catch (error) {
       console.error("Error saving customer:", error);
       toast.error("Failed to save customer information");

@@ -8,9 +8,9 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { toast } from "react-hot-toast";
-import { db } from "@/lib/db";
 import { Customer, CreditCard as CreditCardType } from "@/types";
 import { cn } from "@/lib/utils";
+import { customersApi, creditCardsApi, logsApi } from "@/lib/api-service";
 
 export default function EligibilityPage() {
   const router = useRouter();
@@ -24,7 +24,9 @@ export default function EligibilityPage() {
   
   useEffect(() => {
     // Check if user is logged in
-    const agentData = localStorage.getItem("salesAgent");
+    const isBrowser = typeof window !== 'undefined';
+    const agentData = isBrowser ? localStorage.getItem("salesAgent") : null;
+    
     if (!agentData) {
       router.push("/");
       return;
@@ -32,24 +34,33 @@ export default function EligibilityPage() {
     
     setAgent(JSON.parse(agentData));
     
-    // Fetch customer data
-    const customerId = params.customerId;
-    const customerData = db.customers.getById(customerId);
+    // Fetch customer data via API
+    const fetchCustomerData = async () => {
+      try {
+        const { customer: customerData } = await customersApi.getById(params.customerId);
+        
+        if (!customerData) {
+          toast.error("Customer not found");
+          router.push("/dashboard");
+          return;
+        }
+        
+        setCustomer(customerData);
+        
+        // Get eligible cards
+        const cibilScore = customerData.cibilScore ?? 0;
+        if (cibilScore > 0) {
+          const { eligibleCards } = await creditCardsApi.getEligible(cibilScore);
+          setEligibleCards(eligibleCards);
+        }
+      } catch (error) {
+        console.error("Error fetching customer data:", error);
+        toast.error("Failed to load customer data");
+        router.push("/dashboard");
+      }
+    };
     
-    if (!customerData) {
-      toast.error("Customer not found");
-      router.push("/dashboard");
-      return;
-    }
-    
-    setCustomer(customerData);
-    
-    // Get eligible cards
-    const cibilScore = customerData.cibilScore ?? 0;
-    if (cibilScore > 0) {
-      const cards = db.creditCards.getEligibleCards(cibilScore);
-      setEligibleCards(cards);
-    }
+    fetchCustomerData();
   }, [params.customerId, router]);
   
   const handleSelectCard = (cardId: string) => {
@@ -67,23 +78,21 @@ export default function EligibilityPage() {
     
     try {
       // Get selected card details
-      const cards = selectedCards.map(id => 
-        db.creditCards.getById(id)
-      ).filter(Boolean) as CreditCardType[];
+      const selectedCardDetails = eligibleCards.filter(card => 
+        selectedCards.includes(card._id)
+      );
       
       // Format WhatsApp message
-      const message = formatWhatsAppMessage(customer.name, cards);
+      const message = formatWhatsAppMessage(customer.name, selectedCardDetails);
       
       // In a real app, this would call the Twilio API
       // For demo, we'll just log and simulate a successful send
       console.log("WhatsApp message to send:", message);
       
-      // Log the activity
-      db.logs.create({
+      // Log the activity via API
+      await logsApi.create({
         action: "card_shared",
-        agentPhone: agent.phone,
-        agentName: agent.name,
-        customerId: customer.id,
+        customerId: customer._id,
         customerName: customer.name,
         sharedCards: selectedCards,
         details: {

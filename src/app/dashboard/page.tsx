@@ -6,9 +6,9 @@ import {
   UserPlus, ClipboardList, LogOut, ChevronRight, 
   Phone, Mail, Calendar, CreditCard, DollarSign
 } from "lucide-react";
-import { db } from "@/lib/db";
 import { Customer } from "@/types";
 import { format } from "date-fns";
+import { authApi, customersApi } from "@/lib/api-service";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -17,7 +17,9 @@ export default function DashboardPage() {
   
   useEffect(() => {
     // Check if user is logged in
-    const agentData = localStorage.getItem("salesAgent");
+    const isBrowser = typeof window !== 'undefined';
+    const agentData = isBrowser ? localStorage.getItem("salesAgent") : null;
+    
     if (!agentData) {
       router.push("/");
       return;
@@ -26,37 +28,34 @@ export default function DashboardPage() {
     const parsedAgent = JSON.parse(agentData);
     setAgent(parsedAgent);
     
-    // Update agent's last login
-    db.agents.updateLastLogin(parsedAgent.phone);
-    
-    // Log the login activity
-    db.logs.create({
-      action: "login",
-      agentPhone: parsedAgent.phone,
-      agentName: parsedAgent.name,
-    });
-    
     // Get recent customers for this agent
-    const customers = db.customers.getAll()
-      .filter(c => c.linkedAgent === parsedAgent.phone)
-      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
-      .slice(0, 5);
+    const fetchCustomers = async () => {
+      try {
+        const { customers } = await customersApi.getAll();
+        setRecentCustomers(
+          customers
+            .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+            .slice(0, 5)
+        );
+      } catch (error) {
+        console.error("Error fetching customers:", error);
+      }
+    };
     
-    setRecentCustomers(customers);
+    fetchCustomers();
   }, [router]);
   
-  const handleLogout = () => {
-    if (agent) {
-      // Log the logout activity
-      db.logs.create({
-        action: "logout",
-        agentPhone: agent.phone,
-        agentName: agent.name,
-      });
+  const handleLogout = async () => {
+    try {
+      await authApi.logout();
+      router.push("/");
+    } catch (error) {
+      console.error("Logout error:", error);
+      // Even if API fails, clear local storage and redirect
+      localStorage.removeItem("salesAgent");
+      localStorage.removeItem("authToken");
+      router.push("/");
     }
-    
-    localStorage.removeItem("salesAgent");
-    router.push("/");
   };
   
   if (!agent) {

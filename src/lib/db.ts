@@ -4,89 +4,74 @@ import { MockDatabase, Customer, CreditCard, ActivityLog, SalesAgent } from "@/t
 
 // Initial mock data
 const initialData: MockDatabase = {
-  agents: [
-    { name: "Agent 3210", phone: "9876543210", status: "active", lastLogin: new Date().toISOString() },
-    { name: "Agent 3211", phone: "9876543211", status: "active", lastLogin: new Date().toISOString() },
-    { name: "Agent 3212", phone: "9876543212", status: "active", lastLogin: new Date().toISOString() },
-  ],
+  agents: [{
+    name: "Agent 3210",
+    phone: "9876543210",
+    status: "active",
+    lastLogin: new Date().toISOString()
+  }, {
+    name: "Agent 3211",
+    phone: "9876543211",
+    status: "active",
+    lastLogin: new Date().toISOString()
+  }, {
+    name: "Agent 3212",
+    phone: "9876543212",
+    status: "active",
+    lastLogin: new Date().toISOString()
+  }],
   customers: [],
-  creditCards: [
-    {
-      id: "card1",
-      name: "Premium Travel Card",
-      minCibilScore: 750,
-      annualFee: 1000,
-      utmLink: "https://example.com/card/premium-travel?utm=agent",
-      benefits: [
-        "4x reward points on travel",
-        "Complimentary lounge access",
-        "Zero forex markup fee"
-      ],
-      tags: ["travel", "premium", "rewards"],
-      status: "active",
-      imageUrl: "https://images.unsplash.com/photo-1523281353252-5e14672131b0?q=80&w=500&auto=format&fit=crop"
-    },
-    {
-      id: "card2",
-      name: "Cashback Pro",
-      minCibilScore: 700,
-      annualFee: 500,
-      utmLink: "https://example.com/card/cashback-pro?utm=agent",
-      benefits: [
-        "5% cashback on groceries",
-        "3% cashback on fuel",
-        "1% on all other spends"
-      ],
-      tags: ["cashback", "essentials", "value"],
-      status: "active",
-      imageUrl: "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?q=80&w=500&auto=format&fit=crop"
-    },
-    {
-      id: "card3",
-      name: "Basic Credit Builder",
-      minCibilScore: 650,
-      annualFee: 0,
-      utmLink: "https://example.com/card/credit-builder?utm=agent",
-      benefits: [
-        "No annual fee",
-        "Fuel surcharge waiver",
-        "EMI conversion facility"
-      ],
-      tags: ["starter", "no-fee", "credit-builder"],
-      status: "active",
-      imageUrl: "https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?q=80&w=500&auto=format&fit=crop"
-    },
-    {
-      id: "card4",
-      name: "Lifestyle Elite",
-      minCibilScore: 800,
-      annualFee: 2500,
-      utmLink: "https://example.com/card/lifestyle-elite?utm=agent",
-      benefits: [
-        "Movie ticket discounts",
-        "Dining privileges at select restaurants",
-        "Premium concierge service"
-      ],
-      tags: ["lifestyle", "entertainment", "premium"],
-      status: "active",
-      imageUrl: "https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?q=80&w=500&auto=format&fit=crop"
-    },
-    {
-      id: "card5",
-      name: "Student Starter",
-      minCibilScore: 600,
-      annualFee: 0,
-      utmLink: "https://example.com/card/student-starter?utm=agent",
-      benefits: [
-        "Special discounts on education platforms",
-        "Low credit limit",
-        "No joining fee"
-      ],
-      tags: ["student", "starter", "no-fee"],
-      status: "active",
-      imageUrl: "https://images.unsplash.com/photo-1587325355948-8118d4e32098?q=80&w=500&auto=format&fit=crop"
-    }
-  ],
+  creditCards: [{
+    id: "card1",
+    name: "Premium Travel Card",
+    minCibilScore: 750,
+    annualFee: 1000,
+    utmLink: "https://example.com/card/premium-travel?utm=agent",
+    benefits: ["4x reward points on travel", "Complimentary lounge access", "Zero forex markup fee"],
+    tags: ["travel", "premium", "rewards"],
+    status: "active",
+    imageUrl: "https://images.unsplash.com/photo-1523281353252-5e14672131b0?q=80&w=500&auto=format&fit=crop"
+  }, {
+    id: "card2",
+    name: "Cashback Pro",
+    minCibilScore: 700,
+    annualFee: 500,
+    utmLink: "https://example.com/card/cashback-pro?utm=agent",
+    benefits: ["5% cashback on groceries", "3% cashback on fuel", "1% on all other spends"],
+    tags: ["cashback", "essentials", "value"],
+    status: "active",
+    imageUrl: "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?q=80&w=500&auto=format&fit=crop"
+  }, {
+    id: "card3",
+    name: "Basic Credit Builder",
+    minCibilScore: 650,
+    annualFee: 0,
+    utmLink: "https://example.com/card/credit-builder?utm=agent",
+    benefits: ["No annual fee", "Fuel surcharge waiver", "EMI conversion facility"],
+    tags: ["starter", "no-fee", "credit-builder"],
+    status: "active",
+    imageUrl: "https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?q=80&w=500&auto=format&fit=crop"
+  }, {
+    id: "card4",
+    name: "Lifestyle Elite",
+    minCibilScore: 800,
+    annualFee: 2500,
+    utmLink: "https://example.com/card/lifestyle-elite?utm=agent",
+    benefits: ["Movie ticket discounts", "Dining privileges at select restaurants", "Premium concierge service"],
+    tags: ["lifestyle", "entertainment", "premium"],
+    status: "active",
+    imageUrl: "https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?q=80&w=500&auto=format&fit=crop"
+  }, {
+    id: "card5",
+    name: "Student Starter",
+    minCibilScore: 600,
+    annualFee: 0,
+    utmLink: "https://example.com/card/student-starter?utm=agent",
+    benefits: ["Special discounts on education platforms", "Low credit limit", "No joining fee"],
+    tags: ["student", "starter", "no-fee"],
+    status: "active",
+    imageUrl: "https://picsum.photos/200"
+  }],
   activityLogs: []
 };
 
@@ -95,13 +80,11 @@ const initializeDB = (): MockDatabase => {
   if (typeof window === 'undefined') {
     return initialData;
   }
-  
   const storedDB = localStorage.getItem('cardSalesDB');
   if (!storedDB) {
     localStorage.setItem('cardSalesDB', JSON.stringify(initialData));
     return initialData;
   }
-  
   try {
     return JSON.parse(storedDB);
   } catch (e) {
@@ -150,13 +133,14 @@ export const db = {
       const db = initializeDB();
       const index = db.customers.findIndex(customer => customer.id === id);
       if (index === -1) return null;
-      
-      db.customers[index] = { ...db.customers[index], ...data };
+      db.customers[index] = {
+        ...db.customers[index],
+        ...data
+      };
       saveDB(db);
       return db.customers[index];
     }
   },
-
   // Credit card operations
   creditCards: {
     getAll: (): CreditCard[] => {
@@ -169,9 +153,7 @@ export const db = {
     },
     getEligibleCards: (cibilScore: number): CreditCard[] => {
       const db = initializeDB();
-      return db.creditCards.filter(
-        card => card.status === "active" && card.minCibilScore <= cibilScore
-      );
+      return db.creditCards.filter(card => card.status === "active" && card.minCibilScore <= cibilScore);
     },
     create: (card: Omit<CreditCard, "id">): CreditCard => {
       const db = initializeDB();
@@ -187,8 +169,10 @@ export const db = {
       const db = initializeDB();
       const index = db.creditCards.findIndex(card => card.id === id);
       if (index === -1) return null;
-      
-      db.creditCards[index] = { ...db.creditCards[index], ...data };
+      db.creditCards[index] = {
+        ...db.creditCards[index],
+        ...data
+      };
       saveDB(db);
       return db.creditCards[index];
     },
@@ -196,7 +180,6 @@ export const db = {
       const db = initializeDB();
       const initialLength = db.creditCards.length;
       db.creditCards = db.creditCards.filter(card => card.id !== id);
-      
       if (db.creditCards.length !== initialLength) {
         saveDB(db);
         return true;
@@ -204,7 +187,6 @@ export const db = {
       return false;
     }
   },
-
   // Activity logs
   logs: {
     getAll: (): ActivityLog[] => {
@@ -223,7 +205,6 @@ export const db = {
       return newLog;
     }
   },
-
   // Agent operations
   agents: {
     getAll: (): SalesAgent[] => {
@@ -238,13 +219,11 @@ export const db = {
       const db = initializeDB();
       const index = db.agents.findIndex(agent => agent.phone === phone);
       if (index === -1) return null;
-      
       db.agents[index].lastLogin = new Date().toISOString();
       saveDB(db);
       return db.agents[index];
     }
   },
-
   // Reset database (for testing/development)
   resetDB: (): void => {
     saveDB(initialData);

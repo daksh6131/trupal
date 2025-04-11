@@ -6,10 +6,10 @@ import {
   ArrowLeft, Phone, Mail, Calendar, CreditCard, 
   Search, Filter, SortAsc, SortDesc, UserPlus
 } from "lucide-react";
-import { db } from "@/lib/db";
 import { Customer } from "@/types";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
+import { customersApi } from "@/lib/api-service";
 
 export default function CustomersPage() {
   const router = useRouter();
@@ -21,7 +21,9 @@ export default function CustomersPage() {
   
   useEffect(() => {
     // Check if user is logged in
-    const agentData = localStorage.getItem("salesAgent");
+    const isBrowser = typeof window !== 'undefined';
+    const agentData = isBrowser ? localStorage.getItem("salesAgent") : null;
+    
     if (!agentData) {
       router.push("/");
       return;
@@ -30,12 +32,18 @@ export default function CustomersPage() {
     const parsedAgent = JSON.parse(agentData);
     setAgent(parsedAgent);
     
-    // Get customers for this agent
-    const agentCustomers = db.customers.getAll()
-      .filter(c => c.linkedAgent === parsedAgent.phone);
+    // Get customers for this agent via API
+    const fetchCustomers = async () => {
+      try {
+        const { customers: agentCustomers } = await customersApi.getAll();
+        setCustomers(sortCustomers(agentCustomers, sortField, sortDirection));
+      } catch (error) {
+        console.error("Error fetching customers:", error);
+      }
+    };
     
-    setCustomers(sortCustomers(agentCustomers, sortField, sortDirection));
-  }, [router]);
+    fetchCustomers();
+  }, [router, sortField, sortDirection]);
   
   const sortCustomers = (customersList: Customer[], field: string, direction: string) => {
     return [...customersList].sort((a: any, b: any) => {

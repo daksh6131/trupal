@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Phone, Lock, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { authApi } from "@/lib/api-service";
+import { authApi } from "@/lib/api-service";
 
 export default function HomePage() {
   const router = useRouter();
@@ -13,9 +15,6 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [countdown, setCountdown] = useState(0);
-
-  // Whitelisted agents (would be fetched from Firebase/Airtable in production)
-  const whitelistedAgents = ["9876543210", "9876543211", "9876543212"];
 
   useEffect(() => {
     // Check if user is already logged in
@@ -32,7 +31,7 @@ export default function HomePage() {
     }
   }, [countdown]);
 
-  const handleSendOtp = () => {
+  const handleSendOtp = async () => {
     setIsLoading(true);
     setError("");
     
@@ -43,24 +42,21 @@ export default function HomePage() {
       return;
     }
 
-    // Check if agent is whitelisted
-    if (!whitelistedAgents.includes(phone)) {
-      setError("This number is not authorized. Please contact admin.");
-      setIsLoading(false);
-      return;
-    }
-
-    // Simulate OTP sending
-    setTimeout(() => {
+    try {
+      // For demo purposes, we'll just set OTP sent state
+      // In a real app, this would call an API to send OTP
       setIsOtpSent(true);
-      setIsLoading(false);
       setCountdown(30);
       // For demo purposes, OTP is always "123456"
       console.log("OTP sent (demo): 123456");
-    }, 1500);
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Failed to send OTP");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleVerifyOtp = () => {
+  const handleVerifyOtp = async () => {
     setIsLoading(true);
     setError("");
 
@@ -70,21 +66,14 @@ export default function HomePage() {
       return;
     }
 
-    // For demo purposes, accept "123456" as valid OTP
-    setTimeout(() => {
-      if (otp === "123456") {
-        // Store agent info in localStorage
-        localStorage.setItem("salesAgent", JSON.stringify({
-          phone,
-          name: `Agent ${phone.slice(-4)}`,
-          loggedInAt: new Date().toISOString()
-        }));
-        router.push("/dashboard");
-      } else {
-        setError("Invalid OTP. Please try again.");
-        setIsLoading(false);
-      }
-    }, 1500);
+    try {
+      // Call login API
+      await authApi.login(phone, otp);
+      router.push("/dashboard");
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Invalid OTP. Please try again.");
+      setIsLoading(false);
+    }
   };
 
   return (

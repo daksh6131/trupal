@@ -8,10 +8,10 @@ import {
   ArrowUp, ArrowDown, CheckCircle, XCircle,
   Phone, Mail
 } from "lucide-react";
-import { db } from "@/lib/db";
 import { CreditCard as CreditCardType } from "@/types";
 import { cn } from "@/lib/utils";
 import { toast } from "react-hot-toast";
+import { authApi, creditCardsApi, customersApi, logsApi } from "@/lib/api-service";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -38,9 +38,14 @@ export default function AdminPage() {
     }
   }, []);
   
-  const loadCreditCards = () => {
-    const cards = db.creditCards.getAll();
-    setCreditCards(sortCards(cards, sortBy, sortOrder));
+  const loadCreditCards = async () => {
+    try {
+      const { creditCards } = await creditCardsApi.getAll();
+      setCreditCards(sortCards(creditCards, sortBy, sortOrder));
+    } catch (error) {
+      toast.error("Failed to load credit cards");
+      console.error(error);
+    }
   };
   
   const sortCards = (cards: CreditCardType[], by: string, order: "asc" | "desc") => {
@@ -58,18 +63,18 @@ export default function AdminPage() {
     setCreditCards(sortCards(creditCards, by, newOrder));
   };
   
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const email = (e.currentTarget as HTMLFormElement).email.value;
     const password = (e.currentTarget as HTMLFormElement).password.value;
     
-    if (email === adminCredentials.email && password === adminCredentials.password) {
-      localStorage.setItem("adminUser", JSON.stringify({ email, role: "admin" }));
+    try {
+      await authApi.adminLogin(email, password);
       setIsLoggedIn(true);
       loadCreditCards();
       toast.success("Logged in successfully");
-    } else {
-      toast.error("Invalid credentials");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Invalid credentials");
     }
   };
   
@@ -79,11 +84,16 @@ export default function AdminPage() {
     toast.success("Logged out successfully");
   };
   
-  const handleDeleteCard = (id: string) => {
+  const handleDeleteCard = async (id: string) => {
     if (window.confirm("Are you sure you want to delete this card?")) {
-      db.creditCards.delete(id);
-      loadCreditCards();
-      toast.success("Card deleted successfully");
+      try {
+        await creditCardsApi.delete(id);
+        loadCreditCards();
+        toast.success("Card deleted successfully");
+      } catch (error) {
+        toast.error("Failed to delete card");
+        console.error(error);
+      }
     }
   };
   
@@ -97,7 +107,7 @@ export default function AdminPage() {
     setIsFormOpen(true);
   };
   
-  const handleSubmitCard = (e: React.FormEvent) => {
+  const handleSubmitCard = async (e: React.FormEvent) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     
@@ -112,16 +122,20 @@ export default function AdminPage() {
       imageUrl: (form.elements.namedItem('imageUrl') as HTMLInputElement).value || "https://images.unsplash.com/photo-1523281353252-5e14672131b0?q=80&w=500&auto=format&fit=crop"
     };
     
-    if (editingCard) {
-      db.creditCards.update(editingCard.id, cardData);
-      toast.success("Card updated successfully");
-    } else {
-      db.creditCards.create(cardData);
-      toast.success("New card added successfully");
+    try {
+      if (editingCard) {
+        await creditCardsApi.update(editingCard.id, cardData);
+        toast.success("Card updated successfully");
+      } else {
+        await creditCardsApi.create(cardData);
+        toast.success("New card added successfully");
+      }
+      
+      setIsFormOpen(false);
+      loadCreditCards();
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Failed to save card");
     }
-    
-    setIsFormOpen(false);
-    loadCreditCards();
   };
   
   const filteredCards = creditCards.filter(card => 

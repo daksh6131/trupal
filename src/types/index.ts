@@ -1,12 +1,15 @@
 export interface SalesAgent {
+  _id: string;
   name: string;
   phone: string;
   status: "active" | "inactive";
   lastLogin: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Customer {
-  id: string;
+  _id: string;
   name: string;
   phone: string;
   email: string;
@@ -17,11 +20,12 @@ export interface Customer {
   address: string;
   cibilScore?: number;
   linkedAgent: string;
-  timestamp: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface CreditCard {
-  id: string;
+  _id: string;
   name: string;
   minCibilScore: number;
   annualFee: number;
@@ -30,20 +34,32 @@ export interface CreditCard {
   tags: string[];
   status: "active" | "inactive";
   imageUrl: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface ActivityLog {
-  id: string;
+  _id: string;
   action: "form_submit" | "card_shared" | "login" | "logout";
   agentPhone: string;
   agentName: string;
   customerId?: string;
   customerName?: string;
   sharedCards?: string[];
-  timestamp: string;
   details?: Record<string, any>;
+  createdAt: string;
+  updatedAt: string;
 }
 
+export interface Admin {
+  _id: string;
+  email: string;
+  role: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// For backward compatibility with existing code
 export interface MockDatabase {
   agents: SalesAgent[];
   customers: Customer[];
