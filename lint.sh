@@ -7,7 +7,10 @@ supabase_functions_files=()
 
 # Sort files into appropriate arrays
 for arg in "$@"; do
-  if [[ $arg == supabase/functions* ]]; then
+  # Skip files with .json, no extensions, .lockb or .cjs extensions
+  if [[ $arg == *.json || $arg == *.lockb || $arg == *.cjs || $arg != *.* ]]; then
+    continue
+  elif [[ $arg == supabase/functions* ]]; then
     supabase_functions_files+=("$arg")
   elif [[ $arg == *.css ]]; then
     css_files+=("$arg")

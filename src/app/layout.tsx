@@ -4,6 +4,13 @@ import "@/styles/globals.css";
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 import { Toaster } from "react-hot-toast";
+import {
+  AnalyticsTracker,
+  ErrorBoundaryClient,
+  DOMInspector,
+  Branding,
+} from "@/utils/creatr.scripts";
+import { GlobalErrorHandler } from "@/utils/global-error-handler";
 
 export const viewport = {
   width: "device-width",
@@ -43,13 +50,29 @@ export const metadata: Metadata = {
   },
 };
 
+
+const ErrorBoundaryWrapper: React.FC<{ children: React.ReactNode }> = (
+  props,
+) => {
+  const ErrorBoundaryComponent =
+    ErrorBoundaryClient as unknown as React.ComponentType<any>;
+  return <ErrorBoundaryComponent {...props} />;
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
       <body className="bg-gray-50">
-        {children}
+        <GlobalErrorHandler />
+        <DOMInspector>
+          <ErrorBoundaryWrapper>
+            {children}
+            <Branding />
+          </ErrorBoundaryWrapper>
+          <AnalyticsTracker siteKey="${siteKey}" />
+        </DOMInspector>
         <Toaster position="top-center" />
       </body>
     </html>
