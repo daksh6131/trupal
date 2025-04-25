@@ -24,20 +24,28 @@ export default function AdminPage() {
   const [sortBy, setSortBy] = useState<"name" | "minCibilScore">("name");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [filter, setFilter] = useState("");
-  
-  const adminCredentials = {
-    email: "admin@example.com",
-    password: "admin123"
-  };
+  const [phone, setPhone] = useState("");
+  const [otp, setOtp] = useState("");
+  const [isOtpSent, setIsOtpSent] = useState(false);
+  const [otpCountdown, setOtpCountdown] = useState(0);
+  const [generatedOtp, setGeneratedOtp] = useState<string | null>(null);
   
   useEffect(() => {
     // Check if admin is logged in
-    const admin = localStorage.getItem("adminUser");
+    const isBrowser = typeof window !== 'undefined';
+    const admin = isBrowser ? localStorage.getItem("adminUser") : null;
     if (admin) {
       setIsLoggedIn(true);
       loadCreditCards();
     }
   }, []);
+  
+  useEffect(() => {
+    if (otpCountdown > 0) {
+      const timer = setTimeout(() => setOtpCountdown(otpCountdown - 1), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [otpCountdown]);
   
   const loadCreditCards = async () => {
     try {
@@ -64,16 +72,57 @@ export default function AdminPage() {
     setCreditCards(sortCards(creditCards, by, newOrder));
   };
   
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const email = (e.currentTarget as HTMLFormElement).email.value;
-    const password = (e.currentTarget as HTMLFormElement).password.value;
+  const handleSendOtp = async () => {
+    if (!phone || phone.length !== 10 || !/^\d+$/.test(phone)) {
+      toast.error("Please enter a valid 10-digit phone number");
+      return;
+    }
     
     try {
-      await authApi.adminLogin(email, password);
-      setIsLoggedIn(true);
-      loadCreditCards();
-      toast.success("Logged in successfully");
+      // Call OTP generation API
+      const response = await authApi.generateOTP(phone);
+      
+      if (response.success) {
+        setIsOtpSent(true);
+        setOtpCountdown(30);
+        // For development, store the OTP
+        if (response.otp) {
+          setGeneratedOtp(response.otp);
+        }
+        toast.success("OTP sent successfully");
+      } else {
+        toast.error(response.error || "Failed to send OTP");
+      }
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Failed to send OTP");
+    }
+  };
+  
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!otp || otp.length !== 6) {
+      toast.error("Please enter a valid 6-digit OTP");
+      return;
+    }
+    
+    try {
+      // Call admin OTP verification API
+      const response = await authApi.verifyAdminOTP(phone, otp);
+      
+      if (response.success) {
+        // Store token and admin info
+        const isBrowser = typeof window !== 'undefined';
+        if (isBrowser) {
+          localStorage.setItem("adminToken", response.token);
+          localStorage.setItem("adminUser", JSON.stringify(response.admin));
+        }
+        setIsLoggedIn(true);
+        loadCreditCards();
+        toast.success("Logged in successfully");
+      } else {
+        toast.error(response.error || "Invalid OTP or unauthorized");
+      }
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Invalid credentials");
     }
