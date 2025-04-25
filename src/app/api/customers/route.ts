@@ -13,7 +13,8 @@ export async function GET(request: Request) {
       );
     }
     
-    // Get all customers for this agent
+    // Get all customers for this agent - RLS will automatically filter to only show
+    // customers that the agent is linked to
     const customers = await customerOperations.getByAgentPhone(agent.phone);
     
     return NextResponse.json({

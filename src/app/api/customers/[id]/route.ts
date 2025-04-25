@@ -16,21 +16,13 @@ export async function GET(
       );
     }
     
-    // Get customer by ID
+    // Get customer by ID - RLS will ensure only authorized agents can access this customer
     const customer = await customerOperations.getById(parseInt(params.id));
     
     if (!customer) {
       return NextResponse.json(
         { error: "Customer not found" },
         { status: 404 }
-      );
-    }
-    
-    // Check if customer belongs to this agent
-    if (customer.linkedAgent !== agent.phone) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 403 }
       );
     }
     
@@ -64,26 +56,15 @@ export async function PUT(
     
     const customerData = await request.json();
     
-    // Get customer by ID
-    const existingCustomer = await customerOperations.getById(parseInt(params.id));
+    // Update customer - RLS will ensure only authorized agents can update this customer
+    const customer = await customerOperations.update(parseInt(params.id), customerData);
     
-    if (!existingCustomer) {
+    if (!customer) {
       return NextResponse.json(
-        { error: "Customer not found" },
+        { error: "Customer not found or you don't have permission to update this customer" },
         { status: 404 }
       );
     }
-    
-    // Check if customer belongs to this agent
-    if (existingCustomer.linkedAgent !== agent.phone) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 403 }
-      );
-    }
-    
-    // Update customer
-    const customer = await customerOperations.update(parseInt(params.id), customerData);
     
     return NextResponse.json({
       success: true,

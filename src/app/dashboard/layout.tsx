@@ -5,6 +5,7 @@ import { ErrorBoundary } from "@/components/error-boundary";
 import { RefreshCw } from "lucide-react";
 import SyncStatus from "@/components/sync-status";
 import ProtectedRoute from "@/components/protected-route";
+import RlsStatus from "@/components/rls-status";
 
 export default function DashboardLayout({
   children,
@@ -42,8 +43,10 @@ export default function DashboardLayout({
           </div>
         }
       >
-        <div className="fixed top-0 right-0 z-50 m-4">
+        <div className="fixed top-0 right-0 z-50 m-4 flex flex-col gap-2">
           <SyncStatus />
+          {/* Add RLS Status component */}
+          <RlsStatus />
         </div>
         {children}
       </ErrorBoundary>

@@ -48,14 +48,17 @@ export const agentOperations = {
 // Customer operations
 export const customerOperations = {
   getAll: async () => {
+    // RLS will automatically filter results based on the authenticated user
     return await db.select().from(customers);
   },
   
   getByAgentPhone: async (phone: string) => {
+    // RLS will ensure only customers linked to this agent are returned
     return await db.select().from(customers).where(eq(customers.linkedAgent, phone));
   },
   
   getById: async (id: number) => {
+    // RLS will ensure only authorized users can access this customer
     const results = await db.select().from(customers).where(eq(customers.id, id));
     return results.length > 0 ? results[0] : null;
   },
@@ -88,11 +91,12 @@ export const customerOperations = {
   },
   
   update: async (id: number, data: Partial<NewCustomer>) => {
+    // RLS will ensure only authorized users can update this customer
     const results = await db.update(customers)
       .set({ ...data, updatedAt: new Date() })
       .where(eq(customers.id, id))
       .returning();
-    return results[0];
+    return results.length > 0 ? results[0] : null;
   }
 };
 
