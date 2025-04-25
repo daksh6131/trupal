@@ -10,7 +10,7 @@ import Image from "next/image";
 import { toast } from "react-hot-toast";
 import { Customer, CreditCard as CreditCardType } from "@/types";
 import { cn } from "@/lib/utils";
-import { customersApi, creditCardsApi, logsApi } from "@/lib/api-service";
+import { customersApi, creditCardsApi, logsApi, supabaseApi } from "@/lib/api-service";
 
 export default function EligibilityPage() {
   const router = useRouter();
@@ -61,7 +61,30 @@ export default function EligibilityPage() {
     };
     
     fetchCustomerData();
-  }, [params.customerId, router]);
+    
+    // Subscribe to real-time updates for customers and credit cards
+    const customerUnsubscribe = supabaseApi.subscribeToTable('customers', (payload) => {
+      if (payload.new && payload.new.id.toString() === params.customerId) {
+        console.log('Customer data changed:', payload);
+        fetchCustomerData();
+      }
+    });
+    
+    const cardsUnsubscribe = supabaseApi.subscribeToTable('credit_cards', () => {
+      // If customer has a CIBIL score, refresh eligible cards when credit card data changes
+      if (customer?.cibilScore) {
+        creditCardsApi.getEligible(customer.cibilScore).then(({ eligibleCards }) => {
+          setEligibleCards(eligibleCards);
+        });
+      }
+    });
+    
+    // Clean up subscriptions on unmount
+    return () => {
+      customerUnsubscribe();
+      cardsUnsubscribe();
+    };
+  }, [params.customerId, router, customer?.cibilScore]);
   
   const handleSelectCard = (cardId: string) => {
     setSelectedCards(prev => 

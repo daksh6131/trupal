@@ -304,6 +304,84 @@ export const seedDatabase = async () => {
     await db.insert(creditCards).values(creditCardData);
     console.log("Credit cards seeded successfully");
 
+    // Also seed data to Supabase
+    try {
+      // Convert data to snake_case for Supabase
+      const supabaseAgentData = agentData.map(agent => ({
+        name: agent.name,
+        phone: agent.phone,
+        password: agent.password,
+        status: agent.status,
+        last_login: agent.lastLogin.toISOString(),
+        created_at: agent.createdAt.toISOString(),
+        updated_at: agent.updatedAt.toISOString()
+      }));
+      
+      const supabaseAdminData = {
+        email: adminData.email,
+        password: adminData.password,
+        role: adminData.role,
+        created_at: adminData.createdAt.toISOString(),
+        updated_at: adminData.updatedAt.toISOString()
+      };
+      
+      const supabaseCreditCardData = creditCardData.map(card => ({
+        name: card.name,
+        min_cibil_score: card.minCibilScore,
+        annual_fee: card.annualFee,
+        utm_link: card.utmLink,
+        benefits: card.benefits,
+        tags: card.tags,
+        status: card.status,
+        image_url: card.imageUrl,
+        created_at: card.createdAt.toISOString(),
+        updated_at: card.updatedAt.toISOString()
+      }));
+      
+      // Import data to Supabase
+      const { supabase } = await import("@/db");
+      
+      // Seed agents
+      const { error: agentsError } = await supabase
+        .from('agents')
+        .upsert(supabaseAgentData);
+      
+      if (agentsError) {
+        console.error("Error seeding agents to Supabase:", agentsError);
+      } else {
+        console.log("Agents seeded to Supabase successfully");
+      }
+      
+      // Seed admin
+      const { error: adminError } = await supabase
+        .from('admins')
+        .upsert(supabaseAdminData);
+      
+      if (adminError) {
+        console.error("Error seeding admin to Supabase:", adminError);
+      } else {
+        console.log("Admin seeded to Supabase successfully");
+      }
+      
+      // Seed credit cards
+      const { error: cardsError } = await supabase
+        .from('credit_cards')
+        .upsert(supabaseCreditCardData);
+      
+      if (cardsError) {
+        console.error("Error seeding credit cards to Supabase:", cardsError);
+      } else {
+        console.log("Credit cards seeded to Supabase successfully");
+      }
+      
+      // Run migrations to set up real-time features
+      const { runMigrations } = await import("@/lib/supabase-migration");
+      await runMigrations();
+      
+    } catch (supabaseError) {
+      console.error("Error seeding data to Supabase:", supabaseError);
+    }
+
     console.log("Database seeded successfully");
   } catch (error) {
     console.error("Error seeding database:", error);

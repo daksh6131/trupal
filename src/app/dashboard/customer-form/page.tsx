@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { cn } from "@/lib/utils";
-import { customersApi } from "@/lib/api-service";
+import { customersApi, supabaseApi } from "@/lib/api-service";
 
 // Form validation schema
 const customerSchema = z.object({
@@ -95,7 +95,36 @@ export default function CustomerFormPage() {
       }
     } catch (error) {
       console.error("Error saving customer:", error);
-      toast.error("Failed to save customer information");
+      
+      // Check if we're offline
+      if (!navigator.onLine) {
+        // Store data for later sync
+        const offlineSyncManager = supabaseApi.getOfflineSyncManager();
+        if (offlineSyncManager) {
+          offlineSyncManager.queueOperation('customers', 'insert', {
+            name: data.name,
+            phone: data.phone,
+            email: data.email,
+            dob: data.dob,
+            pan: data.pan,
+            salary: data.salary,
+            pin: data.pin,
+            address: data.address,
+            cibil_score: data.cibilScore,
+            linked_agent: agent.phone,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          });
+          
+          toast.success("Customer information saved for later sync (offline mode)");
+          // Redirect to dashboard since we can't get an ID for eligibility check while offline
+          router.push('/dashboard');
+        } else {
+          toast.error("Failed to save customer information - offline mode not available");
+        }
+      } else {
+        toast.error("Failed to save customer information");
+      }
     } finally {
       setIsSubmitting(false);
     }

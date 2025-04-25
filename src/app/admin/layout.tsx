@@ -3,6 +3,8 @@
 import React from "react";
 import { ErrorBoundary } from "@/components/error-boundary";
 import { RefreshCw, ShieldAlert } from "lucide-react";
+import ConnectionStatus from "@/components/connection-status";
+import SyncStatus from "@/components/sync-status";
 
 export default function AdminLayout({
   children,
@@ -39,6 +41,10 @@ export default function AdminLayout({
         </div>
       }
     >
+      <div className="fixed top-0 right-0 z-50 m-4 flex flex-col gap-2">
+        <ConnectionStatus />
+        <SyncStatus />
+      </div>
       {children}
     </ErrorBoundary>
   );
