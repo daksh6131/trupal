@@ -182,7 +182,7 @@ export const customersApi = {
       // Try to save to Supabase first
       const savedCustomer = await saveToSupabase('customers', supabaseData);
       
-      if (savedCustomer) {
+      if (savedCustomer && 'id' in savedCustomer) {
         // Convert back to camelCase for the application
         const customer: Customer = {
           _id: savedCustomer.id.toString(),
@@ -341,7 +341,7 @@ export const creditCardsApi = {
         imageUrl: card.image_url,
         createdAt: card.created_at,
         updatedAt: card.updated_at
-      }));
+      } as CreditCard));
       
       return { success: true, creditCards: formattedCards };
     } catch (error) {
@@ -457,7 +457,7 @@ export const creditCardsApi = {
       // Try to save to Supabase first
       const savedCard = await saveToSupabase('credit_cards', supabaseData);
       
-      if (savedCard) {
+      if (savedCard && 'id' in savedCard) {
         // Convert back to camelCase for the application
         const creditCard: CreditCard = {
           _id: savedCard.id.toString(),
@@ -675,7 +675,7 @@ export const logsApi = {
       // Try to save to Supabase first
       const savedLog = await saveToSupabase('activity_logs', supabaseData);
       
-      if (savedLog) {
+      if (savedLog && 'id' in savedLog) {
         // Convert back to camelCase for the application
         const log: ActivityLog = {
           _id: savedLog.id.toString(),
@@ -753,7 +753,8 @@ export const supabaseApi = {
   forceSyncPendingOperations: async () => {
     const manager = getOfflineSyncManager();
     if (manager) {
-      await manager.syncPendingOperations();
+      // Use public method to trigger sync
+      await manager.performSync();
       return { success: true, pendingCount: manager.getPendingOperationsCount() };
     }
     return { success: false, error: "Offline sync manager not available" };
@@ -769,7 +770,7 @@ function subscribeToTable(
   const { event = '*', filter } = options;
   
   let channel = supabase.channel(`table-changes:${tableName}`)
-    .on('postgres_changes', { 
+    .on('postgres_changes' as any, { 
       event, 
       schema: 'public', 
       table: tableName,

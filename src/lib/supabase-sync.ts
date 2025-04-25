@@ -164,7 +164,7 @@ export function subscribeToTable(
   const { event = '*', filter } = options;
   
   let channel = supabase.channel(`table-changes:${tableName}`)
-    .on('postgres_changes', { 
+    .on('postgres_changes' as any, { 
       event, 
       schema: 'public', 
       table: tableName,
@@ -236,7 +236,7 @@ export async function batchSaveToSupabase<T extends DataObject>(
  */
 export class OfflineSyncManager {
   private storageKey: string;
-  private pendingOperations: Array<{
+  pendingOperations: Array<{
     table: string;
     operation: 'insert' | 'update' | 'delete';
     data: any;
@@ -261,7 +261,7 @@ export class OfflineSyncManager {
     }
   }
   
-  private loadPendingOperations() {
+  loadPendingOperations() {
     if (typeof localStorage === 'undefined') {
       return [];
     }
@@ -270,13 +270,13 @@ export class OfflineSyncManager {
     return stored ? JSON.parse(stored) : [];
   }
   
-  private savePendingOperations() {
+  savePendingOperations() {
     if (typeof localStorage !== 'undefined') {
       localStorage.setItem(this.storageKey, JSON.stringify(this.pendingOperations));
     }
   }
   
-  private handleOnline = () => {
+  handleOnline = () => {
     this.isOnline = true;
     if (this.pendingOperations.length > 0) {
       toast.success('Back online. Syncing data...');
@@ -284,7 +284,7 @@ export class OfflineSyncManager {
     }
   };
   
-  private handleOffline = () => {
+  handleOffline = () => {
     this.isOnline = false;
     toast.error('You are offline. Changes will be saved when you reconnect.');
     if (this.syncInterval) {
@@ -293,7 +293,7 @@ export class OfflineSyncManager {
     }
   };
   
-  private startSyncInterval() {
+  startSyncInterval() {
     if (this.syncInterval) {
       clearInterval(this.syncInterval);
     }
@@ -358,7 +358,7 @@ export class OfflineSyncManager {
     }
   }
   
-  public queueOperation(
+  queueOperation(
     table: string,
     operation: 'insert' | 'update' | 'delete',
     data: any,
@@ -370,7 +370,7 @@ export class OfflineSyncManager {
     if (this.isOnline && !this.syncInterval) {
       this.startSyncInterval();
     } else if (!this.isOnline) {
-      toast.info('You are offline. Changes will be saved when you reconnect.');
+      toast.error('You are offline. Changes will be saved when you reconnect.');
     }
   }
   
@@ -413,7 +413,7 @@ export class OfflineSyncManager {
     }
   }
   
-  public cleanup() {
+  cleanup() {
     if (typeof window !== 'undefined') {
       window.removeEventListener('online', this.handleOnline);
       window.removeEventListener('offline', this.handleOffline);
@@ -425,7 +425,7 @@ export class OfflineSyncManager {
     }
   }
   
-  public getPendingOperationsCount() {
+  getPendingOperationsCount() {
     return this.pendingOperations.length;
   }
 }

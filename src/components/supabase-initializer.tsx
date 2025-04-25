@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/db';
 import { toast } from 'react-hot-toast';
 
-export default function SupabaseInitializer() {
+export default function SupabaseInitializer(): React.ReactNode {
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {

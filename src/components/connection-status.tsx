@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/db';
-import { Database, ServerConnection, ServerOff } from 'lucide-react';
+import { Database, Server, ServerOff } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 
 export default function ConnectionStatus() {
@@ -55,7 +55,7 @@ export default function ConnectionStatus() {
   if (isConnected) {
     return (
       <div className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm bg-green-50 text-green-700">
-        <ServerConnection className="h-4 w-4" />
+        <Server className="h-4 w-4" />
         <span>Connected to database</span>
       </div>
     );
