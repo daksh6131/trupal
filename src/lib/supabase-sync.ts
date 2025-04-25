@@ -306,7 +306,7 @@ export class OfflineSyncManager {
     this.syncPendingOperations();
   }
   
-  private async syncPendingOperations() {
+  async syncPendingOperations() {
     if (!this.isOnline || this.pendingOperations.length === 0) {
       return;
     }
@@ -374,7 +374,7 @@ export class OfflineSyncManager {
     }
   }
   
-  public async performOperation(
+  async performOperation(
     table: string,
     operation: 'insert' | 'update' | 'delete',
     data: any,
