@@ -47,6 +47,9 @@ export async function POST(request: Request) {
     const customer = await customerOperations.create({
       ...customerData,
       linkedAgent: agent.phone,
+      // Ensure these fields are not included in the request
+      createdAt: new Date(),
+      updatedAt: new Date()
     });
     
     // Create activity log

@@ -61,8 +61,17 @@ export const customerOperations = {
   },
   
   create: async (data: NewCustomer) => {
-    const results = await db.insert(customers).values(data).returning();
-    return results[0];
+    try {
+      const results = await db.insert(customers).values({
+        ...data,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }).returning();
+      return results[0];
+    } catch (error) {
+      console.error("Error creating customer:", error);
+      throw error;
+    }
   },
   
   update: async (id: number, data: Partial<NewCustomer>) => {

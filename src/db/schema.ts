@@ -103,7 +103,7 @@ export type Agent = InferSelectModel<typeof agents>;
 export type NewAgent = InferInsertModel<typeof agents>;
 
 export type Customer = InferSelectModel<typeof customers>;
-export type NewCustomer = InferInsertModel<typeof customers>;
+export type NewCustomer = Omit<InferInsertModel<typeof customers>, "createdAt" | "updatedAt">;
 
 export type CreditCard = InferSelectModel<typeof creditCards>;
 export type NewCreditCard = InferInsertModel<typeof creditCards>;

@@ -98,7 +98,7 @@ export const customersApi = {
     return handleResponse<{ success: boolean; customer: Customer }>(response);
   },
   
-  create: async (customerData: Omit<Customer, "id" | "timestamp">) => {
+  create: async (customerData: Omit<Customer, "id" | "timestamp" | "_id" | "createdAt" | "updatedAt">) => {
     const response = await fetch(`${API_BASE_URL}/customers`, {
       method: "POST",
       headers: getAuthHeaders(),

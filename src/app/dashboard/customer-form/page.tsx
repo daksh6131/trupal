@@ -68,7 +68,7 @@ export default function CustomerFormPage() {
     
     try {
       // Create new customer via API
-      const { customer } = await customersApi.create({
+      const response = await customersApi.create({
         name: data.name,
         phone: data.phone,
         email: data.email,
@@ -78,16 +78,17 @@ export default function CustomerFormPage() {
         pin: data.pin,
         address: data.address,
         cibilScore: data.cibilScore,
-        linkedAgent: agent.phone,
-        _id: "",
-        createdAt: "",
-        updatedAt: ""
+        linkedAgent: agent.phone
       });
       
-      toast.success("Customer information saved successfully");
-      
-      // Redirect to eligibility page
-      router.push(`/dashboard/eligibility/${customer._id}`);
+      if (response && response.customer) {
+        toast.success("Customer information saved successfully");
+        
+        // Redirect to eligibility page
+        router.push(`/dashboard/eligibility/${response.customer.id}`);
+      } else {
+        throw new Error("Invalid response from server");
+      }
     } catch (error) {
       console.error("Error saving customer:", error);
       toast.error("Failed to save customer information");
