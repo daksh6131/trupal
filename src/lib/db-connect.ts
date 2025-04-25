@@ -2,12 +2,6 @@ import mongoose from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
-if (!MONGODB_URI) {
-  throw new Error(
-    "Please define the MONGODB_URI environment variable inside .env.local"
-  );
-}
-
 /**
  * Global is used here to maintain a cached connection across hot reloads
  * in development. This prevents connections growing exponentially
@@ -17,6 +11,7 @@ if (!MONGODB_URI) {
 interface CachedMongoose {
   conn: typeof mongoose | null;
   promise: Promise<typeof mongoose> | null;
+  isConnected: boolean;
 }
 
 // Define the global type
@@ -25,13 +20,20 @@ declare global {
   var mongoose: CachedMongoose;
 }
 
-let cached: CachedMongoose = global.mongoose || { conn: null, promise: null };
+let cached: CachedMongoose = global.mongoose || { conn: null, promise: null, isConnected: false };
 
 if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
+  cached = global.mongoose = { conn: null, promise: null, isConnected: false };
 }
 
 async function dbConnect() {
+  // If we don't have a MongoDB URI, we'll use local storage instead
+  if (!MONGODB_URI) {
+    console.warn("MONGODB_URI not defined, falling back to local storage");
+    cached.isConnected = false;
+    return null;
+  }
+
   if (cached.conn) {
     return cached.conn;
   }
@@ -41,12 +43,32 @@ async function dbConnect() {
       bufferCommands: false,
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
-      return mongoose;
-    });
+    cached.promise = mongoose.connect(MONGODB_URI, opts)
+      .then((mongoose) => {
+        cached.isConnected = true;
+        console.log("Connected to MongoDB");
+        return mongoose;
+      })
+      .catch((err) => {
+        console.error("MongoDB connection error:", err);
+        cached.isConnected = false;
+        return null;
+      });
   }
-  cached.conn = await cached.promise;
-  return cached.conn;
+  
+  try {
+    cached.conn = await cached.promise;
+    return cached.conn;
+  } catch (error) {
+    console.error("Failed to connect to MongoDB:", error);
+    cached.isConnected = false;
+    return null;
+  }
+}
+
+// Helper function to check if MongoDB is connected
+export function isMongoConnected() {
+  return cached.isConnected;
 }
 
 export default dbConnect;
