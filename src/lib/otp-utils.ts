@@ -1,6 +1,6 @@
 'use server';
 
-import { db } from "@/db";
+import { db, supabase } from "@/db";
 import { otps, adminPhones, NewOTP } from "@/db/schema";
 import { eq, and, gt, lt } from "drizzle-orm";
 
