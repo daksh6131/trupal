@@ -29,6 +29,9 @@ const config = {
         path: false,
         os: false,
         crypto: false,
+        net: false,
+        tls: false,
+        perf_hooks: false,
       };
 
       // Inject build error detector
