@@ -10,7 +10,7 @@ const MAX_OTP_ATTEMPTS = 3;
 const MAX_OTP_REQUESTS_PER_HOUR = 5;
 
 // Generate a random OTP code
-export function generateOTPCode(length = 6): string {
+export async function generateOTPCode(length = 6): Promise<string> {
   return Math.floor(100000 + Math.random() * 900000).toString().substring(0, length);
 }
 
@@ -36,7 +36,7 @@ export async function createOTP(phone: string): Promise<{ success: boolean; mess
     }
 
     // Generate new OTP
-    const code = generateOTPCode();
+    const code = await generateOTPCode();
     const expiresAt = new Date(Date.now() + OTP_EXPIRY_MINUTES * 60 * 1000);
 
     // Store OTP in database
