@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Phone, Lock, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";

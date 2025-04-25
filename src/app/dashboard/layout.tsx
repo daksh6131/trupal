@@ -41,10 +41,11 @@ export default function DashboardLayout({
           </div>
         }
       >
-      <div className="fixed top-0 right-0 z-50 m-4">
-        <SyncStatus />
-      </div>
-      {children}
-    </ErrorBoundary>
+        <div className="fixed top-0 right-0 z-50 m-4">
+          <SyncStatus />
+        </div>
+        {children}
+      </ErrorBoundary>
+    </ProtectedRoute>
   );
 }
