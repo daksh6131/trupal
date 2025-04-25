@@ -7,7 +7,7 @@ export async function GET() {
     console.log("Testing database connection from API route");
     
     // Try to query the customers table
-    const result = await db.select({ count: db.fn.count() }).from(customers);
+    const result = await db.select({ count: db.sql`count(*)`.mapWith(Number) }).from(customers);
     
     return NextResponse.json({
       success: true,
