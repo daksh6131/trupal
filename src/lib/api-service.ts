@@ -332,15 +332,15 @@ export const creditCardsApi = {
         _id: card.id.toString(),
         id: card.id.toString(),
         name: card.name,
-        minCibilScore: card.min_cibil_score,
-        annualFee: card.annual_fee,
-        utmLink: card.utm_link,
+        minCibilScore: card.minCibilScore,
+        annualFee: card.annualFee,
+        utmLink: card.utmLink,
         benefits: card.benefits,
         tags: card.tags,
         status: card.status,
-        imageUrl: card.image_url,
-        createdAt: card.created_at,
-        updatedAt: card.updated_at
+        imageUrl: card.imageUrl,
+        createdAt: card.createdAt,
+        updatedAt: card.updatedAt
       } as CreditCard));
       
       return { success: true, creditCards: formattedCards };
