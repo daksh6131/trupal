@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import ErrorStackParser from "error-stack-parser";
 import { initBuildErrorDetector } from "./build-error-detector";
 import { logErrorWithContext } from "@/lib/error-logger";
+import React from "react";
 
 // Define the interface for error location info, matching the one in creatr.scripts.tsx
 interface ErrorLocationInfo {
@@ -42,7 +43,7 @@ function cleanWebpackPath(path: string): string {
 	}
 
 	// Also clean up any remaining webpack paths with a more generic regex
-	cleanedPath = cleanedPath.replace(/webpack[:\-][\/\\]{2,}[^\/\\]*[\/\\]?/g, "");
+	cleanedPath = cleanedPath.replace(/webpack[:|-][/\\]{2,}[^/\\]*[/\\]?/g, "");
 
 	return cleanedPath;
 }
@@ -125,7 +126,7 @@ function isBuildError(error: Error | any): boolean {
 	return isBuildErrorMessage;
 }
 
-export function GlobalErrorHandler(): JSX.Element {
+export function GlobalErrorHandler(): React.ReactNode {
 
 	useEffect(() => {
 		// Initialize the build error detector

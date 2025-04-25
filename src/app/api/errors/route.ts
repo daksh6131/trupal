@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { errorLogOperations } from "@/lib/error-logger";
 import { isAdmin } from "@/lib/auth-utils";
-import { eq } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 import { errorLogs } from "@/db/schema";
 import { db } from "@/db";
 
@@ -28,11 +28,11 @@ export async function GET(request: Request) {
     
     // Apply filters
     if (status) {
-      query = query.where(eq(errorLogs.status, status as any));
+      query = query.where(eq(errorLogs.status, status as "new" | "investigating" | "resolved" | "ignored"));
     }
     
     if (severity) {
-      query = query.where(eq(errorLogs.severity, severity as any));
+      query = query.where(eq(errorLogs.severity, severity as "low" | "medium" | "high" | "critical"));
     }
     
     // Apply limit
@@ -41,7 +41,7 @@ export async function GET(request: Request) {
     }
     
     // Order by most recent first
-    query = query.orderBy(errorLogs.createdAt);
+    query = query.orderBy(desc(errorLogs.createdAt));
     
     const errors = await query;
     

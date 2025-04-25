@@ -92,11 +92,11 @@ export default function ErrorsPage() {
       if (data.success) {
         // Update local state
         setErrors(errors.map(error => 
-          error.id === id ? { ...error, status } : error
+          error.id === id ? { ...error, status: status as "new" | "investigating" | "resolved" | "ignored" } : error
         ));
         
         if (selectedError?.id === id) {
-          setSelectedError({ ...selectedError, status });
+          setSelectedError({ ...selectedError, status: status as "new" | "investigating" | "resolved" | "ignored" });
         }
       } else {
         console.error("Failed to update error status:", data.error);
