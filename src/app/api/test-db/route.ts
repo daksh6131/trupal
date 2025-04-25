@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { customers } from "@/db/schema";
-import { sql } from "drizzle-orm/postgres-js";
+import { sql } from "drizzle-orm";
 
 export async function GET() {
   try {
