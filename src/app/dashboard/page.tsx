@@ -9,6 +9,7 @@ import {
 import { Customer } from "@/types";
 import { format } from "date-fns";
 import { authApi, customersApi } from "@/lib/api-service";
+import ErrorTest from "@/components/error-test";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -207,6 +208,11 @@ export default function DashboardPage() {
               </button>
             </div>
           )}
+        </div>
+        
+        {/* Error Test Component (for development/testing) */}
+        <div className="mt-8">
+          <ErrorTest />
         </div>
         
         {/* Agent Stats */}

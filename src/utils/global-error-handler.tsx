@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import ErrorStackParser from "error-stack-parser";
 import { initBuildErrorDetector } from "./build-error-detector";
+import { logErrorWithContext } from "@/lib/error-logger";
 
 // Define the interface for error location info, matching the one in creatr.scripts.tsx
 interface ErrorLocationInfo {
@@ -131,7 +132,7 @@ export function GlobalErrorHandler(): JSX.Element {
 		initBuildErrorDetector();
 
 		// Handle unhandled rejections
-		const handleGlobalRejection = (event: PromiseRejectionEvent) => {
+		const handleGlobalRejection = async (event: PromiseRejectionEvent) => {
 			// Prevent default handling
 			event.preventDefault();
 
@@ -140,6 +141,23 @@ export function GlobalErrorHandler(): JSX.Element {
 			// Check if it's a build error
 			const isBuildErrorDetected = isBuildError(event.reason);
 
+			// Log the error to Supabase
+			try {
+				// Create an error object if the reason isn't already one
+				const errorObject =
+					event.reason instanceof Error
+						? event.reason
+						: new Error(
+							typeof event.reason === "string"
+								? event.reason
+								: String(event.reason),
+						);
+
+				// Log to our error logging system
+				await logErrorWithContext(errorObject);
+			} catch (loggingError) {
+				console.error("Failed to log error:", loggingError);
+			}
 
 			if (isBuildErrorDetected) {
 				console.warn("Build error intercepted:", {
@@ -223,42 +241,49 @@ export function GlobalErrorHandler(): JSX.Element {
 				errorString.includes("Compilation error") ||
 				errorString.includes("Module not found");
 
+			// First, check if any argument is already an Error object
+			let errorObj: Error | null = null;
+			for (const arg of args) {
+				if (arg instanceof Error) {
+					errorObj = arg;
+					break;
+				} else if (
+					arg &&
+					typeof arg === "object" &&
+					arg.error instanceof Error
+				) {
+					errorObj = arg.error;
+					break;
+				}
+			}
+
+			// If no Error object found, create one but try to avoid interfering with stack trace
+			if (!errorObj) {
+				// Create error with minimal stack impact
+				errorObj = new Error(errorString);
+				// Remove the first few frames of stack that would point to our handler
+				if (errorObj.stack) {
+					const stackLines = errorObj.stack.split("\n");
+					// Skip frames related to our error handler
+					const filteredStack = [stackLines[0]];
+					for (let i = 1; i < stackLines.length; i++) {
+						if (!stackLines[i].includes("global-error-handler.tsx")) {
+							filteredStack.push(stackLines[i]);
+						}
+					}
+					errorObj.stack = filteredStack.join("\n");
+				}
+			}
+
+			// Log to our error logging system
+			if (errorObj) {
+				logErrorWithContext(errorObj).catch(e => {
+					console.error("Failed to log error:", e);
+				});
+			}
+
 			if (isBuildErrorDetected) {
 				console.log("INTERCEPTED BUILD ERROR:", ...args);
-
-				// First, check if any argument is already an Error object
-				let errorObj: Error | null = null;
-				for (const arg of args) {
-					if (arg instanceof Error) {
-						errorObj = arg;
-						break;
-					} else if (
-						arg &&
-						typeof arg === "object" &&
-						arg.error instanceof Error
-					) {
-						errorObj = arg.error;
-						break;
-					}
-				}
-
-				// If no Error object found, create one but try to avoid interfering with stack trace
-				if (!errorObj) {
-					// Create error with minimal stack impact
-					errorObj = new Error(errorString);
-					// Remove the first few frames of stack that would point to our handler
-					if (errorObj.stack) {
-						const stackLines = errorObj.stack.split("\n");
-						// Skip frames related to our error handler
-						const filteredStack = [stackLines[0]];
-						for (let i = 1; i < stackLines.length; i++) {
-							if (!stackLines[i].includes("global-error-handler.tsx")) {
-								filteredStack.push(stackLines[i]);
-							}
-						}
-						errorObj.stack = filteredStack.join("\n");
-					}
-				}
 
 				// Look for file path in the error message
 				// Look for .tsx, .ts, .js, .jsx, or .css files in the error message

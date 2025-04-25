@@ -6,9 +6,28 @@ import {
   timestamp, 
   boolean,
   primaryKey,
-  uuid
+  uuid,
+  jsonb
 } from "drizzle-orm/pg-core";
 import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm";
+
+// Error Logs table
+export const errorLogs = pgTable('error_logs', {
+  id: serial('id').primaryKey(),
+  message: text('message').notNull(),
+  stack: text('stack'),
+  type: text('type'),
+  url: text('url'),
+  userAgent: text('user_agent'),
+  userId: text('user_id'),
+  userRole: text('user_role'),
+  metadata: jsonb('metadata'),
+  severity: text('severity').$type<'low' | 'medium' | 'high' | 'critical'>().default('medium'),
+  status: text('status').$type<'new' | 'investigating' | 'resolved' | 'ignored'>().default('new'),
+  resolvedAt: timestamp('resolved_at'),
+  resolvedBy: text('resolved_by'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
 
 // Agents table
 export const agents = pgTable('agents', {
@@ -117,3 +136,6 @@ export type NewActivityLog = InferInsertModel<typeof activityLogs>;
 
 export type Admin = InferSelectModel<typeof admins>;
 export type NewAdmin = InferInsertModel<typeof admins>;
+
+export type ErrorLog = InferSelectModel<typeof errorLogs>;
+export type NewErrorLog = InferInsertModel<typeof errorLogs>;
