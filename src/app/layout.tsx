@@ -6,11 +6,11 @@ import { type Metadata } from "next";
 import { Toaster } from "react-hot-toast";
 import {
   AnalyticsTracker,
-  ErrorBoundaryClient,
   DOMInspector,
   Branding,
 } from "@/utils/creatr.scripts";
 import { GlobalErrorHandler } from "@/utils/global-error-handler";
+import { ErrorBoundary } from "@/components/error-boundary";
 
 export const viewport = {
   width: "device-width",
@@ -50,15 +50,6 @@ export const metadata: Metadata = {
   },
 };
 
-
-const ErrorBoundaryWrapper: React.FC<{ children: React.ReactNode }> = (
-  props,
-) => {
-  const ErrorBoundaryComponent =
-    ErrorBoundaryClient as unknown as React.ComponentType<any>;
-  return <ErrorBoundaryComponent {...props} />;
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -67,10 +58,10 @@ export default function RootLayout({
       <body className="bg-gray-50">
         <GlobalErrorHandler />
         <DOMInspector>
-          <ErrorBoundaryWrapper>
+          <ErrorBoundary>
             {children}
             <Branding />
-          </ErrorBoundaryWrapper>
+          </ErrorBoundary>
           <AnalyticsTracker siteKey="${siteKey}" />
         </DOMInspector>
         <Toaster position="top-center" />
