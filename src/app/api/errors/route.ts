@@ -26,24 +26,29 @@ export async function GET(request: Request) {
     
     let query = db.select().from(errorLogs);
     
-    // Create a new query with each filter
+    // Build the query with filters
+    let queryBuilder = db.select().from(errorLogs);
+    
+    // Apply filters
     if (status) {
-      query = db.select().from(errorLogs).where(eq(errorLogs.status, status as "new" | "investigating" | "resolved" | "ignored"));
+      queryBuilder = queryBuilder.where(eq(errorLogs.status, status as "new" | "investigating" | "resolved" | "ignored"));
     }
     
     if (severity) {
-      query = db.select().from(errorLogs).where(eq(errorLogs.severity, severity as "low" | "medium" | "high" | "critical"));
+      queryBuilder = queryBuilder.where(eq(errorLogs.severity, severity as "low" | "medium" | "high" | "critical"));
     }
     
     // Apply limit
     if (limit) {
-      query = db.select().from(errorLogs).limit(parseInt(limit));
+      queryBuilder = queryBuilder.limit(parseInt(limit));
     }
     
     // Order by most recent first
-    query = db.select().from(errorLogs).orderBy(desc(errorLogs.createdAt));
+    queryBuilder = queryBuilder.orderBy(desc(errorLogs.createdAt));
     
-    const errors = await query;
+    // Execute the query
+    const errors = await queryBuilder;
+    
     
     return NextResponse.json({
       success: true,
