@@ -24,8 +24,6 @@ export async function GET(request: Request) {
     const severity = searchParams.get('severity');
     const limit = searchParams.get('limit');
     
-    let query = db.select().from(errorLogs);
-    
     // Build the query with filters
     let queryBuilder = db.select().from(errorLogs);
     
