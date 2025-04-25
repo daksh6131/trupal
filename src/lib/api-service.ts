@@ -24,44 +24,57 @@ function getAuthHeaders() {
 
 // Auth API
 export const authApi = {
-  login: async (phone: string, otp: string) => {
-    const response = await fetch(`${API_BASE_URL}/auth/login`, {
+  generateOTP: async (phone: string) => {
+    const response = await fetch(`${API_BASE_URL}/auth/otp/generate`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ phone, otp })
+      body: JSON.stringify({ phone })
     });
     
-    const data = await handleResponse<{
+    return handleResponse<{
       success: boolean;
-      agent: { name: string; phone: string };
-      token: string;
+      message: string;
+      otp?: string;
+      error?: string;
     }>(response);
-    
-    // Store token and agent info
-    localStorage.setItem("authToken", data.token);
-    localStorage.setItem("salesAgent", JSON.stringify(data.agent));
-    
-    return data;
   },
   
-  adminLogin: async (email: string, password: string) => {
-    const response = await fetch(`${API_BASE_URL}/auth/admin`, {
+  verifyOTP: async (phone: string, code: string) => {
+    const response = await fetch(`${API_BASE_URL}/auth/otp/verify`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify({ phone, code })
     });
     
-    const data = await handleResponse<{
+    return handleResponse<{
       success: boolean;
-      admin: { email: string; role: string };
-      token: string;
+      agent?: { name: string; phone: string };
+      token?: string;
+      error?: string;
     }>(response);
+  },
+  
+  verifyAdminOTP: async (phone: string, code: string) => {
+    const response = await fetch(`${API_BASE_URL}/auth/otp/verify`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ phone, code, isAdmin: true })
+    });
     
-    // Store token and admin info
-    localStorage.setItem("adminToken", data.token);
-    localStorage.setItem("adminUser", JSON.stringify(data.admin));
-    
-    return data;
+    return handleResponse<{
+      success: boolean;
+      admin?: { phone: string; role: string };
+      token?: string;
+      error?: string;
+    }>(response);
+  },
+  
+  login: async (phone: string, otp: string) => {
+    return this.verifyOTP(phone, otp);
+  },
+  
+  adminLogin: async (phone: string, otp: string) => {
+    return this.verifyAdminOTP(phone, otp);
   },
   
   logout: async () => {
@@ -73,8 +86,11 @@ export const authApi = {
     const data = await handleResponse<{ success: boolean }>(response);
     
     // Clear stored data
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("salesAgent");
+    const isBrowser = typeof window !== 'undefined';
+    if (isBrowser) {
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("salesAgent");
+    }
     
     return data;
   }

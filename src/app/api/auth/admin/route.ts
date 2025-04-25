@@ -1,44 +1,45 @@
 import { NextResponse } from "next/server";
+import { verifyOTP, isAdminPhone } from "@/lib/otp-utils";
 import { sign } from "jsonwebtoken";
-import { adminOperations } from "@/lib/db-utils";
+import { logErrorWithContext } from "@/lib/error-logger";
 
 export async function POST(request: Request) {
   try {
-    const { email, password } = await request.json();
+    const { phone, otp } = await request.json();
     
     // Validate input
-    if (!email || !password) {
+    if (!phone || !otp) {
       return NextResponse.json(
-        { error: "Email and password are required" },
+        { error: "Phone number and OTP are required" },
         { status: 400 }
       );
     }
     
-    // Find admin by email
-    const admin = await adminOperations.getByEmail(email);
+    // Verify OTP
+    const otpResult = await verifyOTP(phone, otp);
     
-    if (!admin) {
+    if (!otpResult.success) {
       return NextResponse.json(
-        { error: "Invalid credentials" },
+        { error: otpResult.message },
         { status: 401 }
       );
     }
     
-    // For demo purposes, we'll accept "admin123" as valid password
-    // In production, use the verifyPassword method
-    if (password !== "admin123" && !(await adminOperations.verifyPassword(email, password))) {
+    // Check if phone is in admin whitelist
+    const adminPhoneCheck = await isAdminPhone(phone);
+    
+    if (!adminPhoneCheck) {
       return NextResponse.json(
-        { error: "Invalid credentials" },
-        { status: 401 }
+        { error: "Unauthorized: Phone number not in admin whitelist" },
+        { status: 403 }
       );
     }
     
     // Generate JWT token
     const token = sign(
       { 
-        id: admin.id,
-        email: admin.email,
-        role: admin.role
+        phone,
+        role: "admin"
       },
       process.env.JWT_SECRET || "default_secret",
       { expiresIn: "24h" }
@@ -47,13 +48,14 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       admin: {
-        email: admin.email,
-        role: admin.role,
+        phone,
+        role: "admin"
       },
       token
     });
     
   } catch (error) {
+    await logErrorWithContext(error);
     console.error("Admin login error:", error);
     return NextResponse.json(
       { error: "Internal server error" },

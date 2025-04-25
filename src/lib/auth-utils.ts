@@ -59,9 +59,11 @@ export async function isAdmin(request: Request) {
       return false;
     }
     
-    const admin = await adminOperations.getByEmail(decoded.email);
+    // Check if phone is in admin whitelist
+    const { isAdminPhone } = await import("@/lib/otp-utils");
+    const isAdminPhoneNumber = await isAdminPhone(decoded.phone);
     
-    if (!admin) {
+    if (!isAdminPhoneNumber) {
       return false;
     }
     

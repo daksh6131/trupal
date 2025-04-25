@@ -186,6 +186,10 @@ export const seedDatabase = async () => {
       console.log("Database already seeded. Skipping...");
       return;
     }
+    
+    // Initialize admin phones
+    const { initializeAdminPhones } = await import("@/lib/otp-utils");
+    await initializeAdminPhones();
 
     // Seed Agents
     const agentData = [

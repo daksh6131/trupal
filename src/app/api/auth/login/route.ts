@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
-import { sign } from "jsonwebtoken";
+import { verifyOTP } from "@/lib/otp-utils";
 import { agentOperations, activityLogOperations } from "@/lib/db-utils";
+import { sign } from "jsonwebtoken";
+import { logErrorWithContext } from "@/lib/error-logger";
 
 export async function POST(request: Request) {
   try {
@@ -14,6 +16,16 @@ export async function POST(request: Request) {
       );
     }
     
+    // Verify OTP
+    const otpResult = await verifyOTP(phone, otp);
+    
+    if (!otpResult.success) {
+      return NextResponse.json(
+        { error: otpResult.message },
+        { status: 401 }
+      );
+    }
+    
     // Find agent by phone
     const agent = await agentOperations.getByPhone(phone);
     
@@ -21,15 +33,6 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { error: "Agent not found or inactive" },
         { status: 404 }
-      );
-    }
-    
-    // In a real app, we would verify OTP here
-    // For demo purposes, we'll accept "123456" as valid OTP
-    if (otp !== "123456") {
-      return NextResponse.json(
-        { error: "Invalid OTP" },
-        { status: 401 }
       );
     }
     
@@ -64,6 +67,7 @@ export async function POST(request: Request) {
     });
     
   } catch (error) {
+    await logErrorWithContext(error);
     console.error("Login error:", error);
     return NextResponse.json(
       { error: "Internal server error" },

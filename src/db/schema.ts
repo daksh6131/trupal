@@ -29,6 +29,25 @@ export const errorLogs = pgTable('error_logs', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
+// OTP table
+export const otps = pgTable('otps', {
+  id: serial('id').primaryKey(),
+  phone: text('phone').notNull(),
+  code: text('code').notNull(),
+  expiresAt: timestamp('expires_at').notNull(),
+  verified: boolean('verified').default(false),
+  attempts: integer('attempts').default(0),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+// Admin Phone Numbers table
+export const adminPhones = pgTable('admin_phones', {
+  id: serial('id').primaryKey(),
+  phone: text('phone').notNull().unique(),
+  addedBy: text('added_by'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
 // Agents table
 export const agents = pgTable('agents', {
   id: serial('id').primaryKey(),
@@ -139,3 +158,9 @@ export type NewAdmin = InferInsertModel<typeof admins>;
 
 export type ErrorLog = InferSelectModel<typeof errorLogs>;
 export type NewErrorLog = InferInsertModel<typeof errorLogs>;
+
+export type OTP = InferSelectModel<typeof otps>;
+export type NewOTP = InferInsertModel<typeof otps>;
+
+export type AdminPhone = InferSelectModel<typeof adminPhones>;
+export type NewAdminPhone = InferInsertModel<typeof adminPhones>;

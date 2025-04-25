@@ -14,10 +14,12 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [countdown, setCountdown] = useState(0);
+  const [generatedOtp, setGeneratedOtp] = useState<string | null>(null);
 
   useEffect(() => {
     // Check if user is already logged in
-    const isLoggedIn = localStorage.getItem("salesAgent");
+    const isBrowser = typeof window !== 'undefined';
+    const isLoggedIn = isBrowser ? localStorage.getItem("salesAgent") : null;
     if (isLoggedIn) {
       router.push("/dashboard");
     }
@@ -42,12 +44,19 @@ export default function HomePage() {
     }
 
     try {
-      // For demo purposes, we'll just set OTP sent state
-      // In a real app, this would call an API to send OTP
-      setIsOtpSent(true);
-      setCountdown(30);
-      // For demo purposes, OTP is always "123456"
-      console.log("OTP sent (demo): 123456");
+      // Call OTP generation API
+      const response = await authApi.generateOTP(phone);
+      
+      if (response.success) {
+        setIsOtpSent(true);
+        setCountdown(30);
+        // For development, store the OTP
+        if (response.otp) {
+          setGeneratedOtp(response.otp);
+        }
+      } else {
+        setError(response.error || "Failed to send OTP");
+      }
     } catch (error) {
       setError(error instanceof Error ? error.message : "Failed to send OTP");
     } finally {
@@ -66,11 +75,23 @@ export default function HomePage() {
     }
 
     try {
-      // Call login API
-      await authApi.login(phone, otp);
-      router.push("/dashboard");
+      // Call OTP verification API
+      const response = await authApi.verifyOTP(phone, otp);
+      
+      if (response.success) {
+        // Store token and agent info
+        const isBrowser = typeof window !== 'undefined';
+        if (isBrowser) {
+          localStorage.setItem("authToken", response.token);
+          localStorage.setItem("salesAgent", JSON.stringify(response.agent));
+        }
+        router.push("/dashboard");
+      } else {
+        setError(response.error || "Invalid OTP. Please try again.");
+      }
     } catch (error) {
       setError(error instanceof Error ? error.message : "Invalid OTP. Please try again.");
+    } finally {
       setIsLoading(false);
     }
   };
@@ -160,9 +181,11 @@ export default function HomePage() {
                   />
                   <Lock className="absolute right-3 top-3.5 h-5 w-5 text-gray-400" />
                 </div>
-                <p className="text-xs text-gray-500 mt-1">
-                  For demo, use: 123456
-                </p>
+                {generatedOtp && (
+                  <p className="text-xs text-gray-500 mt-1">
+                    Development OTP: {generatedOtp}
+                  </p>
+                )}
                 <div className="flex justify-between mt-2 text-sm">
                   <span className="text-gray-500">
                     OTP sent to: +91 {phone}

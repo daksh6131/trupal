@@ -12,6 +12,7 @@ import { CreditCard as CreditCardType } from "@/types";
 import { cn } from "@/lib/utils";
 import { toast } from "react-hot-toast";
 import { authApi, creditCardsApi, customersApi, logsApi } from "@/lib/api-service";
+import AdminPhonesManager from "@/components/admin-phones-manager";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -160,51 +161,104 @@ export default function AdminPage() {
               Access the admin dashboard
             </p>
           </div>
-          <form className="mt-8 space-y-6" onSubmit={handleLogin}>
-            <div className="rounded-md shadow-sm -space-y-px">
-              <div>
-                <label htmlFor="email" className="sr-only">Email address</label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                  placeholder="Email address"
-                  defaultValue="admin@example.com"
-                />
+          
+          {!isOtpSent ? (
+            <div className="mt-8 space-y-6">
+              <div className="rounded-md shadow-sm">
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                    Phone Number
+                  </label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-3 text-gray-500">+91</span>
+                    <input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      maxLength={10}
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className="appearance-none block w-full pl-10 px-3 py-2 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                      placeholder="Enter admin phone number"
+                    />
+                  </div>
+                  <p className="mt-1 text-xs text-gray-500">
+                    Default admin: 8076492495
+                  </p>
+                </div>
               </div>
+              
               <div>
-                <label htmlFor="password" className="sr-only">Password</label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                  placeholder="Password"
-                  defaultValue="admin123"
-                />
+                <button
+                  type="button"
+                  onClick={handleSendOtp}
+                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                  Send OTP
+                </button>
               </div>
             </div>
-            
-            <p className="text-xs text-gray-500">
-              For demo use:<br />
-              Email: admin@example.com<br />
-              Password: admin123
-            </p>
-
-            <div>
-              <button
-                type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              >
-                Sign in
-              </button>
-            </div>
-          </form>
+          ) : (
+            <form className="mt-8 space-y-6" onSubmit={handleLogin}>
+              <div className="rounded-md shadow-sm">
+                <div>
+                  <label htmlFor="otp" className="block text-sm font-medium text-gray-700 mb-1">
+                    One-Time Password
+                  </label>
+                  <input
+                    id="otp"
+                    name="otp"
+                    type="text"
+                    maxLength={6}
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    placeholder="Enter 6-digit OTP"
+                    required
+                  />
+                </div>
+                
+                {generatedOtp && (
+                  <p className="mt-1 text-xs text-gray-500">
+                    Development OTP: {generatedOtp}
+                  </p>
+                )}
+                
+                <div className="flex justify-between mt-2 text-sm">
+                  <span className="text-gray-500">
+                    OTP sent to: +91 {phone}
+                  </span>
+                  {otpCountdown > 0 ? (
+                    <span className="text-gray-500">Resend in {otpCountdown}s</span>
+                  ) : (
+                    <button
+                      type="button"
+                      className="text-blue-600 hover:text-blue-800"
+                      onClick={handleSendOtp}
+                    >
+                      Resend OTP
+                    </button>
+                  )}
+                </div>
+              </div>
+              
+              <div className="flex space-x-4">
+                <button
+                  type="button"
+                  onClick={() => setIsOtpSent(false)}
+                  className="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 flex-1"
+                >
+                  Back
+                </button>
+                <button
+                  type="submit"
+                  className="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 flex-1"
+                >
+                  Verify & Login
+                </button>
+              </div>
+            </form>
+          )}
           
           <div className="text-center mt-4">
             <a href="/" className="font-medium text-blue-600 hover:text-blue-500">
@@ -678,6 +732,11 @@ export default function AdminPage() {
               >
                 Export to CSV
               </button>
+            </div>
+            
+            {/* Admin Phones Manager */}
+            <div className="mt-8">
+              <AdminPhonesManager />
             </div>
           </div>
         )}
