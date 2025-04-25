@@ -41,21 +41,24 @@ export async function GET(request: Request) {
     // Start with base query
     let query = queryBuilder;
     
+    // Build the complete query with all conditions
+    let finalQuery = queryBuilder;
+    
     // Apply all filters at once if any exist
     if (filters.length > 0) {
-      query = query.where(filters.length === 1 ? filters[0] : and(...filters));
+      finalQuery = finalQuery.where(filters.length === 1 ? filters[0] : and(...filters));
     }
     
     // Apply limit
     if (limit) {
-      query = query.limit(parseInt(limit));
+      finalQuery = finalQuery.limit(parseInt(limit));
     }
     
     // Order by most recent first
-    query = query.orderBy(desc(errorLogs.createdAt));
+    finalQuery = finalQuery.orderBy(desc(errorLogs.createdAt));
     
     // Execute the query
-    const errors = await query;
+    const errors = await finalQuery;
     
     
     
