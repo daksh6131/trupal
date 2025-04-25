@@ -12,6 +12,7 @@ import {
 import { GlobalErrorHandler } from "@/utils/global-error-handler";
 import { ErrorBoundary } from "@/components/error-boundary";
 import SupabaseInitializer from "@/components/supabase-initializer";
+import { AuthProvider } from "@/contexts/auth-context";
 
 export const viewport = {
   width: "device-width",
@@ -59,13 +60,15 @@ export default function RootLayout({
       <body className="bg-gray-50">
         <GlobalErrorHandler />
         <SupabaseInitializer />
-        <DOMInspector>
-          <ErrorBoundary>
-            {children}
-            <Branding />
-          </ErrorBoundary>
-          <AnalyticsTracker siteKey="${siteKey}" />
-        </DOMInspector>
+        <AuthProvider>
+          <DOMInspector>
+            <ErrorBoundary>
+              {children}
+              <Branding />
+            </ErrorBoundary>
+            <AnalyticsTracker siteKey="${siteKey}" />
+          </DOMInspector>
+        </AuthProvider>
         <Toaster position="top-center" />
       </body>
     </html>

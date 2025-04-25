@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Phone, Lock, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { authApi } from "@/lib/api-service";
+import { useAuth } from "@/contexts/auth-context";
 
 export default function HomePage() {
   const router = useRouter();
@@ -16,14 +16,13 @@ export default function HomePage() {
   const [countdown, setCountdown] = useState(0);
   const [generatedOtp, setGeneratedOtp] = useState<string | null>(null);
 
+  const { authState, signInWithPhone, verifyOTP } = useAuth();
+
   useEffect(() => {
-    // Check if user is already logged in
-    const isBrowser = typeof window !== 'undefined';
-    const isLoggedIn = isBrowser ? localStorage.getItem("salesAgent") : null;
-    if (isLoggedIn) {
+    if (authState.isAuthenticated) {
       router.push("/dashboard");
     }
-  }, [router]);
+  }, [authState.isAuthenticated, router]);
 
   useEffect(() => {
     if (countdown > 0) {
@@ -44,19 +43,9 @@ export default function HomePage() {
     }
 
     try {
-      // Call OTP generation API
-      const response = await authApi.generateOTP(phone);
-      
-      if (response.success) {
-        setIsOtpSent(true);
-        setCountdown(30);
-        // For development, store the OTP
-        if (response.otp) {
-          setGeneratedOtp(response.otp);
-        }
-      } else {
-        setError(response.error || "Failed to send OTP");
-      }
+      await signInWithPhone(`+91${phone}`);
+      setIsOtpSent(true);
+      setCountdown(30);
     } catch (error) {
       setError(error instanceof Error ? error.message : "Failed to send OTP");
     } finally {
@@ -75,20 +64,7 @@ export default function HomePage() {
     }
 
     try {
-      // Call OTP verification API
-      const response = await authApi.verifyOTP(phone, otp);
-      
-      if (response.success) {
-        // Store token and agent info
-        const isBrowser = typeof window !== 'undefined';
-        if (isBrowser) {
-          localStorage.setItem("authToken", response.token);
-          localStorage.setItem("salesAgent", JSON.stringify(response.agent));
-        }
-        router.push("/dashboard");
-      } else {
-        setError(response.error || "Invalid OTP. Please try again.");
-      }
+      await verifyOTP(`+91${phone}`, otp);
     } catch (error) {
       setError(error instanceof Error ? error.message : "Invalid OTP. Please try again.");
     } finally {
