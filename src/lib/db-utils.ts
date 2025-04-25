@@ -11,7 +11,7 @@ import {
   NewActivityLog,
   NewAdmin
 } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, lte } from "drizzle-orm";
 import { hash, compare } from "bcrypt";
 
 // Agent operations
@@ -89,7 +89,7 @@ export const creditCardOperations = {
     return await db.select()
       .from(creditCards)
       .where(eq(creditCards.status, "active"))
-      .where((card) => card.minCibilScore <= cibilScore);
+      .where(lte(creditCards.minCibilScore, cibilScore));
   },
   
   create: async (data: NewCreditCard) => {
