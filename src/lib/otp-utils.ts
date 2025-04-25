@@ -222,10 +222,64 @@ export async function removeAdminPhone(phone: string): Promise<{ success: boolea
 // Get all admin phone numbers
 export async function getAdminPhones(): Promise<any[]> {
   try {
-    return await db.select().from(adminPhones);
+    // Try drizzle first
+    const phones = await db.select().from(adminPhones);
+    console.log("Admin phones from drizzle:", phones);
+    
+    if (!phones || phones.length === 0) {
+      // Try direct Supabase query as fallback
+      const { data: supabasePhones, error: supabaseError } = await supabase
+        .from('admin_phones')
+        .select('*');
+      
+      if (supabaseError) throw supabaseError;
+      
+      console.log("Admin phones from Supabase:", supabasePhones);
+      return supabasePhones || [];
+    }
+    
+    return phones;
   } catch (error) {
     console.error("Error getting admin phones:", error);
     return [];
+  }
+}
+
+// Check admin phone status
+export async function checkAdminPhoneStatus(phone: string): Promise<{
+  exists: boolean;
+  source?: 'drizzle' | 'supabase';
+  error?: string;
+}> {
+  try {
+    // Try drizzle first
+    const phones = await db.select()
+      .from(adminPhones)
+      .where(eq(adminPhones.phone, phone));
+    
+    if (phones && phones.length > 0) {
+      return { exists: true, source: 'drizzle' };
+    }
+    
+    // Try Supabase as fallback
+    const { data: supabasePhones, error: supabaseError } = await supabase
+      .from('admin_phones')
+      .select('*')
+      .eq('phone', phone);
+    
+    if (supabaseError) throw supabaseError;
+    
+    return {
+      exists: !!(supabasePhones && supabasePhones.length > 0),
+      source: 'supabase'
+    };
+    
+  } catch (error) {
+    console.error("Error checking admin phone status:", error);
+    return {
+      exists: false,
+      error: error instanceof Error ? error.message : 'Unknown error'
+    };
   }
 }
 
@@ -233,6 +287,7 @@ export async function getAdminPhones(): Promise<any[]> {
 export async function initializeAdminPhones(): Promise<void> {
   try {
     const existingPhones = await getAdminPhones();
+    console.log("Current admin phones:", existingPhones);
     
     if (existingPhones.length === 0) {
       // Add the default admin phone number
@@ -242,9 +297,36 @@ export async function initializeAdminPhones(): Promise<void> {
           addedBy: "system",
           createdAt: new Date()
         });
-      console.log("Default admin phone number added");
+      console.log("Default admin phone number (8076492495) added successfully");
+    } else {
+      console.log("Admin phones already exist:", existingPhones);
     }
   } catch (error) {
     console.error("Error initializing admin phones:", error);
+    // Try direct Supabase query as fallback
+    try {
+      const { data: phones, error: supabaseError } = await supabase
+        .from('admin_phones')
+        .select('*');
+      
+      if (supabaseError) throw supabaseError;
+      
+      console.log("Admin phones from Supabase:", phones);
+      
+      if (!phones || phones.length === 0) {
+        const { error: insertError } = await supabase
+          .from('admin_phones')
+          .insert({
+            phone: "8076492495",
+            added_by: "system",
+            created_at: new Date().toISOString()
+          });
+          
+        if (insertError) throw insertError;
+        console.log("Default admin phone added via Supabase");
+      }
+    } catch (supabaseError) {
+      console.error("Supabase fallback also failed:", supabaseError);
+    }
   }
 }
