@@ -40,21 +40,25 @@ export async function GET(request: Request) {
       filters.push(eq(errorLogs.severity, severity as "low" | "medium" | "high" | "critical"));
     }
     
+    // Start with base query
+    let query = queryBuilder;
+    
     // Apply all filters at once if any exist
     if (filters.length > 0) {
-      queryBuilder = queryBuilder.where(filters.length === 1 ? filters[0] : and(...filters));
+      query = query.where(filters.length === 1 ? filters[0] : and(...filters));
     }
     
     // Apply limit
     if (limit) {
-      queryBuilder = queryBuilder.limit(parseInt(limit));
+      query = query.limit(parseInt(limit));
     }
     
     // Order by most recent first
-    queryBuilder = queryBuilder.orderBy(desc(errorLogs.createdAt));
+    query = query.orderBy(desc(errorLogs.createdAt));
     
     // Execute the query
-    const errors = await queryBuilder;
+    const errors = await query;
+    
     
     
     return NextResponse.json({
