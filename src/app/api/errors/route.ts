@@ -44,21 +44,22 @@ export async function GET(request: Request) {
     // Build the complete query with all conditions
     let finalQuery = queryBuilder;
     
+    // Build the complete query with all conditions
+    let queryOptions = {};
+    
     // Apply all filters at once if any exist
     if (filters.length > 0) {
-      finalQuery = finalQuery.where(filters.length === 1 ? filters[0] : and(...filters));
+      queryOptions = { where: filters.length === 1 ? filters[0] : and(...filters) };
     }
     
-    // Apply limit
-    if (limit) {
-      finalQuery = finalQuery.limit(parseInt(limit));
-    }
+    // Execute the query with all options at once
+    const errors = await db.select()
+      .from(errorLogs)
+      .where(filters.length > 0 ? (filters.length === 1 ? filters[0] : and(...filters)) : undefined)
+      .limit(limit ? parseInt(limit) : undefined)
+      .orderBy(desc(errorLogs.createdAt));
     
-    // Order by most recent first
-    finalQuery = finalQuery.orderBy(desc(errorLogs.createdAt));
-    
-    // Execute the query
-    const errors = await finalQuery;
+    // Query has already been executed above
     
     
     
