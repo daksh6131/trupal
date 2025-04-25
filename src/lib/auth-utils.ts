@@ -1,9 +1,6 @@
 import { NextResponse } from "next/server";
 import { verify } from "jsonwebtoken";
-import Agent from "@/lib/models/agent";
-import Admin from "@/lib/models/admin";
-import { isMongoConnected } from "@/lib/db-connect";
-import { db } from "@/lib/db";
+import { agentOperations, adminOperations } from "@/lib/db-utils";
 
 export async function getAgentFromToken(request: Request) {
   try {
@@ -25,33 +22,17 @@ export async function getAgentFromToken(request: Request) {
       return null;
     }
     
-    // Check if MongoDB is connected
-    if (isMongoConnected()) {
-      const agent = await Agent.findOne({ phone: decoded.phone });
-      
-      if (!agent) {
-        return null;
-      }
-      
-      return {
-        id: agent._id,
-        name: agent.name,
-        phone: agent.phone,
-      };
-    } else {
-      // Fallback to local storage
-      const localAgent = db.agents.getByPhone(decoded.phone);
-      
-      if (!localAgent) {
-        return null;
-      }
-      
-      return {
-        id: localAgent.id,
-        name: localAgent.name,
-        phone: localAgent.phone,
-      };
+    const agent = await agentOperations.getByPhone(decoded.phone);
+    
+    if (!agent) {
+      return null;
     }
+    
+    return {
+      id: agent.id,
+      name: agent.name,
+      phone: agent.phone,
+    };
   } catch (error) {
     console.error("Auth error:", error);
     return null;
@@ -78,20 +59,13 @@ export async function isAdmin(request: Request) {
       return false;
     }
     
-    // Check if MongoDB is connected
-    if (isMongoConnected()) {
-      const admin = await Admin.findOne({ email: decoded.email });
-      
-      if (!admin) {
-        return false;
-      }
-      
-      return true;
-    } else {
-      // For demo purposes, allow admin access with the token
-      // In a real app, you might want to check against local storage
-      return true;
+    const admin = await adminOperations.getByEmail(decoded.email);
+    
+    if (!admin) {
+      return false;
     }
+    
+    return true;
   } catch (error) {
     console.error("Admin auth error:", error);
     return false;
