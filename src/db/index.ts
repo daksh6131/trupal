@@ -2,11 +2,23 @@ import { drizzle } from 'drizzle-orm/postgres-js';
 import { createClient } from '@supabase/supabase-js';
 import postgres from 'postgres';
 import * as schema from "./schema";
+import { Database } from '@/types/supabase';
 
 // Create a single supabase client for interacting with your database
-export const supabase = createClient(
+export const supabase = createClient<Database>(
   process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
+  {
+    realtime: {
+      params: {
+        eventsPerSecond: 10
+      }
+    },
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+    }
+  }
 );
 
 // For Drizzle ORM

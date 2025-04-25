@@ -11,6 +11,7 @@ import {
 } from "@/utils/creatr.scripts";
 import { GlobalErrorHandler } from "@/utils/global-error-handler";
 import { ErrorBoundary } from "@/components/error-boundary";
+import SupabaseInitializer from "@/components/supabase-initializer";
 
 export const viewport = {
   width: "device-width",
@@ -57,6 +58,7 @@ export default function RootLayout({
     <html lang="en" className={`${GeistSans.variable}`}>
       <body className="bg-gray-50">
         <GlobalErrorHandler />
+        <SupabaseInitializer />
         <DOMInspector>
           <ErrorBoundary>
             {children}

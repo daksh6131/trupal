@@ -9,7 +9,7 @@ import {
 import { Customer } from "@/types";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import { customersApi } from "@/lib/api-service";
+import { customersApi, supabaseApi } from "@/lib/api-service";
 
 export default function CustomersPage() {
   const router = useRouter();
@@ -43,6 +43,18 @@ export default function CustomersPage() {
     };
     
     fetchCustomers();
+    
+    // Subscribe to real-time updates for customers
+    const unsubscribe = supabaseApi.subscribeToTable('customers', (payload) => {
+      console.log('Customer data changed:', payload);
+      // Refresh customer data when changes occur
+      fetchCustomers();
+    });
+    
+    // Clean up subscription on unmount
+    return () => {
+      unsubscribe();
+    };
   }, [router, sortField, sortDirection]);
   
   const sortCustomers = (customersList: Customer[], field: string, direction: string) => {

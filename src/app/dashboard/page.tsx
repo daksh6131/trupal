@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { Customer } from "@/types";
 import { format } from "date-fns";
-import { authApi, customersApi } from "@/lib/api-service";
+import { authApi, customersApi, supabaseApi } from "@/lib/api-service";
 import ErrorTest from "@/components/error-test";
 
 export default function DashboardPage() {
@@ -44,6 +44,18 @@ export default function DashboardPage() {
     };
     
     fetchCustomers();
+    
+    // Subscribe to real-time updates for customers
+    const unsubscribe = supabaseApi.subscribeToTable('customers', (payload) => {
+      console.log('Customer data changed:', payload);
+      // Refresh customer data when changes occur
+      fetchCustomers();
+    });
+    
+    // Clean up subscription on unmount
+    return () => {
+      unsubscribe();
+    };
   }, [router]);
   
   const handleLogout = async () => {

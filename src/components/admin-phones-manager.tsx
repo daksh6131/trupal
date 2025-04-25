@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Phone, Plus, Trash2, RefreshCw } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { AdminPhone } from "@/db/schema";
+import { supabase } from "@/db";
 
 export default function AdminPhonesManager() {
   const [phones, setPhones] = useState<AdminPhone[]>([]);
@@ -15,18 +16,29 @@ export default function AdminPhonesManager() {
   const fetchPhones = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("/api/admin/phones", {
-        headers: {
-          "Authorization": `Bearer ${localStorage.getItem("adminToken")}`
-        }
-      });
+      // Try to get data directly from Supabase first
+      const { data: supabasePhones, error } = await supabase
+        .from('admin_phones')
+        .select('*')
+        .order('created_at', { ascending: false });
       
-      const data = await response.json();
-      
-      if (data.success) {
-        setPhones(data.phones);
+      if (!error && supabasePhones) {
+        setPhones(supabasePhones);
       } else {
-        toast.error(data.error || "Failed to fetch admin phones");
+        // Fall back to API if Supabase fails
+        const response = await fetch("/api/admin/phones", {
+          headers: {
+            "Authorization": `Bearer ${localStorage.getItem("adminToken")}`
+          }
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          setPhones(data.phones);
+        } else {
+          toast.error(data.error || "Failed to fetch admin phones");
+        }
       }
     } catch (error) {
       console.error("Error fetching admin phones:", error);
@@ -45,23 +57,43 @@ export default function AdminPhonesManager() {
     
     setIsAdding(true);
     try {
-      const response = await fetch("/api/admin/phones", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("adminToken")}`
-        },
-        body: JSON.stringify({ phone: newPhone })
-      });
+      // Try to add directly to Supabase first
+      const { data: adminData } = await supabase.auth.getSession();
+      const addedBy = adminData?.session?.user?.email || "admin";
       
-      const data = await response.json();
+      const { data: supabaseData, error: supabaseError } = await supabase
+        .from('admin_phones')
+        .insert({
+          phone: newPhone,
+          added_by: addedBy,
+          created_at: new Date().toISOString()
+        })
+        .select();
       
-      if (data.success) {
+      if (!supabaseError && supabaseData) {
         toast.success("Phone number added successfully");
         setNewPhone("");
         fetchPhones();
       } else {
-        toast.error(data.error || "Failed to add phone number");
+        // Fall back to API if Supabase fails
+        const response = await fetch("/api/admin/phones", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("adminToken")}`
+          },
+          body: JSON.stringify({ phone: newPhone })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          toast.success("Phone number added successfully");
+          setNewPhone("");
+          fetchPhones();
+        } else {
+          toast.error(data.error || "Failed to add phone number");
+        }
       }
     } catch (error) {
       console.error("Error adding phone:", error);
@@ -74,20 +106,32 @@ export default function AdminPhonesManager() {
   // Remove an admin phone
   const removePhone = async (phone: string) => {
     try {
-      const response = await fetch(`/api/admin/phones/${phone}`, {
-        method: "DELETE",
-        headers: {
-          "Authorization": `Bearer ${localStorage.getItem("adminToken")}`
-        }
-      });
+      // Try to remove directly from Supabase first
+      const { error: supabaseError } = await supabase
+        .from('admin_phones')
+        .delete()
+        .eq('phone', phone);
       
-      const data = await response.json();
-      
-      if (data.success) {
+      if (!supabaseError) {
         toast.success("Phone number removed successfully");
         fetchPhones();
       } else {
-        toast.error(data.error || "Failed to remove phone number");
+        // Fall back to API if Supabase fails
+        const response = await fetch(`/api/admin/phones/${phone}`, {
+          method: "DELETE",
+          headers: {
+            "Authorization": `Bearer ${localStorage.getItem("adminToken")}`
+          }
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          toast.success("Phone number removed successfully");
+          fetchPhones();
+        } else {
+          toast.error(data.error || "Failed to remove phone number");
+        }
       }
     } catch (error) {
       console.error("Error removing phone:", error);
@@ -95,9 +139,25 @@ export default function AdminPhonesManager() {
     }
   };
 
-  // Load phones on component mount
+  // Load phones on component mount and subscribe to real-time updates
   useEffect(() => {
     fetchPhones();
+    
+    // Subscribe to real-time updates
+    const channel = supabase
+      .channel('admin_phones_changes')
+      .on('postgres_changes', { 
+        event: '*', 
+        schema: 'public', 
+        table: 'admin_phones' 
+      }, () => {
+        fetchPhones();
+      })
+      .subscribe();
+    
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   return (

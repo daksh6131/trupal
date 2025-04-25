@@ -11,7 +11,7 @@ import {
 import { CreditCard as CreditCardType } from "@/types";
 import { cn } from "@/lib/utils";
 import { toast } from "react-hot-toast";
-import { authApi, creditCardsApi, customersApi, logsApi } from "@/lib/api-service";
+import { authApi, creditCardsApi, customersApi, logsApi, supabaseApi } from "@/lib/api-service";
 import AdminPhonesManager from "@/components/admin-phones-manager";
 
 export default function AdminPage() {
@@ -56,6 +56,22 @@ export default function AdminPage() {
       console.error(error);
     }
   };
+  
+  // Subscribe to real-time updates for credit cards
+  useEffect(() => {
+    if (!isLoggedIn) return;
+    
+    const unsubscribe = supabaseApi.subscribeToTable('credit_cards', (payload) => {
+      console.log('Credit card data changed:', payload);
+      // Refresh credit card data when changes occur
+      loadCreditCards();
+    });
+    
+    // Clean up subscription on unmount
+    return () => {
+      unsubscribe();
+    };
+  }, [isLoggedIn]);
   
   const sortCards = (cards: CreditCardType[], by: string, order: "asc" | "desc") => {
     return [...cards].sort((a: any, b: any) => {
