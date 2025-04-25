@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
+import { verify } from "jsonwebtoken";
 import Agent from "@/lib/models/agent";
 import Admin from "@/lib/models/admin";
 import { isMongoConnected } from "@/lib/db-connect";
@@ -19,7 +19,7 @@ export async function getAgentFromToken(request: Request) {
       return null;
     }
     
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || "default_secret") as any;
+    const decoded = verify(token, process.env.JWT_SECRET || "default_secret") as any;
     
     if (!decoded || !decoded.phone) {
       return null;
@@ -72,7 +72,7 @@ export async function isAdmin(request: Request) {
       return false;
     }
     
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || "default_secret") as any;
+    const decoded = verify(token, process.env.JWT_SECRET || "default_secret") as any;
     
     if (!decoded || !decoded.role || decoded.role !== "admin") {
       return false;

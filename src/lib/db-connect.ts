@@ -49,7 +49,7 @@ async function dbConnect() {
         console.log("Connected to MongoDB");
         return mongoose;
       })
-      .catch((err) => {
+      .catch((err): null => {
         console.error("MongoDB connection error:", err);
         cached.isConnected = false;
         return null;

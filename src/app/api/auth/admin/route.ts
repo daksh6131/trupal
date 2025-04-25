@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { sign } from "jsonwebtoken";
 import dbConnect, { isMongoConnected } from "@/lib/db-connect";
 import Admin from "@/lib/models/admin";
 
@@ -59,7 +59,7 @@ export async function POST(request: Request) {
     }
     
     // Generate JWT token
-    const token = jwt.sign(
+    const token = sign(
       { 
         id: admin._id || "admin_id",
         email: admin.email,
@@ -102,7 +102,7 @@ export async function POST(request: Request) {
       }
       
       // Generate JWT token
-      const token = jwt.sign(
+      const token = sign(
         { 
           id: "admin_id",
           email: DEMO_ADMIN.email,

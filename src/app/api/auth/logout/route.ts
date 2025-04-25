@@ -31,6 +31,9 @@ export async function POST(request: Request) {
         action: "logout",
         agentPhone: agent.phone,
         agentName: agent.name,
+        _id: "",
+        createdAt: "",
+        updatedAt: ""
       });
     }
     
@@ -58,6 +61,9 @@ export async function POST(request: Request) {
         action: "logout",
         agentPhone: agent.phone,
         agentName: agent.name,
+        _id: "",
+        createdAt: "",
+        updatedAt: ""
       });
       
       return NextResponse.json({

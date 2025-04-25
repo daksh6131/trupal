@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { sign } from "jsonwebtoken";
 import dbConnect, { isMongoConnected } from "@/lib/db-connect";
 import Agent from "@/lib/models/agent";
 import ActivityLog from "@/lib/models/activityLog";
@@ -57,7 +57,7 @@ export async function POST(request: Request) {
       });
       
       // Generate JWT token
-      token = jwt.sign(
+      token = sign(
         { 
           id: agent._id,
           phone: agent.phone,
@@ -94,10 +94,13 @@ export async function POST(request: Request) {
         action: "login",
         agentPhone: localAgent.phone,
         agentName: localAgent.name,
+        _id: "",
+        createdAt: "",
+        updatedAt: ""
       });
       
       // Generate JWT token
-      token = jwt.sign(
+      token = sign(
         { 
           id: localAgent.id,
           phone: localAgent.phone,
@@ -163,10 +166,13 @@ export async function POST(request: Request) {
         action: "login",
         agentPhone: localAgent.phone,
         agentName: localAgent.name,
+        _id: "",
+        createdAt: "",
+        updatedAt: ""
       });
       
       // Generate JWT token
-      const token = jwt.sign(
+      const token = sign(
         { 
           id: localAgent.id,
           phone: localAgent.phone,

@@ -115,6 +115,9 @@ export async function POST(request: Request) {
         agentName: agent.name,
         customerId: customer.id,
         customerName: customer.name,
+        _id: "",
+        createdAt: "",
+        updatedAt: ""
       });
     }
     
@@ -152,6 +155,9 @@ export async function POST(request: Request) {
         agentName: agent.name,
         customerId: customer.id,
         customerName: customer.name,
+        _id: "",
+        createdAt: "",
+        updatedAt: ""
       });
       
       return NextResponse.json({
