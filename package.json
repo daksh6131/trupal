@@ -17,7 +17,8 @@
     "test": "jest",
     "test:types": "tsc --noEmit --pretty",
     "test:all": "pnpm run test && pnpm run test:types",
-    "db:generate": "npx drizzle-kit generate && npx drizzle-kit migrate && git add . && git commit -m 'chore: update migration'"
+    "db:generate": "npx drizzle-kit generate && npx drizzle-kit migrate && git add . && git commit -m 'chore: update migration'",
+    "clean-install": "rm -rf node_modules && rm -rf .bun && bun install --no-cache --no-symlinks"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
