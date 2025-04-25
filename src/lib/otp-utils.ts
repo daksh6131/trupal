@@ -220,7 +220,7 @@ export async function removeAdminPhone(phone: string): Promise<{ success: boolea
 }
 
 // Get all admin phone numbers
-export async function getAdminPhones(): Promise<AdminPhone[]> {
+export async function getAdminPhones(): Promise<any[]> {
   try {
     return await db.select().from(adminPhones);
   } catch (error) {

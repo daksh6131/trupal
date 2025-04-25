@@ -70,11 +70,11 @@ export const authApi = {
   },
   
   login: async (phone: string, otp: string) => {
-    return this.verifyOTP(phone, otp);
+    return authApi.verifyOTP(phone, otp);
   },
   
   adminLogin: async (phone: string, otp: string) => {
-    return this.verifyAdminOTP(phone, otp);
+    return authApi.verifyAdminOTP(phone, otp);
   },
   
   logout: async () => {
