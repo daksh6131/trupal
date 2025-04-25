@@ -78,7 +78,7 @@
     "zod": "^3.24.2",
     "zustand": "^5.0.2"
   },
-  "overrides": {
+  "dependencies": {
     "drizzle-orm": "0.41.0-29155cc"
   }
 }
