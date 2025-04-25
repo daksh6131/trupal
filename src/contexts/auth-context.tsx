@@ -42,8 +42,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             isAuthenticated: true,
             user: {
               id: session.user.id,
-              phone: session.user.phone_number || "",
-              role: session.user.role,
+              phone: session.user.phone?.number || "",
+              role: session.user.user_metadata?.role,
             },
             error: null,
           });
@@ -74,8 +74,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             isAuthenticated: true,
             user: {
               id: session.user.id,
-              phone: session.user.phone_number || "",
-              role: session.user.role,
+              phone: session.user.phone?.number || "",
+              role: session.user.user_metadata?.role,
             },
             error: null,
           });
@@ -139,8 +139,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           isAuthenticated: true,
           user: {
             id: data.session.user.id,
-            phone: data.session.user.phone_number || "",
-            role: data.session.user.role,
+            phone: data.session.user.phone?.number || "",
+            role: data.session.user.user_metadata?.role,
           },
           error: null,
         });

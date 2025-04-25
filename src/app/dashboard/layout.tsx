@@ -4,6 +4,7 @@ import React from "react";
 import { ErrorBoundary } from "@/components/error-boundary";
 import { RefreshCw } from "lucide-react";
 import SyncStatus from "@/components/sync-status";
+import ProtectedRoute from "@/components/protected-route";
 
 export default function DashboardLayout({
   children,

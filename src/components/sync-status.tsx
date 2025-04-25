@@ -53,7 +53,9 @@ export default function SyncStatus() {
         if (result.pendingCount === 0) {
           toast.success('All data synchronized successfully');
         } else {
-          toast.info(`Synchronized some data. ${result.pendingCount} operations remaining.`);
+          toast(`Synchronized some data. ${result.pendingCount} operations remaining.`, {
+            icon: '🔄'
+          });
         }
       } else {
         toast.error('Failed to synchronize data');
