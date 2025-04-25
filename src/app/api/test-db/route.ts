@@ -1,13 +1,14 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { customers } from "@/db/schema";
+import { sql } from "drizzle-orm/postgres-js";
 
 export async function GET() {
   try {
     console.log("Testing database connection from API route");
     
     // Try to query the customers table
-    const result = await db.select({ count: db.sql`count(*)`.mapWith(Number) }).from(customers);
+    const result = await db.select({ count: sql`count(*)`.mapWith(Number) }).from(customers);
     
     return NextResponse.json({
       success: true,
