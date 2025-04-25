@@ -425,6 +425,11 @@ export class OfflineSyncManager {
     }
   }
   
+  // Public method to trigger sync manually
+  public performSync(): Promise<void> {
+    return this.syncPendingOperations();
+  }
+  
   getPendingOperationsCount() {
     return this.pendingOperations.length;
   }
