@@ -6,7 +6,7 @@
  * to provide a unified error reporting experience.
  */
 
-import ErrorStackParser from "error-stack-parser";
+import { parse as parseErrorStack } from "error-stack-parser";
 
 // Add TypeScript declarations for Next.js error overlay properties
 declare global {
@@ -166,7 +166,7 @@ function parseDetailedBuildError(error: Error | any): Record<string, any> {
 	let stackParsed = false;
 	try {
 		if (error instanceof Error || (error && error.stack)) {
-			const stackFrames = ErrorStackParser.parse(error);
+			const stackFrames = parseErrorStack(error);
 
 			// Create improved stack with cleaner file paths
 			const improvedStack = stackFrames.map(frame => ({

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import ErrorStackParser from "error-stack-parser";
+import { parse as parseErrorStack } from "error-stack-parser";
 import { initBuildErrorDetector } from "./build-error-detector";
 import { logErrorWithContext } from "@/lib/error-logger";
 import React from "react";
@@ -53,7 +53,7 @@ async function getErrorLocation(error: Error): Promise<ErrorLocationInfo> {
 	try {
 		// Remove NextAuth error detection
 		// Parse the error stack
-		const stackFrames = ErrorStackParser.parse(error);
+		const stackFrames = parseErrorStack(error);
 
 		// Filter out frames from global-error-handler.tsx to avoid showing our handler as the source
 		const filteredFrames = stackFrames.filter(

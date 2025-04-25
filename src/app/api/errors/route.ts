@@ -26,22 +26,22 @@ export async function GET(request: Request) {
     
     let query = db.select().from(errorLogs);
     
-    // Apply filters
+    // Create a new query with each filter
     if (status) {
-      query = query.where(eq(errorLogs.status, status as "new" | "investigating" | "resolved" | "ignored"));
+      query = db.select().from(errorLogs).where(eq(errorLogs.status, status as "new" | "investigating" | "resolved" | "ignored"));
     }
     
     if (severity) {
-      query = query.where(eq(errorLogs.severity, severity as "low" | "medium" | "high" | "critical"));
+      query = db.select().from(errorLogs).where(eq(errorLogs.severity, severity as "low" | "medium" | "high" | "critical"));
     }
     
     // Apply limit
     if (limit) {
-      query = query.limit(parseInt(limit));
+      query = db.select().from(errorLogs).limit(parseInt(limit));
     }
     
     // Order by most recent first
-    query = query.orderBy(desc(errorLogs.createdAt));
+    query = db.select().from(errorLogs).orderBy(desc(errorLogs.createdAt));
     
     const errors = await query;
     
