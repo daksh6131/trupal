@@ -99,13 +99,17 @@ export const customersApi = {
   },
   
   create: async (customerData: Omit<Customer, "id" | "timestamp" | "_id" | "createdAt" | "updatedAt">) => {
+    console.log("API service sending customer data:", customerData);
+    
     const response = await fetch(`${API_BASE_URL}/customers`, {
       method: "POST",
       headers: getAuthHeaders(),
       body: JSON.stringify(customerData)
     });
     
-    return handleResponse<{ success: boolean; customer: Customer }>(response);
+    const result = await handleResponse<{ success: boolean; customer: Customer }>(response);
+    console.log("API service received response:", result);
+    return result;
   },
   
   update: async (id: string, customerData: Partial<Customer>) => {

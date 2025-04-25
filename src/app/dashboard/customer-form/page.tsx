@@ -67,6 +67,8 @@ export default function CustomerFormPage() {
     setIsSubmitting(true);
     
     try {
+      console.log("Submitting customer data:", data);
+      
       // Create new customer via API
       const response = await customersApi.create({
         name: data.name,
@@ -80,6 +82,8 @@ export default function CustomerFormPage() {
         cibilScore: data.cibilScore,
         linkedAgent: agent.phone
       });
+      
+      console.log("API response:", response);
       
       if (response && response.customer) {
         toast.success("Customer information saved successfully");

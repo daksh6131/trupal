@@ -62,11 +62,24 @@ export const customerOperations = {
   
   create: async (data: NewCustomer) => {
     try {
-      const results = await db.insert(customers).values({
+      console.log("DB Utils: Creating customer with data:", data);
+      
+      // Ensure timestamps are properly set
+      const customerData = {
         ...data,
         createdAt: new Date(),
         updatedAt: new Date()
-      }).returning();
+      };
+      
+      console.log("DB Utils: Final customer data for insertion:", customerData);
+      
+      const results = await db.insert(customers).values(customerData).returning();
+      console.log("DB Utils: Customer created with result:", results);
+      
+      if (!results || results.length === 0) {
+        throw new Error("Failed to create customer - no results returned");
+      }
+      
       return results[0];
     } catch (error) {
       console.error("Error creating customer:", error);

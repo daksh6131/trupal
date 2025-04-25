@@ -103,7 +103,11 @@ export type Agent = InferSelectModel<typeof agents>;
 export type NewAgent = InferInsertModel<typeof agents>;
 
 export type Customer = InferSelectModel<typeof customers>;
-export type NewCustomer = Omit<InferInsertModel<typeof customers>, "createdAt" | "updatedAt">;
+// Fix the NewCustomer type to properly handle timestamps
+export type NewCustomer = Omit<InferInsertModel<typeof customers>, "createdAt" | "updatedAt"> & {
+  createdAt?: Date;
+  updatedAt?: Date;
+};
 
 export type CreditCard = InferSelectModel<typeof creditCards>;
 export type NewCreditCard = InferInsertModel<typeof creditCards>;

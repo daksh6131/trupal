@@ -32,9 +32,12 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    console.log("API route: Customer creation request received");
+    
     const agent = await getAgentFromToken(request);
     
     if (!agent) {
+      console.log("API route: Unauthorized - No agent found");
       return NextResponse.json(
         { error: "Unauthorized" },
         { status: 401 }
@@ -42,15 +45,15 @@ export async function POST(request: Request) {
     }
     
     const customerData = await request.json();
+    console.log("API route: Customer data received:", customerData);
     
     // Create new customer
     const customer = await customerOperations.create({
       ...customerData,
       linkedAgent: agent.phone,
-      // Ensure these fields are not included in the request
-      createdAt: new Date(),
-      updatedAt: new Date()
     });
+    
+    console.log("API route: Customer created:", customer);
     
     // Create activity log
     await activityLogOperations.create({
