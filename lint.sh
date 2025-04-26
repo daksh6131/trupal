@@ -78,7 +78,8 @@ fi
 # Run ESLint on all non-CSS files if there are any
 if [ ${#js_files[@]} -gt 0 ] || [ ${#ts_files[@]} -gt 0 ]; then
   all_js_files=("${js_files[@]}" "${ts_files[@]}")
-  eslint_output=$(npx eslint --format unix "${all_js_files[@]}" 2>&1)
+  # Properly handle files with special characters by using -- to separate options from filenames
+  eslint_output=$(npx eslint --format unix -- "${all_js_files[@]}" 2>&1)
   exit_status=$?
   if [ $exit_status -ne 0 ]; then
     eslint_error=$exit_status
@@ -89,13 +90,15 @@ fi
 
 # Run Stylelint on CSS files if there are any
 if [ ${#css_files[@]} -gt 0 ]; then
-  stylelint_output=$(npx stylelint "${css_files[@]}" 2>&1)
+  # Properly handle files with special characters by using -- to separate options from filenames
+  stylelint_output=$(npx stylelint -- "${css_files[@]}" 2>&1)
   exit_status=$?
   if [ $exit_status -ne 0 ]; then
     stylelint_error=$exit_status
     stylelint_output="Stylelint errors:
 ${stylelint_output}"
   fi
+  
   # Run Tailwind check
   if [ -n "${css_files[0]}" ]; then
     current_file="${css_files[0]}"

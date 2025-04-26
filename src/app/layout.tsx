@@ -9,7 +9,6 @@ import {
   DOMInspector,
   Branding,
 } from "@/utils/creatr.scripts";
-import { GlobalErrorHandler } from "@/utils/global-error-handler";
 import { ErrorBoundary } from "@/components/error-boundary";
 import SupabaseInitializer from "@/components/supabase-initializer";
 import { AuthProvider } from "@/contexts/auth-context";
@@ -58,16 +57,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
       <body className="bg-gray-50">
-        <GlobalErrorHandler />
         <SupabaseInitializer />
         <AuthProvider>
-          <DOMInspector>
+          
             <ErrorBoundary>
               {children}
-              <Branding />
-            </ErrorBoundary>
-            <AnalyticsTracker siteKey="${siteKey}" />
-          </DOMInspector>
+              </ErrorBoundary>
         </AuthProvider>
         <Toaster position="top-center" />
       </body>
