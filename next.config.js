@@ -27,9 +27,12 @@ const config = {
         net: false,
         tls: false,
         fs: false,
+        path: false,
+        os: false,
         crypto: require.resolve('crypto-browserify'),
         stream: require.resolve('stream-browserify'),
         perf_hooks: false,
+        util: require.resolve('util/'),
       };
     }
     

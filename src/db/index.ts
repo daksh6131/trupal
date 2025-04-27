@@ -31,7 +31,8 @@ if (typeof window === 'undefined') {
   // Use dynamic import for postgres to avoid client-side bundling
   const initDb = async () => {
     try {
-      const { default: postgres } = await import('postgres');
+      // Dynamic import with explicit type
+      const postgres = await import('postgres').then(mod => mod.default);
       
       const connectionString = process.env.DATABASE_URL || '';
       console.log("Database connection string available:", !!connectionString);
@@ -52,22 +53,22 @@ if (typeof window === 'undefined') {
     }
   };
   
-  // Use an IIFE to initialize the database
-  (async () => {
-    try {
-      db = await initDb();
-      
+  // Initialize the database
+  initDb()
+    .then(result => {
+      db = result;
       // Test the database connection
-      console.log("Testing database connection...");
-      const result = await db.select({ now: sql`NOW()` });
+      return db.select({ now: sql`NOW()` });
+    })
+    .then(result => {
       console.log("Database connection successful:", result[0]);
-    } catch (error) {
+    })
+    .catch(error => {
       console.error("Failed to initialize database:", error);
-    }
-  })();
+    });
 } else {
   // Create a placeholder for client-side that throws helpful errors
-  db = new (globalThis.Proxy)({} as any, {
+  db = new Proxy({} as any, {
     get: function(target, prop) {
       if (typeof prop === 'string' && !['then', 'catch', 'finally'].includes(prop)) {
         throw new Error(

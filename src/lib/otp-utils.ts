@@ -32,8 +32,19 @@ export async function generateOTPCode(length = 6): Promise<string> {
     }
   }
   
-  // Regular random OTP for non-demo phones
-  return Math.floor(100000 + Math.random() * 900000).toString().substring(0, length);
+  // Use crypto for better randomness if available
+  if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
+    // Generate a secure random OTP
+    const randomBuffer = new Uint32Array(1);
+    crypto.getRandomValues(randomBuffer);
+    
+    // Scale to 6 digits and ensure it starts with a non-zero digit
+    const randomValue = randomBuffer[0] % 900000 + 100000;
+    return randomValue.toString().substring(0, length);
+  } else {
+    // Fallback to Math.random (less secure)
+    return Math.floor(100000 + Math.random() * 900000).toString().substring(0, length);
+  }
 }
 
 // Create a new OTP

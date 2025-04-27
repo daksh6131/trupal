@@ -443,9 +443,14 @@ export function getOfflineSyncManager() {
     return null;
   }
   
-  if (!offlineSyncManagerInstance) {
-    offlineSyncManagerInstance = new OfflineSyncManager();
+  try {
+    if (!offlineSyncManagerInstance) {
+      offlineSyncManagerInstance = new OfflineSyncManager();
+    }
+    
+    return offlineSyncManagerInstance;
+  } catch (error) {
+    console.error("Error creating OfflineSyncManager:", error);
+    return null;
   }
-  
-  return offlineSyncManagerInstance;
 }
