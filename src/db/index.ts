@@ -65,7 +65,7 @@ if (typeof window === 'undefined') {
   })();
 } else {
   // Create a placeholder for client-side that throws helpful errors
-  db = new Proxy({} as any, {
+  db = new (globalThis.Proxy)({} as any, {
     get: function(target, prop) {
       if (typeof prop === 'string' && !['then', 'catch', 'finally'].includes(prop)) {
         throw new Error(
