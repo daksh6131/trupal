@@ -1,3 +1,5 @@
+'use server';
+
 import { drizzle } from 'drizzle-orm/postgres-js';
 import { createClient } from '@supabase/supabase-js';
 import * as schema from "./schema";
@@ -29,7 +31,7 @@ if (typeof window === 'undefined') {
   // Use dynamic import for postgres to avoid client-side bundling
   const initDb = async () => {
     try {
-      const postgres = (await import('postgres')).default;
+      const { default: postgres } = await import('postgres');
       
       const connectionString = process.env.DATABASE_URL || '';
       console.log("Database connection string available:", !!connectionString);
@@ -65,7 +67,7 @@ if (typeof window === 'undefined') {
   })();
 } else {
   // Create a placeholder for client-side that throws helpful errors
-  db = new (globalThis.Proxy)({} as any, {
+  db = new Proxy({} as any, {
     get: function(target, prop) {
       if (typeof prop === 'string' && !['then', 'catch', 'finally'].includes(prop)) {
         throw new Error(
