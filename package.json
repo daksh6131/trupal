@@ -21,7 +21,9 @@
     "clean-install": "rm -rf node_modules && rm -rf .bun && bun install --no-cache --no-symlinks"
   },
   "dependencies": {
+    "crypto-browserify": "^3.12.1",
     "drizzle-orm": "0.41.0-29155cc",
-    "error-stack-parser": "^2.1.4"
+    "error-stack-parser": "^2.1.4",
+    "stream-browserify": "^3.0.0"
   }
 }

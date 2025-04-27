@@ -1,6 +1,5 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import { createClient } from '@supabase/supabase-js';
-import postgres from 'postgres';
 import * as schema from "./schema";
 import { Database } from '@/types/supabase';
 
@@ -21,34 +20,61 @@ export const supabase = createClient<Database>(
   }
 );
 
-// For Drizzle ORM
-const connectionString = process.env.DATABASE_URL || '';
-console.log("Database connection string available:", !!connectionString);
+// For Drizzle ORM - Only initialize on server side
+let db: ReturnType<typeof drizzle>;
 
-// Configure postgres client with better error handling
-const sql = postgres(connectionString, { 
-  prepare: false,
-  debug: true, // Enable query debugging
-  onnotice: notice => console.log("Database notice:", notice),
-  onparameter: param => console.log("Database parameter:", param)
-});
+// Check if we're on the server side
+if (typeof window === 'undefined') {
+  // Use dynamic import for postgres to avoid client-side bundling
+  const initDb = async () => {
+    try {
+      const postgres = (await import('postgres')).default;
+      
+      const connectionString = process.env.DATABASE_URL || '';
+      console.log("Database connection string available:", !!connectionString);
+      
+      // Configure postgres client with better error handling
+      const sql = postgres(connectionString, { 
+        prepare: false,
+        debug: true, // Enable query debugging
+        onnotice: notice => console.log("Database notice:", notice),
+        onparameter: param => console.log("Database parameter:", param)
+      });
+      
+      // Initialize Drizzle with our schema
+      return drizzle({ client: sql, schema });
+    } catch (error) {
+      console.error("Database connection failed:", error);
+      throw error;
+    }
+  };
+  
+  // Use an IIFE to initialize the database
+  (async () => {
+    try {
+      db = await initDb();
+      
+      // Test the database connection
+      console.log("Testing database connection...");
+      const result = await db.execute(sql`SELECT NOW()`);
+      console.log("Database connection successful:", result[0]);
+    } catch (error) {
+      console.error("Failed to initialize database:", error);
+    }
+  })();
+} else {
+  // Create a placeholder for client-side that throws helpful errors
+  db = new Proxy({} as any, {
+    get: function(target, prop) {
+      if (typeof prop === 'string' && !['then', 'catch', 'finally'].includes(prop)) {
+        throw new Error(
+          `Database operations cannot be performed on the client side. ` +
+          `Please move this operation to a server component or API route.`
+        );
+      }
+      return undefined;
+    }
+  });
+}
 
-// Initialize Drizzle with our schema
-export const db = drizzle({ client: sql, schema });
-
-// Test the database connection
-const testConnection = async () => {
-  try {
-    console.log("Testing database connection...");
-    // Simple query to test connection
-    const result = await sql`SELECT NOW()`;
-    console.log("Database connection successful:", result[0]);
-    return true;
-  } catch (error) {
-    console.error("Database connection failed:", error);
-    return false;
-  }
-};
-
-// Run the test connection when this module is imported
-testConnection().catch(console.error);
+export { db };
