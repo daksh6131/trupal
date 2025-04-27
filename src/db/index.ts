@@ -2,6 +2,7 @@ import { drizzle } from 'drizzle-orm/postgres-js';
 import { createClient } from '@supabase/supabase-js';
 import * as schema from "./schema";
 import { Database } from '@/types/supabase';
+import { sql } from 'drizzle-orm';
 
 // Create a single supabase client for interacting with your database
 export const supabase = createClient<Database>(
@@ -56,7 +57,7 @@ if (typeof window === 'undefined') {
       
       // Test the database connection
       console.log("Testing database connection...");
-      const result = await db.execute(sql`SELECT NOW()`);
+      const result = await db.select().from(sql`SELECT NOW()`);
       console.log("Database connection successful:", result[0]);
     } catch (error) {
       console.error("Failed to initialize database:", error);
@@ -64,7 +65,7 @@ if (typeof window === 'undefined') {
   })();
 } else {
   // Create a placeholder for client-side that throws helpful errors
-  db = new Proxy({} as any, {
+  db = new globalThis.Proxy({} as any, {
     get: function(target, prop) {
       if (typeof prop === 'string' && !['then', 'catch', 'finally'].includes(prop)) {
         throw new Error(
