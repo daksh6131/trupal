@@ -243,7 +243,7 @@ export class OfflineSyncManager {
     id?: number | string;
   }>;
   private isOnline: boolean;
-  private syncInterval: NodeJS.Timeout | null = null;
+  private syncInterval: ReturnType<typeof setTimeout> | null = null;
   
   constructor(appName: string = 'cardsales') {
     this.storageKey = `${appName}_pending_operations`;
