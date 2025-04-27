@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { toast } from "react-hot-toast";
 import { authApi, creditCardsApi, customersApi, logsApi, supabaseApi } from "@/lib/api-service";
 import AdminPhonesManager from "@/components/admin-phones-manager";
+import DemoLoginInfo from "@/components/demo-login-info";
 export default function AdminPage() {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -18,7 +19,7 @@ export default function AdminPage() {
   const [sortBy, setSortBy] = useState<"name" | "minCibilScore">("name");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [filter, setFilter] = useState("");
-  const [phone, setPhone] = useState("");
+  const [phone, setPhone] = useState("8076492495"); // Pre-filled with admin demo number
   const [otp, setOtp] = useState("");
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [otpCountdown, setOtpCountdown] = useState(0);
@@ -88,9 +89,10 @@ export default function AdminPage() {
       if (response.success) {
         setIsOtpSent(true);
         setOtpCountdown(30);
-        // For development, store the OTP
+        // For demo purposes, store and display the OTP
         if (response.otp) {
           setGeneratedOtp(response.otp);
+          console.log("Demo Admin OTP:", response.otp);
         }
         toast.success("OTP sent successfully");
       } else {
@@ -206,8 +208,8 @@ export default function AdminPage() {
                     <span className="absolute left-3 top-3 text-gray-500">+91</span>
                     <input id="phone" name="phone" type="tel" maxLength={10} value={phone} onChange={e => setPhone(e.target.value)} className="appearance-none block w-full pl-10 px-3 py-2 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Enter admin phone number" />
                   </div>
-                  <p className="mt-1 text-xs text-gray-500">
-                    Default admin: 8076492495
+                  <p className="mt-1 text-xs text-gray-500 font-medium">
+                    Demo admin: 8076492495 (pre-filled)
                   </p>
                 </div>
               </div>
@@ -226,9 +228,10 @@ export default function AdminPage() {
                   <input id="otp" name="otp" type="text" maxLength={6} value={otp} onChange={e => setOtp(e.target.value)} className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Enter 6-digit OTP" required />
                 </div>
                 
-                {generatedOtp && <p className="mt-1 text-xs text-gray-500">
-                    Development OTP: {generatedOtp}
-                  </p>}
+                {generatedOtp && <div className="mt-2 bg-green-50 border border-green-200 rounded p-2">
+                    <p className="text-sm font-medium text-green-800">Demo Admin OTP: <span className="font-bold">{generatedOtp}</span></p>
+                    <p className="text-xs text-green-700 mt-1">Use this code to log in as admin</p>
+                  </div>}
                 
                 <div className="flex justify-between mt-2 text-sm">
                   <span className="text-gray-500">

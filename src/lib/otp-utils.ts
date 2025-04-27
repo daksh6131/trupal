@@ -11,28 +11,56 @@ const MAX_OTP_REQUESTS_PER_HOUR = 5;
 
 // Generate a random OTP code
 export async function generateOTPCode(length = 6): Promise<string> {
+  // For demo purposes, if the phone number is one of our demo numbers,
+  // return a fixed OTP to make testing easier
+  const isDemoPhone = (phone: string) => {
+    return phone === "9876543210" || phone === "8076492495";
+  };
+  
+  // Check if this is being called from createOTP function
+  const stack = new Error().stack || "";
+  const calledFromCreateOTP = stack.includes("createOTP");
+  
+  if (calledFromCreateOTP) {
+    // Get the phone number from the previous frame in the stack
+    const phoneMatch = stack.match(/createOTP\(["']?([0-9]+)["']?\)/);
+    const phone = phoneMatch ? phoneMatch[1] : "";
+    
+    if (isDemoPhone(phone)) {
+      console.log(`Using demo OTP for ${phone}`);
+      return "123456"; // Fixed OTP for demo phones
+    }
+  }
+  
+  // Regular random OTP for non-demo phones
   return Math.floor(100000 + Math.random() * 900000).toString().substring(0, length);
 }
 
 // Create a new OTP
 export async function createOTP(phone: string): Promise<{ success: boolean; message: string; otp?: string }> {
   try {
+    // For demo purposes, check if this is a demo phone number
+    const isDemoPhone = phone === "9876543210" || phone === "8076492495";
+    
     // Check rate limiting - how many OTPs have been generated for this phone in the last hour
-    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
-    const recentOTPs = await db.select()
-      .from(otps)
-      .where(
-        and(
-          eq(otps.phone, phone),
-          gt(otps.createdAt, oneHourAgo)
-        )
-      );
+    // Skip rate limiting for demo phones
+    if (!isDemoPhone) {
+      const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+      const recentOTPs = await db.select()
+        .from(otps)
+        .where(
+          and(
+            eq(otps.phone, phone),
+            gt(otps.createdAt, oneHourAgo)
+          )
+        );
 
-    if (recentOTPs.length >= MAX_OTP_REQUESTS_PER_HOUR) {
-      return {
-        success: false,
-        message: "Too many OTP requests. Please try again later."
-      };
+      if (recentOTPs.length >= MAX_OTP_REQUESTS_PER_HOUR) {
+        return {
+          success: false,
+          message: "Too many OTP requests. Please try again later."
+        };
+      }
     }
 
     // Generate new OTP
@@ -42,7 +70,7 @@ export async function createOTP(phone: string): Promise<{ success: boolean; mess
     // Store OTP in database
     const newOTP: NewOTP = {
       phone,
-      code,
+      code: isDemoPhone ? "123456" : code, // Fixed OTP for demo phones
       expiresAt,
       verified: false,
       attempts: 0,
@@ -52,13 +80,14 @@ export async function createOTP(phone: string): Promise<{ success: boolean; mess
     await db.insert(otps).values(newOTP);
 
     // In a real production environment, you would send the OTP via SMS
-    // For development, we'll return the OTP in the response
-    console.log(`OTP for ${phone}: ${code}`);
+    // For development/demo, we'll return the OTP in the response
+    const finalOtp = isDemoPhone ? "123456" : code;
+    console.log(`OTP for ${phone}: ${finalOtp}`);
 
     return {
       success: true,
       message: "OTP generated successfully",
-      otp: code // Only for development, remove in production
+      otp: finalOtp // For demo purposes
     };
   } catch (error) {
     console.error("Error creating OTP:", error);

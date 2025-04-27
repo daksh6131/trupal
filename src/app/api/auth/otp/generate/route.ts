@@ -25,11 +25,13 @@ export async function POST(request: Request) {
     }
     
     // In production, you would send the OTP via SMS here
-    // For development, we'll return it in the response
+    // For development/demo, we'll return it in the response
+    console.log(`Demo OTP for ${phone}: ${result.otp}`);
+    
     return NextResponse.json({
       success: true,
       message: "OTP sent successfully",
-      otp: result.otp // Remove in production
+      otp: result.otp // For demo purposes
     });
     
   } catch (error) {

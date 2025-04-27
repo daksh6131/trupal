@@ -5,9 +5,10 @@ import { useRouter } from "next/navigation";
 import { Phone, Lock, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/auth-context";
+import DemoLoginInfo from "@/components/demo-login-info";
 export default function HomePage() {
   const router = useRouter();
-  const [phone, setPhone] = useState("");
+  const [phone, setPhone] = useState("9876543210"); // Pre-filled with demo number
   const [otp, setOtp] = useState("");
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -24,6 +25,11 @@ export default function HomePage() {
       router.push("/dashboard");
     }
   }, [authState.isAuthenticated, router]);
+  
+  // Auto-fill demo credentials
+  useEffect(() => {
+    // Pre-filled with demo phone number already in state initialization
+  }, []);
   useEffect(() => {
     if (countdown > 0) {
       const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
@@ -41,6 +47,20 @@ export default function HomePage() {
       return;
     }
     try {
+      // For demo purposes, directly call the API to get the OTP
+      const response = await fetch('/api/auth/otp/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone })
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        setGeneratedOtp(data.otp);
+        console.log("Demo OTP:", data.otp);
+      }
+      
       await signInWithPhone(`+91${phone}`);
       setIsOtpSent(true);
       setCountdown(30);
@@ -72,6 +92,8 @@ export default function HomePage() {
           <h1 className="text-3xl font-bold text-blue-800 mb-2">CardSales Pro</h1>
           <p className="text-gray-600">Internal sales tool for credit card recommendations</p>
         </div>
+
+        <DemoLoginInfo type="agent" />
 
         <div className="bg-white rounded-lg shadow-lg p-8">
           <h2 className="text-2xl font-semibold mb-6 text-center text-gray-800">
@@ -118,9 +140,10 @@ export default function HomePage() {
                   <input id="otp" type="text" className="w-full border border-gray-300 rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter 6 digit OTP" value={otp} onChange={e => setOtp(e.target.value)} maxLength={6} />
                   <Lock className="absolute right-3 top-3.5 h-5 w-5 text-gray-400" />
                 </div>
-                {generatedOtp && <p className="text-xs text-gray-500 mt-1">
-                    Development OTP: {generatedOtp}
-                  </p>}
+                {generatedOtp && <div className="mt-2 bg-green-50 border border-green-200 rounded p-2">
+                    <p className="text-sm font-medium text-green-800">Demo OTP: <span className="font-bold">{generatedOtp}</span></p>
+                    <p className="text-xs text-green-700 mt-1">Use this code to log in</p>
+                  </div>}
                 <div className="flex justify-between mt-2 text-sm">
                   <span className="text-gray-500">
                     OTP sent to: +91 {phone}
