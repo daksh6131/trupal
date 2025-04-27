@@ -67,14 +67,14 @@ export default function SyncStatus() {
   if (isOnline && pendingCount === 0) {
     return null;
   }
-  return <div className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm ${isOnline ? 'bg-blue-50 text-blue-700' : 'bg-red-50 text-red-700'}`}>
+  return <div className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm ${isOnline ? 'bg-blue-50 text-blue-700' : 'bg-red-50 text-red-700'}`} data-unique-id="435f438b-e6e2-4850-ba43-91285b5d4fd0" data-loc="70:9-70:151" data-file-name="components/sync-status.tsx">
       {isOnline ? <Cloud className="h-4 w-4" /> : <CloudOff className="h-4 w-4" />}
       
-      <span>
+      <span data-unique-id="c1fa2cde-6989-4569-a0aa-8ceb0bb4e0e1" data-loc="73:6-73:12" data-file-name="components/sync-status.tsx">
         {isOnline ? pendingCount > 0 ? `Syncing ${pendingCount} changes...` : 'All changes saved' : 'Offline mode'}
       </span>
       
-      {pendingCount > 0 && isOnline && <button onClick={handleForceSyncClick} disabled={isSyncing} className="ml-2 flex items-center gap-1 text-xs font-medium hover:underline">
+      {pendingCount > 0 && isOnline && <button onClick={handleForceSyncClick} disabled={isSyncing} className="ml-2 flex items-center gap-1 text-xs font-medium hover:underline" data-unique-id="69998ed5-29ac-4072-be9e-3936b4100a88" data-loc="77:39-77:176" data-file-name="components/sync-status.tsx">
           <RefreshCw className={`h-3 w-3 ${isSyncing ? 'animate-spin' : ''}`} />
           {isSyncing ? 'Syncing...' : 'Sync now'}
         </button>}
