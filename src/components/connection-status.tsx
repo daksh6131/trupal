@@ -40,21 +40,21 @@ export default function ConnectionStatus() {
     return () => clearInterval(interval);
   }, []);
   if (isConnected === null) {
-    return <div className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm bg-gray-100 text-gray-700" data-unique-id="debb1ae9-9957-4aa9-9b85-e3db1cd70c7e" data-loc="43:11-43:109" data-file-name="components/connection-status.tsx">
+    return <div className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm bg-gray-100 text-gray-700">
         <Database className="h-4 w-4 animate-pulse" />
-        <span data-unique-id="39748ae2-9677-43c0-a7f1-d255e200893e" data-loc="45:8-45:14" data-file-name="components/connection-status.tsx">Checking connection...</span>
+        <span>Checking connection...</span>
       </div>;
   }
   if (isConnected) {
-    return <div className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm bg-green-50 text-green-700" data-unique-id="2ed5be31-a037-429b-bdfc-d06f52a21565" data-loc="49:11-49:110" data-file-name="components/connection-status.tsx">
+    return <div className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm bg-green-50 text-green-700">
         <Server className="h-4 w-4" />
-        <span data-unique-id="2dd4bac5-d965-429a-973c-124a2570bd36" data-loc="51:8-51:14" data-file-name="components/connection-status.tsx">Connected to database</span>
+        <span>Connected to database</span>
       </div>;
   }
-  return <div className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm bg-red-50 text-red-700" data-unique-id="f6499abe-52f3-4a5d-8d5c-68d363eaed62" data-loc="54:9-54:104" data-file-name="components/connection-status.tsx">
+  return <div className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm bg-red-50 text-red-700">
       <ServerOff className="h-4 w-4" />
-      <span data-unique-id="961480fc-7214-4ebb-89c9-4de780c76d99" data-loc="56:6-56:12" data-file-name="components/connection-status.tsx">Database disconnected</span>
-      <button onClick={checkConnection} disabled={isChecking} className="ml-2 text-xs font-medium hover:underline" data-unique-id="0e5421ec-9cd2-4f6f-8ebb-3c775caccad8" data-loc="57:6-57:115" data-file-name="components/connection-status.tsx">
+      <span>Database disconnected</span>
+      <button onClick={checkConnection} disabled={isChecking} className="ml-2 text-xs font-medium hover:underline">
         {isChecking ? 'Checking...' : 'Retry'}
       </button>
     </div>;

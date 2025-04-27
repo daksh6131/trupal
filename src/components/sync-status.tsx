@@ -67,14 +67,14 @@ export default function SyncStatus() {
   if (isOnline && pendingCount === 0) {
     return null;
   }
-  return <div className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm ${isOnline ? 'bg-blue-50 text-blue-700' : 'bg-red-50 text-red-700'}`} data-unique-id="8ffca757-cc67-4d16-952d-84f59b51336f" data-loc="70:9-70:151" data-file-name="components/sync-status.tsx">
+  return <div className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm ${isOnline ? 'bg-blue-50 text-blue-700' : 'bg-red-50 text-red-700'}`}>
       {isOnline ? <Cloud className="h-4 w-4" /> : <CloudOff className="h-4 w-4" />}
       
-      <span data-unique-id="f849ba5b-7d5e-463a-aa7a-0f38d9289b05" data-loc="73:6-73:12" data-file-name="components/sync-status.tsx">
+      <span>
         {isOnline ? pendingCount > 0 ? `Syncing ${pendingCount} changes...` : 'All changes saved' : 'Offline mode'}
       </span>
       
-      {pendingCount > 0 && isOnline && <button onClick={handleForceSyncClick} disabled={isSyncing} className="ml-2 flex items-center gap-1 text-xs font-medium hover:underline" data-unique-id="ac653dbe-ba53-435a-b540-fd0d8d2be45b" data-loc="77:39-77:176" data-file-name="components/sync-status.tsx">
+      {pendingCount > 0 && isOnline && <button onClick={handleForceSyncClick} disabled={isSyncing} className="ml-2 flex items-center gap-1 text-xs font-medium hover:underline">
           <RefreshCw className={`h-3 w-3 ${isSyncing ? 'animate-spin' : ''}`} />
           {isSyncing ? 'Syncing...' : 'Sync now'}
         </button>}

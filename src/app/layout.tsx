@@ -59,8 +59,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <html lang="en" className={`${GeistSans.variable}`} data-unique-id="f764afad-ebd9-4df8-b17b-096d241d106c" data-loc="62:9-62:61" data-file-name="app/layout.tsx">
-      <body className="bg-gray-50" data-unique-id="4bf8bfd1-10fc-45f7-9cca-7138e201a0fb" data-loc="63:6-63:35" data-file-name="app/layout.tsx">
+  return <html lang="en" className={`${GeistSans.variable}`}>
+      <body className="bg-gray-50">
         <SupabaseInitializer />
         <AuthProvider>
           
