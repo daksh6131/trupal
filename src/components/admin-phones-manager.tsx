@@ -148,32 +148,32 @@ export default function AdminPhonesManager() {
       supabase.removeChannel(channel);
     };
   }, []);
-  return <div className="bg-white shadow rounded-lg p-6" data-unique-id="f2d2c36d-58b6-42ef-80f1-4102e9536c0b" data-loc="151:9-151:57" data-file-name="components/admin-phones-manager.tsx">
-      <div className="flex justify-between items-center mb-6" data-unique-id="0ae44d70-2ff3-4c1a-a5a9-682d7d8a6748" data-loc="152:6-152:62" data-file-name="components/admin-phones-manager.tsx">
-        <h2 className="text-lg font-medium text-gray-900" data-unique-id="55c65700-d8e2-4532-8515-e7dad24325d7" data-loc="153:8-153:58" data-file-name="components/admin-phones-manager.tsx">Admin Phone Numbers</h2>
-        <button onClick={fetchPhones} disabled={isLoading} className="inline-flex items-center text-sm text-blue-600 hover:text-blue-800" data-unique-id="ce3fb7a6-110d-4e51-82c1-f0ead6004253" data-loc="154:8-154:138" data-file-name="components/admin-phones-manager.tsx">
+  return <div className="bg-white shadow rounded-lg p-6">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-lg font-medium text-gray-900">Admin Phone Numbers</h2>
+        <button onClick={fetchPhones} disabled={isLoading} className="inline-flex items-center text-sm text-blue-600 hover:text-blue-800">
           <RefreshCw className={`h-4 w-4 mr-1 ${isLoading ? 'animate-spin' : ''}`} />
           Refresh
         </button>
       </div>
       
       {/* Add new phone */}
-      <div className="mb-6" data-unique-id="af3469f9-e651-4953-90f0-816349d8c634" data-loc="161:6-161:28" data-file-name="components/admin-phones-manager.tsx">
-        <div className="flex space-x-2" data-unique-id="eef9f754-7f2c-4454-a17e-4d60892cac14" data-loc="162:8-162:40" data-file-name="components/admin-phones-manager.tsx">
-          <div className="relative flex-grow" data-unique-id="49c1d1f1-d232-4e02-a246-613c80b26c4a" data-loc="163:10-163:46" data-file-name="components/admin-phones-manager.tsx">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none" data-unique-id="bec209d5-f3e3-4fa3-8374-85ef101868bd" data-loc="164:12-164:98" data-file-name="components/admin-phones-manager.tsx">
+      <div className="mb-6">
+        <div className="flex space-x-2">
+          <div className="relative flex-grow">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <Phone className="h-5 w-5 text-gray-400" />
             </div>
-            <input type="tel" maxLength={10} className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Enter 10-digit phone number" value={newPhone} onChange={e => setNewPhone(e.target.value)} data-unique-id="f2e5db49-8d89-427c-9751-8221027cf5a8" data-loc="167:12-167:377" data-file-name="components/admin-phones-manager.tsx" />
+            <input type="tel" maxLength={10} className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Enter 10-digit phone number" value={newPhone} onChange={e => setNewPhone(e.target.value)} />
           </div>
-          <button onClick={addPhone} disabled={isAdding} className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50" data-unique-id="a677e794-f6fa-4afe-898d-75d37ac63f7e" data-loc="169:10-169:304" data-file-name="components/admin-phones-manager.tsx">
-            {isAdding ? <span className="flex items-center" data-unique-id="d2cac810-492a-40d6-a06c-e8402ed10769" data-loc="170:24-170:60" data-file-name="components/admin-phones-manager.tsx">
-                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" data-unique-id="2cbe8347-92cd-41c8-bdca-9c1696e458d7" data-loc="171:16-171:143" data-file-name="components/admin-phones-manager.tsx">
+          <button onClick={addPhone} disabled={isAdding} className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50">
+            {isAdding ? <span className="flex items-center">
+                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
                 Adding...
-              </span> : <span className="flex items-center" data-unique-id="db4d1b42-1f92-4eb2-979b-33033ad79620" data-loc="176:24-176:60" data-file-name="components/admin-phones-manager.tsx">
+              </span> : <span className="flex items-center">
                 <Plus className="h-4 w-4 mr-1" /> Add
               </span>}
           </button>
@@ -181,20 +181,20 @@ export default function AdminPhonesManager() {
       </div>
       
       {/* Phone list */}
-      <div className="border rounded-md overflow-hidden" data-unique-id="c21027e4-cdc1-4669-a91d-96092d891dc2" data-loc="184:6-184:57" data-file-name="components/admin-phones-manager.tsx">
-        {phones.length > 0 ? <ul className="divide-y divide-gray-200" data-unique-id="1e0ab703-a380-45c1-bb86-e5461efdbe35" data-loc="185:29-185:70" data-file-name="components/admin-phones-manager.tsx">
-            {phones.map(phone => <li key={phone.id} className="px-4 py-3 flex items-center justify-between hover:bg-gray-50" data-unique-id="3669e133-165d-4cba-a364-afe5d1aa22d2" data-loc="186:33-186:125" data-file-name="components/admin-phones-manager.tsx">
-                <div data-unique-id="25a7d51b-7320-4960-9a4c-671211012c52" data-loc="187:16-187:21" data-file-name="components/admin-phones-manager.tsx">
-                  <p className="text-sm font-medium text-gray-900" data-unique-id="5b0232d1-40cf-4db9-a083-25b247bb6efe" data-loc="188:18-188:67" data-file-name="components/admin-phones-manager.tsx">+91 {phone.phone}</p>
-                  <p className="text-xs text-gray-500" data-unique-id="7c65b8ed-5790-4a9c-98f8-52e5e66bec64" data-loc="189:18-189:55" data-file-name="components/admin-phones-manager.tsx">
+      <div className="border rounded-md overflow-hidden">
+        {phones.length > 0 ? <ul className="divide-y divide-gray-200">
+            {phones.map(phone => <li key={phone.id} className="px-4 py-3 flex items-center justify-between hover:bg-gray-50">
+                <div>
+                  <p className="text-sm font-medium text-gray-900">+91 {phone.phone}</p>
+                  <p className="text-xs text-gray-500">
                     Added by: {phone.addedBy || "System"}
                   </p>
                 </div>
-                <button onClick={() => removePhone(phone.phone)} className="text-red-600 hover:text-red-800 p-1 rounded-full hover:bg-red-50" data-unique-id="9f87a511-41a9-44ee-80a4-bec0e78c22df" data-loc="193:16-193:142" data-file-name="components/admin-phones-manager.tsx">
+                <button onClick={() => removePhone(phone.phone)} className="text-red-600 hover:text-red-800 p-1 rounded-full hover:bg-red-50">
                   <Trash2 className="h-4 w-4" />
                 </button>
               </li>)}
-          </ul> : <div className="text-center py-6 text-gray-500" data-unique-id="805c19ca-b4f2-4a02-8812-9a109fed6e42" data-loc="197:18-197:66" data-file-name="components/admin-phones-manager.tsx">
+          </ul> : <div className="text-center py-6 text-gray-500">
             {isLoading ? "Loading..." : "No admin phone numbers found"}
           </div>}
       </div>
