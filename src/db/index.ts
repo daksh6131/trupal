@@ -57,7 +57,7 @@ if (typeof window === 'undefined') {
       
       // Test the database connection
       console.log("Testing database connection...");
-      const result = await db.select().from(sql`SELECT NOW()`);
+      const result = await db.select({ now: sql`NOW()` });
       console.log("Database connection successful:", result[0]);
     } catch (error) {
       console.error("Failed to initialize database:", error);
