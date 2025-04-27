@@ -3,7 +3,6 @@ import "@/styles/globals.css";
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 import { Toaster } from "react-hot-toast";
-import { AnalyticsTracker, DOMInspector, Branding } from "@/utils/creatr.scripts";
 import { ErrorBoundary } from "@/components/error-boundary";
 import SupabaseInitializer from "@/components/supabase-initializer";
 import { AuthProvider } from "@/contexts/auth-context";
@@ -60,8 +59,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <html lang="en" className={`${GeistSans.variable}`}>
-      <body className="bg-gray-50">
+  return <html lang="en" className={`${GeistSans.variable}`} data-unique-id="23777cff-b57d-4d1b-aa48-c1f0f10c8165" data-loc="62:9-62:61" data-file-name="app/layout.tsx">
+      <body className="bg-gray-50" data-unique-id="7e6f28b3-e0aa-4946-8318-482f1af23c40" data-loc="63:6-63:35" data-file-name="app/layout.tsx">
         <SupabaseInitializer />
         <AuthProvider>
           
