@@ -1,3 +1,5 @@
+'use server';
+
 import { supabase, db } from "@/db";
 import { errorLogs, NewErrorLog } from "@/db/schema";
 import { eq, desc } from "drizzle-orm";

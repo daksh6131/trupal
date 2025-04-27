@@ -1,3 +1,5 @@
+'use server';
+
 import { db, supabase } from "@/db";
 import { 
   agents, 

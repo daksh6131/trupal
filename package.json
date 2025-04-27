@@ -24,6 +24,8 @@
     "crypto-browserify": "^3.12.1",
     "drizzle-orm": "0.41.0-29155cc",
     "error-stack-parser": "^2.1.4",
+    "next-transpile-modules": "^10.0.1",
+    "node-libs-browser": "^2.2.1",
     "stream-browserify": "^3.0.0"
   }
 }
