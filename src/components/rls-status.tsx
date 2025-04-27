@@ -40,10 +40,10 @@ export default function RlsStatus() {
   if (rlsStatus === 'enabled') {
     return null;
   }
-  return <div className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm ${rlsStatus === 'disabled' ? 'bg-red-50 text-red-700' : 'bg-yellow-50 text-yellow-700'}`} data-unique-id="ffb8772e-4367-4679-bb81-150e7276cd32" data-loc="43:9-43:171" data-file-name="components/rls-status.tsx">
+  return <div className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm ${rlsStatus === 'disabled' ? 'bg-red-50 text-red-700' : 'bg-yellow-50 text-yellow-700'}`} data-unique-id="c8936df3-def9-48fe-b2e4-97b01f586aea" data-loc="43:9-43:171" data-file-name="components/rls-status.tsx">
       {rlsStatus === 'disabled' ? <ShieldAlert className="h-4 w-4" /> : <ShieldAlert className="h-4 w-4" />}
       
-      <span data-unique-id="7d40a0e5-8b0e-440f-910f-830f6eb0b7a0" data-loc="46:6-46:12" data-file-name="components/rls-status.tsx">
+      <span data-unique-id="5c3e685e-b22e-4350-a728-e3ce40c477ac" data-loc="46:6-46:12" data-file-name="components/rls-status.tsx">
         {rlsStatus === 'disabled' ? 'Row Level Security is disabled' : 'Unable to verify Row Level Security'}
       </span>
     </div>;

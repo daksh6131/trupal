@@ -61,7 +61,7 @@ export async function logError(options: ErrorLogOptions): Promise<void> {
   }
 }
 
-export function formatErrorForLogging(error: Error | unknown): ErrorLogOptions {
+export async function formatErrorForLogging(error: Error | unknown): Promise<ErrorLogOptions> {
   if (error instanceof Error) {
     return {
       message: error.message,
@@ -133,7 +133,7 @@ export async function getUserContext(): Promise<{
 
 export async function logErrorWithContext(error: Error | unknown): Promise<void> {
   try {
-    const errorInfo = formatErrorForLogging(error);
+    const errorInfo = await formatErrorForLogging(error);
     const browserInfo = await getBrowserInfo();
     const userContext = await getUserContext();
     

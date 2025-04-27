@@ -139,15 +139,15 @@ export default function ErrorsPage() {
         return 'bg-gray-100 text-gray-800';
     }
   };
-  return <div className="min-h-screen bg-gray-50" data-unique-id="0d791fcf-df89-4118-9ba7-2802c9a63bbf" data-loc="142:9-142:50" data-file-name="app/admin/errors/page.tsx">
+  return <div className="min-h-screen bg-gray-50" data-unique-id="6b0db307-5ae9-4997-9b5c-806982797702" data-loc="142:9-142:50" data-file-name="app/admin/errors/page.tsx">
       {/* Header */}
-      <header className="bg-white shadow" data-unique-id="96544028-aef4-4fa1-9621-547b01f23707" data-loc="144:6-144:42" data-file-name="app/admin/errors/page.tsx">
-        <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6" data-unique-id="10cf38c3-afc0-4368-80b7-ab45956a0d1d" data-loc="145:8-145:61" data-file-name="app/admin/errors/page.tsx">
-          <div className="flex items-center" data-unique-id="854a2c44-ff51-4e37-b106-ba844cb57701" data-loc="146:10-146:45" data-file-name="app/admin/errors/page.tsx">
-            <button onClick={() => router.push("/admin")} className="mr-4 p-1 rounded-full hover:bg-gray-100" data-unique-id="e2e5b866-0184-41e8-b8f1-28edbf42b714" data-loc="147:12-147:110" data-file-name="app/admin/errors/page.tsx">
+      <header className="bg-white shadow" data-unique-id="4f19965c-130c-41cc-9ece-41ba3f84fc61" data-loc="144:6-144:42" data-file-name="app/admin/errors/page.tsx">
+        <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6" data-unique-id="5a3397ff-5e4e-4f26-a912-55cf7f627e96" data-loc="145:8-145:61" data-file-name="app/admin/errors/page.tsx">
+          <div className="flex items-center" data-unique-id="a6c5660b-51eb-4dda-b64f-a40fd148bcff" data-loc="146:10-146:45" data-file-name="app/admin/errors/page.tsx">
+            <button onClick={() => router.push("/admin")} className="mr-4 p-1 rounded-full hover:bg-gray-100" data-unique-id="11b33578-d8f9-448f-b051-c7c0782966d1" data-loc="147:12-147:110" data-file-name="app/admin/errors/page.tsx">
               <ArrowLeft className="h-5 w-5 text-gray-600" />
             </button>
-            <h1 className="text-xl font-bold text-gray-900" data-unique-id="5aa57506-c004-42d8-ab51-bde34c3f317a" data-loc="150:12-150:60" data-file-name="app/admin/errors/page.tsx">
+            <h1 className="text-xl font-bold text-gray-900" data-unique-id="912a727a-a5ea-4ed2-9972-51555f91e513" data-loc="150:12-150:60" data-file-name="app/admin/errors/page.tsx">
               Error Logs
             </h1>
           </div>
@@ -155,242 +155,242 @@ export default function ErrorsPage() {
       </header>
       
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-8 sm:px-6" data-unique-id="f171121b-2e05-4079-b579-bd95bc7cb07e" data-loc="158:6-158:60" data-file-name="app/admin/errors/page.tsx">
+      <main className="max-w-7xl mx-auto px-4 py-8 sm:px-6" data-unique-id="e5de44f6-f706-43f0-ac3c-f53e61b9654b" data-loc="158:6-158:60" data-file-name="app/admin/errors/page.tsx">
         {/* Filters and Search */}
-        <div className="mb-6 flex flex-col md:flex-row gap-4" data-unique-id="667a53a1-8180-4d04-beb2-f5a553e1a122" data-loc="160:8-160:62" data-file-name="app/admin/errors/page.tsx">
-          <div className="relative flex-grow" data-unique-id="30b812a3-6429-43d3-ab23-8c69dd678e46" data-loc="161:10-161:46" data-file-name="app/admin/errors/page.tsx">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none" data-unique-id="e5cdf31e-8508-4669-a4aa-4bf1a4dd7b60" data-loc="162:12-162:98" data-file-name="app/admin/errors/page.tsx">
+        <div className="mb-6 flex flex-col md:flex-row gap-4" data-unique-id="59b0e251-ec65-4ac4-b634-46bc9f3ee04d" data-loc="160:8-160:62" data-file-name="app/admin/errors/page.tsx">
+          <div className="relative flex-grow" data-unique-id="346acced-a2a9-4345-8475-bffcf54402bf" data-loc="161:10-161:46" data-file-name="app/admin/errors/page.tsx">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none" data-unique-id="a528af08-ca0d-4516-b30d-10490c1e3f0b" data-loc="162:12-162:98" data-file-name="app/admin/errors/page.tsx">
               <Search className="h-5 w-5 text-gray-400" />
             </div>
             <input type="text" className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Search errors..." value={filter.search || ''} onChange={e => setFilter({
             ...filter,
             search: e.target.value
-          })} data-unique-id="8fad9da0-3f7f-4ed3-a33f-e0ebb53c16f5" data-loc="165:12-168:16" data-file-name="app/admin/errors/page.tsx" />
+          })} data-unique-id="0f39ca11-9363-46b5-949e-7ee9c80ecb6e" data-loc="165:12-168:16" data-file-name="app/admin/errors/page.tsx" />
           </div>
           
-          <div className="flex gap-2" data-unique-id="988b227a-6b2e-4272-92df-bbb6a752f19e" data-loc="171:10-171:38" data-file-name="app/admin/errors/page.tsx">
+          <div className="flex gap-2" data-unique-id="8f63790e-30e9-48e7-a0d2-6ac74d14107d" data-loc="171:10-171:38" data-file-name="app/admin/errors/page.tsx">
             <select className="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md" value={filter.status || ''} onChange={e => setFilter({
             ...filter,
             status: e.target.value || undefined
-          })} data-unique-id="f6d678de-ae8f-4f7e-8571-25706d455a80" data-loc="172:12-175:14" data-file-name="app/admin/errors/page.tsx">
-              <option value="" data-unique-id="0714f2f1-f9d4-450d-9ae6-4cc4c48ab17e" data-loc="176:14-176:31" data-file-name="app/admin/errors/page.tsx">All Statuses</option>
-              <option value="new" data-unique-id="8769864f-f647-45fe-8330-34df4933487e" data-loc="177:14-177:34" data-file-name="app/admin/errors/page.tsx">New</option>
-              <option value="investigating" data-unique-id="9878720a-8899-4c4f-b08e-4c43f245c6e1" data-loc="178:14-178:44" data-file-name="app/admin/errors/page.tsx">Investigating</option>
-              <option value="resolved" data-unique-id="c9ca14a2-c233-4da9-9a9c-650633468722" data-loc="179:14-179:39" data-file-name="app/admin/errors/page.tsx">Resolved</option>
-              <option value="ignored" data-unique-id="f3dd2b72-51af-482b-ae96-389994b6e051" data-loc="180:14-180:38" data-file-name="app/admin/errors/page.tsx">Ignored</option>
+          })} data-unique-id="3b374c83-d51f-4366-92cd-5d10fedb1ab8" data-loc="172:12-175:14" data-file-name="app/admin/errors/page.tsx">
+              <option value="" data-unique-id="de2db267-2f85-4bbb-bbd5-8037b6613b89" data-loc="176:14-176:31" data-file-name="app/admin/errors/page.tsx">All Statuses</option>
+              <option value="new" data-unique-id="6f85bc6c-63fe-4e60-a267-b3cb82b2ec01" data-loc="177:14-177:34" data-file-name="app/admin/errors/page.tsx">New</option>
+              <option value="investigating" data-unique-id="b0c84a92-572f-4953-8d7c-21c5ed956eb7" data-loc="178:14-178:44" data-file-name="app/admin/errors/page.tsx">Investigating</option>
+              <option value="resolved" data-unique-id="306e3eeb-947f-40f5-bcb6-398af51cc149" data-loc="179:14-179:39" data-file-name="app/admin/errors/page.tsx">Resolved</option>
+              <option value="ignored" data-unique-id="60b945a7-c54d-4f19-a17e-c04526e6c7da" data-loc="180:14-180:38" data-file-name="app/admin/errors/page.tsx">Ignored</option>
             </select>
             
             <select className="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md" value={filter.severity || ''} onChange={e => setFilter({
             ...filter,
             severity: e.target.value || undefined
-          })} data-unique-id="fe476f98-23e3-4497-b2bc-7b104e503345" data-loc="183:12-186:14" data-file-name="app/admin/errors/page.tsx">
-              <option value="" data-unique-id="1886f25a-860d-4a04-b134-dbe438382951" data-loc="187:14-187:31" data-file-name="app/admin/errors/page.tsx">All Severities</option>
-              <option value="low" data-unique-id="f997dd7c-815f-4897-9bd0-7e7a9420c334" data-loc="188:14-188:34" data-file-name="app/admin/errors/page.tsx">Low</option>
-              <option value="medium" data-unique-id="5d99d58b-992b-4da1-bd27-9b12082c33be" data-loc="189:14-189:37" data-file-name="app/admin/errors/page.tsx">Medium</option>
-              <option value="high" data-unique-id="d525e805-17ad-4af5-8fa1-0aa4ec29dc0b" data-loc="190:14-190:35" data-file-name="app/admin/errors/page.tsx">High</option>
-              <option value="critical" data-unique-id="663f0352-ce98-4e34-9dba-2f456bbff17c" data-loc="191:14-191:39" data-file-name="app/admin/errors/page.tsx">Critical</option>
+          })} data-unique-id="d81fd44e-eed2-4ed6-9e90-9b40388126a6" data-loc="183:12-186:14" data-file-name="app/admin/errors/page.tsx">
+              <option value="" data-unique-id="e9ac5a59-57da-4e41-b84b-df0716391363" data-loc="187:14-187:31" data-file-name="app/admin/errors/page.tsx">All Severities</option>
+              <option value="low" data-unique-id="b49ef5d6-92a4-4a5d-9b0f-71979e017f60" data-loc="188:14-188:34" data-file-name="app/admin/errors/page.tsx">Low</option>
+              <option value="medium" data-unique-id="b9e008a1-78dc-433d-8f45-da898c4976be" data-loc="189:14-189:37" data-file-name="app/admin/errors/page.tsx">Medium</option>
+              <option value="high" data-unique-id="ca8ee8c3-ec84-4482-9b61-a6980385d684" data-loc="190:14-190:35" data-file-name="app/admin/errors/page.tsx">High</option>
+              <option value="critical" data-unique-id="d41a7424-bbfb-452d-b64d-79c38d4a6d90" data-loc="191:14-191:39" data-file-name="app/admin/errors/page.tsx">Critical</option>
             </select>
             
-            <button onClick={fetchErrors} className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" data-unique-id="acb3ed01-0064-4208-a242-8b7c5a269b0e" data-loc="194:12-194:269" data-file-name="app/admin/errors/page.tsx">
+            <button onClick={fetchErrors} className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" data-unique-id="6c781f50-f014-4cdf-b6fc-d7273bdf0beb" data-loc="194:12-194:269" data-file-name="app/admin/errors/page.tsx">
               <RefreshCw className="h-4 w-4 mr-2" /> Refresh
             </button>
           </div>
         </div>
         
         {/* Error List */}
-        <div className="bg-white shadow overflow-hidden sm:rounded-md" data-unique-id="f828b6bb-7ad2-4eee-a8cc-2919248069a5" data-loc="201:8-201:71" data-file-name="app/admin/errors/page.tsx">
-          {loading ? <div className="text-center py-12" data-unique-id="8e98debb-abcf-44f0-a38e-beadc54dc915" data-loc="202:21-202:56" data-file-name="app/admin/errors/page.tsx">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto" data-unique-id="74fac7d8-5e7c-433a-9382-d66ce690fded" data-loc="203:14-203:113" data-file-name="app/admin/errors/page.tsx"></div>
-              <p className="mt-4 text-gray-600" data-unique-id="084ff9c1-f331-4016-953e-ec5e6e140735" data-loc="204:14-204:48" data-file-name="app/admin/errors/page.tsx">Loading error logs...</p>
-            </div> : filteredErrors.length > 0 ? <ul className="divide-y divide-gray-200" data-unique-id="3d740f86-6df8-40a6-928e-20470d12530a" data-loc="205:49-205:90" data-file-name="app/admin/errors/page.tsx">
-              {filteredErrors.map(error => <li key={error.id} className="px-6 py-4 hover:bg-gray-50" data-unique-id="d608ae70-35f1-45e8-b959-cc4f2000cce1" data-loc="206:43-206:101" data-file-name="app/admin/errors/page.tsx">
-                  <div className="flex items-center justify-between" data-unique-id="102d278f-b228-4318-afa3-0188fea6ad61" data-loc="207:18-207:69" data-file-name="app/admin/errors/page.tsx">
-                    <div className="flex-1 min-w-0" data-unique-id="13a23af3-c1d4-4562-be1a-426c74b0f546" data-loc="208:20-208:52" data-file-name="app/admin/errors/page.tsx">
-                      <div className="flex items-center" data-unique-id="f1115663-4f52-42b7-8cfe-705b5416d29a" data-loc="209:22-209:57" data-file-name="app/admin/errors/page.tsx">
+        <div className="bg-white shadow overflow-hidden sm:rounded-md" data-unique-id="1ba3b8d7-b316-44dd-ab62-003d52d2c385" data-loc="201:8-201:71" data-file-name="app/admin/errors/page.tsx">
+          {loading ? <div className="text-center py-12" data-unique-id="3d0d451a-cd7e-4428-908e-dd610b0923e2" data-loc="202:21-202:56" data-file-name="app/admin/errors/page.tsx">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto" data-unique-id="bca611cb-c14d-41ce-8f42-15aeb5e89787" data-loc="203:14-203:113" data-file-name="app/admin/errors/page.tsx"></div>
+              <p className="mt-4 text-gray-600" data-unique-id="6ecf3488-de1d-449d-bdfc-fb61ce958e28" data-loc="204:14-204:48" data-file-name="app/admin/errors/page.tsx">Loading error logs...</p>
+            </div> : filteredErrors.length > 0 ? <ul className="divide-y divide-gray-200" data-unique-id="d714faf8-d634-4b34-8c39-eb11f914029c" data-loc="205:49-205:90" data-file-name="app/admin/errors/page.tsx">
+              {filteredErrors.map(error => <li key={error.id} className="px-6 py-4 hover:bg-gray-50" data-unique-id="9cbde318-70b9-47aa-9c3a-8b6f44162c0a" data-loc="206:43-206:101" data-file-name="app/admin/errors/page.tsx">
+                  <div className="flex items-center justify-between" data-unique-id="33f0fa70-777f-4007-a22d-e279c08cfdd8" data-loc="207:18-207:69" data-file-name="app/admin/errors/page.tsx">
+                    <div className="flex-1 min-w-0" data-unique-id="137ccd76-f5fa-4762-a0f8-323a72416986" data-loc="208:20-208:52" data-file-name="app/admin/errors/page.tsx">
+                      <div className="flex items-center" data-unique-id="9caa74aa-0cd5-4f08-a5f4-b2721c4e5e30" data-loc="209:22-209:57" data-file-name="app/admin/errors/page.tsx">
                         <AlertTriangle className={`h-5 w-5 mr-2 ${error.severity === 'critical' ? 'text-red-500' : error.severity === 'high' ? 'text-orange-500' : error.severity === 'medium' ? 'text-yellow-500' : 'text-blue-500'}`} />
-                        <p className="text-sm font-medium text-gray-900 truncate" data-unique-id="9718b7fa-8025-4d6e-9a7c-1f7f1260c480" data-loc="211:24-211:82" data-file-name="app/admin/errors/page.tsx">
+                        <p className="text-sm font-medium text-gray-900 truncate" data-unique-id="404d2859-13c6-49bb-9319-1275f024d6e6" data-loc="211:24-211:82" data-file-name="app/admin/errors/page.tsx">
                           {error.message}
                         </p>
                       </div>
-                      <div className="mt-1 flex items-center" data-unique-id="51004156-5616-4598-af52-fadb19d28e02" data-loc="215:22-215:62" data-file-name="app/admin/errors/page.tsx">
-                        <span className="text-xs text-gray-500 mr-2" data-unique-id="1315aeed-8fe0-4cc3-a7dc-60a330c532a7" data-loc="216:24-216:69" data-file-name="app/admin/errors/page.tsx">
+                      <div className="mt-1 flex items-center" data-unique-id="d8e75a79-fe95-4d2a-b4be-fc94a0c71ec8" data-loc="215:22-215:62" data-file-name="app/admin/errors/page.tsx">
+                        <span className="text-xs text-gray-500 mr-2" data-unique-id="9ac5ba80-6cfe-44e8-a32f-fa2f7d6295df" data-loc="216:24-216:69" data-file-name="app/admin/errors/page.tsx">
                           {error.createdAt ? format(new Date(error.createdAt), 'MMM d, yyyy HH:mm:ss') : 'Unknown date'}
                         </span>
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getSeverityColor(error.severity || 'medium')}`} data-unique-id="2dcaea6c-ab2b-46da-b261-4abc3b50bf8a" data-loc="219:24-219:164" data-file-name="app/admin/errors/page.tsx">
+                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getSeverityColor(error.severity || 'medium')}`} data-unique-id="546108b3-c9b0-4569-9796-17e878311edc" data-loc="219:24-219:164" data-file-name="app/admin/errors/page.tsx">
                           {error.severity || 'medium'}
                         </span>
-                        <span className={`ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(error.status || 'new')}`} data-unique-id="13d709b5-98bc-4fc6-bc35-c45a01ebff68" data-loc="222:24-222:162" data-file-name="app/admin/errors/page.tsx">
+                        <span className={`ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(error.status || 'new')}`} data-unique-id="f64aa01e-7052-4f88-a73f-6341a701178e" data-loc="222:24-222:162" data-file-name="app/admin/errors/page.tsx">
                           {error.status || 'new'}
                         </span>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-2" data-unique-id="46df2eea-3ea8-4067-a59b-9a8688bfb497" data-loc="227:20-227:65" data-file-name="app/admin/errors/page.tsx">
-                      <button onClick={() => toggleExpanded(error.id)} className="p-1 rounded-full hover:bg-gray-200" data-unique-id="cee8085f-1075-4fcb-8df3-751ec019ae08" data-loc="228:22-228:118" data-file-name="app/admin/errors/page.tsx">
+                    <div className="flex items-center space-x-2" data-unique-id="2c9f56f9-1cb7-4d72-ac6a-49aa811e78d3" data-loc="227:20-227:65" data-file-name="app/admin/errors/page.tsx">
+                      <button onClick={() => toggleExpanded(error.id)} className="p-1 rounded-full hover:bg-gray-200" data-unique-id="d8e40f18-b74c-4f56-abfa-8064effd693e" data-loc="228:22-228:118" data-file-name="app/admin/errors/page.tsx">
                         {expandedErrors[error.id] ? <ChevronUp className="h-5 w-5 text-gray-500" /> : <ChevronDown className="h-5 w-5 text-gray-500" />}
                       </button>
-                      <button onClick={() => viewErrorDetails(error.id)} className="p-1 rounded-full hover:bg-gray-200" data-unique-id="2b09aabb-80ca-41b1-8572-bcc4474123b0" data-loc="231:22-231:120" data-file-name="app/admin/errors/page.tsx">
+                      <button onClick={() => viewErrorDetails(error.id)} className="p-1 rounded-full hover:bg-gray-200" data-unique-id="1fb4c2bd-2e9b-4a73-a722-3aa0745c25b7" data-loc="231:22-231:120" data-file-name="app/admin/errors/page.tsx">
                         <Eye className="h-5 w-5 text-gray-500" />
                       </button>
                     </div>
                   </div>
                   
                   {/* Expanded details */}
-                  {expandedErrors[error.id] && <div className="mt-3 pl-7 text-sm" data-unique-id="5aff1979-89ea-4f01-b7d9-a4b5121992b1" data-loc="238:47-238:82" data-file-name="app/admin/errors/page.tsx">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2" data-unique-id="af85a9bb-11d1-4fa0-8a94-ab348e089988" data-loc="239:22-239:77" data-file-name="app/admin/errors/page.tsx">
-                        <div data-unique-id="a41e5b92-37f1-48e9-a8b1-1def53aad989" data-loc="240:24-240:29" data-file-name="app/admin/errors/page.tsx">
-                          <p className="text-gray-500" data-unique-id="8f983791-b77d-4dbd-b956-a46feaf00fa2" data-loc="241:26-241:55" data-file-name="app/admin/errors/page.tsx">Type: <span className="text-gray-700" data-unique-id="b61f25bc-3201-4014-8a43-bb9b7ba688a0" data-loc="241:61-241:93" data-file-name="app/admin/errors/page.tsx">{error.type || 'Unknown'}</span></p>
-                          <p className="text-gray-500" data-unique-id="2e51ff8a-5af0-4cc0-b972-66c7ecd5aef7" data-loc="242:26-242:55" data-file-name="app/admin/errors/page.tsx">URL: <span className="text-gray-700" data-unique-id="57b2819f-a5f7-4b2f-bda7-e25a89fa8d2f" data-loc="242:60-242:92" data-file-name="app/admin/errors/page.tsx">{error.url || 'N/A'}</span></p>
-                          <p className="text-gray-500" data-unique-id="119c316c-c29a-44ad-9c03-5c59c552a394" data-loc="243:26-243:55" data-file-name="app/admin/errors/page.tsx">User: <span className="text-gray-700" data-unique-id="2174b113-48fb-4911-bf08-36d74f6ac092" data-loc="243:61-243:93" data-file-name="app/admin/errors/page.tsx">{error.userId || 'Anonymous'}</span></p>
-                          <p className="text-gray-500" data-unique-id="ffe6a02e-e1fb-4daf-8ed7-64d44f185c7b" data-loc="244:26-244:55" data-file-name="app/admin/errors/page.tsx">Role: <span className="text-gray-700" data-unique-id="8a16d4af-b371-4f43-8517-a911d9ada9ac" data-loc="244:61-244:93" data-file-name="app/admin/errors/page.tsx">{error.userRole || 'N/A'}</span></p>
+                  {expandedErrors[error.id] && <div className="mt-3 pl-7 text-sm" data-unique-id="0e7194bf-5c3a-4a41-84c6-d948bccf4288" data-loc="238:47-238:82" data-file-name="app/admin/errors/page.tsx">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2" data-unique-id="10cfc54a-ecd7-467f-90f3-7508f80e2675" data-loc="239:22-239:77" data-file-name="app/admin/errors/page.tsx">
+                        <div data-unique-id="8fa59258-4d32-4473-8b6a-e7b6fdcff387" data-loc="240:24-240:29" data-file-name="app/admin/errors/page.tsx">
+                          <p className="text-gray-500" data-unique-id="46f9700b-aaed-4c86-a5f3-193acec6de7b" data-loc="241:26-241:55" data-file-name="app/admin/errors/page.tsx">Type: <span className="text-gray-700" data-unique-id="dcedfe44-0e04-4730-ac24-f6201cde0cd4" data-loc="241:61-241:93" data-file-name="app/admin/errors/page.tsx">{error.type || 'Unknown'}</span></p>
+                          <p className="text-gray-500" data-unique-id="afed929a-96b5-4877-8dfd-de488cdc019c" data-loc="242:26-242:55" data-file-name="app/admin/errors/page.tsx">URL: <span className="text-gray-700" data-unique-id="a6bd16fc-33db-48b4-9bbc-9c704b765a71" data-loc="242:60-242:92" data-file-name="app/admin/errors/page.tsx">{error.url || 'N/A'}</span></p>
+                          <p className="text-gray-500" data-unique-id="3bcc6f11-c7b6-40c5-bf1e-b336cca48282" data-loc="243:26-243:55" data-file-name="app/admin/errors/page.tsx">User: <span className="text-gray-700" data-unique-id="ad121b32-1a49-4b1d-a602-797158d456e7" data-loc="243:61-243:93" data-file-name="app/admin/errors/page.tsx">{error.userId || 'Anonymous'}</span></p>
+                          <p className="text-gray-500" data-unique-id="3c494dc8-379c-4c7d-bcab-56c22f67fdc3" data-loc="244:26-244:55" data-file-name="app/admin/errors/page.tsx">Role: <span className="text-gray-700" data-unique-id="3d7b532d-a359-41ab-abb6-a37b22706a31" data-loc="244:61-244:93" data-file-name="app/admin/errors/page.tsx">{error.userRole || 'N/A'}</span></p>
                         </div>
-                        <div data-unique-id="36713583-0056-44cf-86cc-a97fe56ece95" data-loc="246:24-246:29" data-file-name="app/admin/errors/page.tsx">
-                          <p className="text-gray-500" data-unique-id="16c495d2-5794-458c-aede-d02a267b58a6" data-loc="247:26-247:55" data-file-name="app/admin/errors/page.tsx">User Agent: <span className="text-gray-700 truncate block" data-unique-id="83b05713-c9c2-43ed-8cf6-52ad31cbe5e0" data-loc="247:67-247:114" data-file-name="app/admin/errors/page.tsx">{error.userAgent || 'N/A'}</span></p>
-                          {error.resolvedAt && <p className="text-gray-500" data-unique-id="12c37a2f-1c8b-4fe0-ae6d-a15e71792f73" data-loc="248:47-248:76" data-file-name="app/admin/errors/page.tsx">
-                              Resolved: <span className="text-gray-700" data-unique-id="96aa1a8e-b734-4829-a6c8-a831ecd6be7b" data-loc="249:40-249:72" data-file-name="app/admin/errors/page.tsx">
+                        <div data-unique-id="fa6e4850-d60f-4ef9-a90e-67a3a93a8439" data-loc="246:24-246:29" data-file-name="app/admin/errors/page.tsx">
+                          <p className="text-gray-500" data-unique-id="6162f4e4-3029-4ac9-ae0d-cc9dcf37026f" data-loc="247:26-247:55" data-file-name="app/admin/errors/page.tsx">User Agent: <span className="text-gray-700 truncate block" data-unique-id="4a85448b-2469-4531-bd8d-cb4666d229cb" data-loc="247:67-247:114" data-file-name="app/admin/errors/page.tsx">{error.userAgent || 'N/A'}</span></p>
+                          {error.resolvedAt && <p className="text-gray-500" data-unique-id="3cf12176-a810-4cd3-b9ca-ee8e2b3c0921" data-loc="248:47-248:76" data-file-name="app/admin/errors/page.tsx">
+                              Resolved: <span className="text-gray-700" data-unique-id="d2967326-ba02-4308-82f5-d91fb0ddbf0e" data-loc="249:40-249:72" data-file-name="app/admin/errors/page.tsx">
                                 {format(new Date(error.resolvedAt), 'MMM d, yyyy HH:mm:ss')}
                               </span>
-                              {error.resolvedBy && <span className="text-gray-700" data-unique-id="5e180e2e-70a3-4113-9b8a-21fd35abd2a6" data-loc="252:51-252:83" data-file-name="app/admin/errors/page.tsx"> by {error.resolvedBy}</span>}
+                              {error.resolvedBy && <span className="text-gray-700" data-unique-id="1c872c5c-3e6b-4bdf-8232-94946ac87f78" data-loc="252:51-252:83" data-file-name="app/admin/errors/page.tsx"> by {error.resolvedBy}</span>}
                             </p>}
                         </div>
                       </div>
                       
                       {/* Stack trace */}
-                      {error.stack && <div className="mt-2" data-unique-id="dfbe7787-b10a-49e1-aa59-8f12237d5565" data-loc="258:38-258:60" data-file-name="app/admin/errors/page.tsx">
-                          <p className="text-gray-500 mb-1" data-unique-id="62ad1f89-b1d5-4861-92c2-388accf960e4" data-loc="259:26-259:60" data-file-name="app/admin/errors/page.tsx">Stack Trace:</p>
-                          <pre className="bg-gray-100 p-2 rounded text-xs overflow-x-auto max-h-40" data-unique-id="8b4ec89d-6d13-4397-8203-6c443c6b23c1" data-loc="260:26-260:100" data-file-name="app/admin/errors/page.tsx">
+                      {error.stack && <div className="mt-2" data-unique-id="218afca0-4f7f-409d-aca6-e0f344302acb" data-loc="258:38-258:60" data-file-name="app/admin/errors/page.tsx">
+                          <p className="text-gray-500 mb-1" data-unique-id="7434b254-1c88-4708-9c42-b91ac74b5d5d" data-loc="259:26-259:60" data-file-name="app/admin/errors/page.tsx">Stack Trace:</p>
+                          <pre className="bg-gray-100 p-2 rounded text-xs overflow-x-auto max-h-40" data-unique-id="afb72bdd-6112-4da4-b308-daf73fb9bc5f" data-loc="260:26-260:100" data-file-name="app/admin/errors/page.tsx">
                             {error.stack}
                           </pre>
                         </div>}
                       
                       {/* Action buttons */}
-                      <div className="mt-3 flex space-x-2" data-unique-id="ad0fccc0-6a42-434a-be63-f605bfa091b1" data-loc="266:22-266:59" data-file-name="app/admin/errors/page.tsx">
-                        {error.status !== 'investigating' && <button onClick={() => updateErrorStatus(error.id, 'investigating')} className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-purple-700 bg-purple-100 hover:bg-purple-200" data-unique-id="f2da05af-41cc-467d-8dd5-2f8d25868654" data-loc="267:61-267:285" data-file-name="app/admin/errors/page.tsx">
+                      <div className="mt-3 flex space-x-2" data-unique-id="6db40719-b7cd-41c0-8220-bf9ba9ad852c" data-loc="266:22-266:59" data-file-name="app/admin/errors/page.tsx">
+                        {error.status !== 'investigating' && <button onClick={() => updateErrorStatus(error.id, 'investigating')} className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-purple-700 bg-purple-100 hover:bg-purple-200" data-unique-id="af024b65-da51-45a3-97e8-300a9b82e777" data-loc="267:61-267:285" data-file-name="app/admin/errors/page.tsx">
                             <Clock className="h-3 w-3 mr-1" /> Investigating
                           </button>}
                         
-                        {error.status !== 'resolved' && <button onClick={() => updateErrorStatus(error.id, 'resolved')} className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-green-700 bg-green-100 hover:bg-green-200" data-unique-id="92568b76-4d89-4c8a-b1dd-c72287e2e9b4" data-loc="271:56-271:272" data-file-name="app/admin/errors/page.tsx">
+                        {error.status !== 'resolved' && <button onClick={() => updateErrorStatus(error.id, 'resolved')} className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-green-700 bg-green-100 hover:bg-green-200" data-unique-id="1ddd3098-077c-4785-8a2e-e9c60751ff35" data-loc="271:56-271:272" data-file-name="app/admin/errors/page.tsx">
                             <CheckCircle className="h-3 w-3 mr-1" /> Resolve
                           </button>}
                         
-                        {error.status !== 'ignored' && <button onClick={() => updateErrorStatus(error.id, 'ignored')} className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-gray-700 bg-gray-100 hover:bg-gray-200" data-unique-id="19bb0ba0-d352-458d-8664-59b50ae065ee" data-loc="275:55-275:267" data-file-name="app/admin/errors/page.tsx">
+                        {error.status !== 'ignored' && <button onClick={() => updateErrorStatus(error.id, 'ignored')} className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-gray-700 bg-gray-100 hover:bg-gray-200" data-unique-id="43686a31-73fb-49e3-9d9b-cc07e161259d" data-loc="275:55-275:267" data-file-name="app/admin/errors/page.tsx">
                             <XCircle className="h-3 w-3 mr-1" /> Ignore
                           </button>}
                       </div>
                     </div>}
                 </li>)}
-            </ul> : <div className="text-center py-12" data-unique-id="2deaeae2-906a-4a31-8781-aa8c91f3499d" data-loc="281:20-281:55" data-file-name="app/admin/errors/page.tsx">
-              <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-gray-100" data-unique-id="1623ac78-310c-4d13-8099-166573764f74" data-loc="282:14-282:107" data-file-name="app/admin/errors/page.tsx">
+            </ul> : <div className="text-center py-12" data-unique-id="289013c6-89c9-4792-ac69-1e7462a47b3d" data-loc="281:20-281:55" data-file-name="app/admin/errors/page.tsx">
+              <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-gray-100" data-unique-id="09a4d7b7-cc5b-472c-beb2-3828cca6d9ed" data-loc="282:14-282:107" data-file-name="app/admin/errors/page.tsx">
                 <CheckCircle className="h-6 w-6 text-gray-600" />
               </div>
-              <h3 className="mt-2 text-sm font-medium text-gray-900" data-unique-id="069f5758-7ad0-4b42-8739-19ef166673a2" data-loc="285:14-285:69" data-file-name="app/admin/errors/page.tsx">No errors found</h3>
-              <p className="mt-1 text-sm text-gray-500" data-unique-id="27215a4a-f685-40e5-8579-7a71bfc1e767" data-loc="286:14-286:56" data-file-name="app/admin/errors/page.tsx">
+              <h3 className="mt-2 text-sm font-medium text-gray-900" data-unique-id="794fd99d-5ca0-4213-854c-c6a8dc694f5f" data-loc="285:14-285:69" data-file-name="app/admin/errors/page.tsx">No errors found</h3>
+              <p className="mt-1 text-sm text-gray-500" data-unique-id="f15d7666-47f7-4fe9-9ccc-065803e85611" data-loc="286:14-286:56" data-file-name="app/admin/errors/page.tsx">
                 {filter.search || filter.status || filter.severity ? 'Try changing your search filters' : 'No errors have been logged yet'}
               </p>
             </div>}
         </div>
         
         {/* Error Detail Modal */}
-        {selectedError && <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" data-unique-id="b2583df4-6cfc-46b0-8375-5834014ff37d" data-loc="293:26-293:118" data-file-name="app/admin/errors/page.tsx">
-            <div className="bg-white rounded-lg p-6 max-w-2xl w-full max-h-screen overflow-y-auto" data-unique-id="5ce7b60f-fdd1-4e19-967b-09f698bc6e1c" data-loc="294:12-294:99" data-file-name="app/admin/errors/page.tsx">
-              <div className="flex justify-between items-center mb-4" data-unique-id="055cfeb1-d1c2-43ca-890f-87495031f413" data-loc="295:14-295:70" data-file-name="app/admin/errors/page.tsx">
-                <h3 className="text-lg font-medium text-gray-900" data-unique-id="674616aa-988a-4369-a8bb-89c4d3842357" data-loc="296:16-296:66" data-file-name="app/admin/errors/page.tsx">Error Details</h3>
-                <button onClick={() => setSelectedError(null)} className="text-gray-400 hover:text-gray-500" data-unique-id="3ea9c88f-b8e4-4ac5-bc4f-711f6309768c" data-loc="297:16-297:109" data-file-name="app/admin/errors/page.tsx">
+        {selectedError && <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" data-unique-id="41493789-5880-43c7-a0ff-6187e793ab76" data-loc="293:26-293:118" data-file-name="app/admin/errors/page.tsx">
+            <div className="bg-white rounded-lg p-6 max-w-2xl w-full max-h-screen overflow-y-auto" data-unique-id="4d515654-bdc4-4631-98b6-692ed5bb2a76" data-loc="294:12-294:99" data-file-name="app/admin/errors/page.tsx">
+              <div className="flex justify-between items-center mb-4" data-unique-id="6c309a6b-07d3-451d-aa47-73f428048ad6" data-loc="295:14-295:70" data-file-name="app/admin/errors/page.tsx">
+                <h3 className="text-lg font-medium text-gray-900" data-unique-id="e5584fff-e971-4889-bc3b-6a9e7a64df6b" data-loc="296:16-296:66" data-file-name="app/admin/errors/page.tsx">Error Details</h3>
+                <button onClick={() => setSelectedError(null)} className="text-gray-400 hover:text-gray-500" data-unique-id="eee7cebe-4e9b-4fd3-b31a-0ac4312aa8e7" data-loc="297:16-297:109" data-file-name="app/admin/errors/page.tsx">
                   <XCircle className="h-5 w-5" />
                 </button>
               </div>
               
-              <div className="space-y-4" data-unique-id="0bc8ad50-8945-4fbb-9587-f44b68681cfd" data-loc="302:14-302:41" data-file-name="app/admin/errors/page.tsx">
-                <div data-unique-id="ca01f8e7-afd7-43f7-b504-26be2f77d726" data-loc="303:16-303:21" data-file-name="app/admin/errors/page.tsx">
-                  <h4 className="text-sm font-medium text-gray-500" data-unique-id="b36debd5-bdb3-4583-8568-2eef73fb3f77" data-loc="304:18-304:68" data-file-name="app/admin/errors/page.tsx">Message</h4>
-                  <p className="mt-1 text-sm text-gray-900" data-unique-id="b7cf00a5-f7fb-4228-96a0-bff8a12b18c9" data-loc="305:18-305:60" data-file-name="app/admin/errors/page.tsx">{selectedError.message}</p>
+              <div className="space-y-4" data-unique-id="115272ac-3458-49f6-879c-a851b2bd4791" data-loc="302:14-302:41" data-file-name="app/admin/errors/page.tsx">
+                <div data-unique-id="48fa4e50-c2b4-43e9-a8e3-84dc2ed9e56d" data-loc="303:16-303:21" data-file-name="app/admin/errors/page.tsx">
+                  <h4 className="text-sm font-medium text-gray-500" data-unique-id="b455642c-c996-4f39-a4a8-b56b73b7cf7f" data-loc="304:18-304:68" data-file-name="app/admin/errors/page.tsx">Message</h4>
+                  <p className="mt-1 text-sm text-gray-900" data-unique-id="64102928-b6b6-4d75-a9f6-ffae66a857a7" data-loc="305:18-305:60" data-file-name="app/admin/errors/page.tsx">{selectedError.message}</p>
                 </div>
                 
-                <div className="grid grid-cols-2 gap-4" data-unique-id="bdded9ad-197a-4bcc-b495-addb601cc861" data-loc="308:16-308:56" data-file-name="app/admin/errors/page.tsx">
-                  <div data-unique-id="ab08296f-33e9-45dd-9c33-a7541eec8933" data-loc="309:18-309:23" data-file-name="app/admin/errors/page.tsx">
-                    <h4 className="text-sm font-medium text-gray-500" data-unique-id="f7be1c91-866b-442f-98e8-6ce94cb010a4" data-loc="310:20-310:70" data-file-name="app/admin/errors/page.tsx">Type</h4>
-                    <p className="mt-1 text-sm text-gray-900" data-unique-id="6550e008-44f6-48bc-a784-071c1dcef29c" data-loc="311:20-311:62" data-file-name="app/admin/errors/page.tsx">{selectedError.type || 'Unknown'}</p>
+                <div className="grid grid-cols-2 gap-4" data-unique-id="d0fa2463-b009-49d9-b50c-c2877ed897f0" data-loc="308:16-308:56" data-file-name="app/admin/errors/page.tsx">
+                  <div data-unique-id="38e9be4d-d333-4603-a105-2cb195797a01" data-loc="309:18-309:23" data-file-name="app/admin/errors/page.tsx">
+                    <h4 className="text-sm font-medium text-gray-500" data-unique-id="ffd33827-a119-4174-bf2e-4a7e416f8e6f" data-loc="310:20-310:70" data-file-name="app/admin/errors/page.tsx">Type</h4>
+                    <p className="mt-1 text-sm text-gray-900" data-unique-id="0056f539-c123-41f5-928b-ebaa2503140e" data-loc="311:20-311:62" data-file-name="app/admin/errors/page.tsx">{selectedError.type || 'Unknown'}</p>
                   </div>
-                  <div data-unique-id="8d51a141-db68-4a8b-8dbd-fda535abec06" data-loc="313:18-313:23" data-file-name="app/admin/errors/page.tsx">
-                    <h4 className="text-sm font-medium text-gray-500" data-unique-id="a6995856-a7ae-4a67-bf06-262478c053ec" data-loc="314:20-314:70" data-file-name="app/admin/errors/page.tsx">Severity</h4>
-                    <p className="mt-1" data-unique-id="482b4f32-52cd-4ded-8d61-33e75c4b2dd9" data-loc="315:20-315:40" data-file-name="app/admin/errors/page.tsx">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getSeverityColor(selectedError.severity || 'medium')}`} data-unique-id="2abf206b-afea-4a18-b09f-701bab76fccf" data-loc="316:22-316:170" data-file-name="app/admin/errors/page.tsx">
+                  <div data-unique-id="746492fb-fc5b-476b-9295-fbdd6a5456b9" data-loc="313:18-313:23" data-file-name="app/admin/errors/page.tsx">
+                    <h4 className="text-sm font-medium text-gray-500" data-unique-id="9da3ca78-7497-4fca-a47e-a61a8ea236f8" data-loc="314:20-314:70" data-file-name="app/admin/errors/page.tsx">Severity</h4>
+                    <p className="mt-1" data-unique-id="21b6fcbf-1d3c-4dd6-a98a-acc622cc368d" data-loc="315:20-315:40" data-file-name="app/admin/errors/page.tsx">
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getSeverityColor(selectedError.severity || 'medium')}`} data-unique-id="34e4bc1d-c4c8-4843-9787-064e4e5cb0a9" data-loc="316:22-316:170" data-file-name="app/admin/errors/page.tsx">
                         {selectedError.severity || 'medium'}
                       </span>
                     </p>
                   </div>
-                  <div data-unique-id="da096796-49ab-49c1-a592-c1ea2392e670" data-loc="321:18-321:23" data-file-name="app/admin/errors/page.tsx">
-                    <h4 className="text-sm font-medium text-gray-500" data-unique-id="cb7d7b27-26ac-4b1f-be83-feb5a13f65e3" data-loc="322:20-322:70" data-file-name="app/admin/errors/page.tsx">Status</h4>
-                    <p className="mt-1" data-unique-id="704f0abe-3ea7-433d-b79a-c5f0c357ce7d" data-loc="323:20-323:40" data-file-name="app/admin/errors/page.tsx">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(selectedError.status || 'new')}`} data-unique-id="4ad2fe20-c977-4498-9997-dbd0909b97f0" data-loc="324:22-324:163" data-file-name="app/admin/errors/page.tsx">
+                  <div data-unique-id="fda1a15a-da6f-4066-ba7e-50a7bec30e68" data-loc="321:18-321:23" data-file-name="app/admin/errors/page.tsx">
+                    <h4 className="text-sm font-medium text-gray-500" data-unique-id="e64d6ad5-3d70-4c5e-94b4-449c155b4daf" data-loc="322:20-322:70" data-file-name="app/admin/errors/page.tsx">Status</h4>
+                    <p className="mt-1" data-unique-id="60471ec7-f222-4bf3-a8bb-3ba3e4ddf3f2" data-loc="323:20-323:40" data-file-name="app/admin/errors/page.tsx">
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(selectedError.status || 'new')}`} data-unique-id="79cebeac-64c3-4b5c-8295-9d2b3f4e95b8" data-loc="324:22-324:163" data-file-name="app/admin/errors/page.tsx">
                         {selectedError.status || 'new'}
                       </span>
                     </p>
                   </div>
-                  <div data-unique-id="5e680e18-be23-4a7f-b0eb-a8e92dcc6240" data-loc="329:18-329:23" data-file-name="app/admin/errors/page.tsx">
-                    <h4 className="text-sm font-medium text-gray-500" data-unique-id="60914bff-1c9f-49b0-b599-abb8e5f9ea30" data-loc="330:20-330:70" data-file-name="app/admin/errors/page.tsx">Timestamp</h4>
-                    <p className="mt-1 text-sm text-gray-900" data-unique-id="aaed49e6-6871-40c7-aefc-219248d7daf3" data-loc="331:20-331:62" data-file-name="app/admin/errors/page.tsx">
+                  <div data-unique-id="1d1a32cc-1329-4343-99db-2e01e0d37959" data-loc="329:18-329:23" data-file-name="app/admin/errors/page.tsx">
+                    <h4 className="text-sm font-medium text-gray-500" data-unique-id="b2f38380-284c-4066-89cc-c1454bfc10b6" data-loc="330:20-330:70" data-file-name="app/admin/errors/page.tsx">Timestamp</h4>
+                    <p className="mt-1 text-sm text-gray-900" data-unique-id="d6808be0-8285-467d-aa80-85663ea32fda" data-loc="331:20-331:62" data-file-name="app/admin/errors/page.tsx">
                       {selectedError.createdAt ? format(new Date(selectedError.createdAt), 'MMM d, yyyy HH:mm:ss') : 'Unknown'}
                     </p>
                   </div>
                 </div>
                 
-                <div data-unique-id="eeba37fd-eb32-4a26-a604-da343ab3d9ca" data-loc="337:16-337:21" data-file-name="app/admin/errors/page.tsx">
-                  <h4 className="text-sm font-medium text-gray-500" data-unique-id="c45ec1d1-c67c-403e-9c34-d2ae3fd6fd38" data-loc="338:18-338:68" data-file-name="app/admin/errors/page.tsx">URL</h4>
-                  <p className="mt-1 text-sm text-gray-900 break-all" data-unique-id="8af42a87-71f1-4e9d-9336-bee1a4af5182" data-loc="339:18-339:70" data-file-name="app/admin/errors/page.tsx">{selectedError.url || 'N/A'}</p>
+                <div data-unique-id="49f43d79-cd05-4965-ac66-4c7ec06a079d" data-loc="337:16-337:21" data-file-name="app/admin/errors/page.tsx">
+                  <h4 className="text-sm font-medium text-gray-500" data-unique-id="ce38d518-54ed-455f-b757-9626a3c4f4a6" data-loc="338:18-338:68" data-file-name="app/admin/errors/page.tsx">URL</h4>
+                  <p className="mt-1 text-sm text-gray-900 break-all" data-unique-id="b573bdae-32de-45d4-8fbf-445680b960be" data-loc="339:18-339:70" data-file-name="app/admin/errors/page.tsx">{selectedError.url || 'N/A'}</p>
                 </div>
                 
-                <div className="grid grid-cols-2 gap-4" data-unique-id="688f7871-aac5-4007-8ca2-a1a99032f805" data-loc="342:16-342:56" data-file-name="app/admin/errors/page.tsx">
-                  <div data-unique-id="8de3617b-ef5c-478e-b363-e071f87d7a04" data-loc="343:18-343:23" data-file-name="app/admin/errors/page.tsx">
-                    <h4 className="text-sm font-medium text-gray-500" data-unique-id="ef752499-5fe4-4c54-95dd-2c87d91b2dd2" data-loc="344:20-344:70" data-file-name="app/admin/errors/page.tsx">User ID</h4>
-                    <p className="mt-1 text-sm text-gray-900" data-unique-id="57c556e1-c740-4d59-90c7-8742e17692db" data-loc="345:20-345:62" data-file-name="app/admin/errors/page.tsx">{selectedError.userId || 'Anonymous'}</p>
+                <div className="grid grid-cols-2 gap-4" data-unique-id="3c18f1c9-8604-43a2-a576-f23302ef18b3" data-loc="342:16-342:56" data-file-name="app/admin/errors/page.tsx">
+                  <div data-unique-id="b82b9963-46db-4ebd-b1e4-954b1e617795" data-loc="343:18-343:23" data-file-name="app/admin/errors/page.tsx">
+                    <h4 className="text-sm font-medium text-gray-500" data-unique-id="88b73ac0-a7df-4bda-9035-65f6ba927a81" data-loc="344:20-344:70" data-file-name="app/admin/errors/page.tsx">User ID</h4>
+                    <p className="mt-1 text-sm text-gray-900" data-unique-id="ec284ddb-b3ca-4c51-8387-b12d6b144ee0" data-loc="345:20-345:62" data-file-name="app/admin/errors/page.tsx">{selectedError.userId || 'Anonymous'}</p>
                   </div>
-                  <div data-unique-id="7f64c86d-c99f-4f72-94f9-80dc36209f4c" data-loc="347:18-347:23" data-file-name="app/admin/errors/page.tsx">
-                    <h4 className="text-sm font-medium text-gray-500" data-unique-id="09b802cd-bcb5-44ab-bcd1-4b3164e10567" data-loc="348:20-348:70" data-file-name="app/admin/errors/page.tsx">User Role</h4>
-                    <p className="mt-1 text-sm text-gray-900" data-unique-id="4a9e8e56-ccf0-4195-9ba6-9abc667cda5f" data-loc="349:20-349:62" data-file-name="app/admin/errors/page.tsx">{selectedError.userRole || 'N/A'}</p>
+                  <div data-unique-id="12b8aca2-fd53-4db5-86de-ed0ec4a6433c" data-loc="347:18-347:23" data-file-name="app/admin/errors/page.tsx">
+                    <h4 className="text-sm font-medium text-gray-500" data-unique-id="2a80e451-5e72-4598-99e5-ce9ac1814909" data-loc="348:20-348:70" data-file-name="app/admin/errors/page.tsx">User Role</h4>
+                    <p className="mt-1 text-sm text-gray-900" data-unique-id="c4502d53-9027-43a7-8391-d919e10eb3d3" data-loc="349:20-349:62" data-file-name="app/admin/errors/page.tsx">{selectedError.userRole || 'N/A'}</p>
                   </div>
                 </div>
                 
-                <div data-unique-id="f24b474d-8896-40da-87a0-60544495ca50" data-loc="353:16-353:21" data-file-name="app/admin/errors/page.tsx">
-                  <h4 className="text-sm font-medium text-gray-500" data-unique-id="9888d522-c72b-4705-b813-fba0de477a1e" data-loc="354:18-354:68" data-file-name="app/admin/errors/page.tsx">User Agent</h4>
-                  <p className="mt-1 text-sm text-gray-900 break-all" data-unique-id="ae96f7d9-1f9d-4534-8607-d08c17d56f70" data-loc="355:18-355:70" data-file-name="app/admin/errors/page.tsx">{selectedError.userAgent || 'N/A'}</p>
+                <div data-unique-id="1c005e7d-28d4-44e8-baf7-45c4af776d0b" data-loc="353:16-353:21" data-file-name="app/admin/errors/page.tsx">
+                  <h4 className="text-sm font-medium text-gray-500" data-unique-id="c0af4c9a-38cf-467a-80b2-7fbede7a52a0" data-loc="354:18-354:68" data-file-name="app/admin/errors/page.tsx">User Agent</h4>
+                  <p className="mt-1 text-sm text-gray-900 break-all" data-unique-id="9e1bc979-6514-40bb-a330-5c86f917799a" data-loc="355:18-355:70" data-file-name="app/admin/errors/page.tsx">{selectedError.userAgent || 'N/A'}</p>
                 </div>
                 
-                {selectedError.resolvedAt && <div className="grid grid-cols-2 gap-4" data-unique-id="965cbd52-3cc8-45a0-9c54-953bc3ff7693" data-loc="358:45-358:85" data-file-name="app/admin/errors/page.tsx">
-                    <div data-unique-id="e2958d31-b607-4315-a78d-60a0bec02174" data-loc="359:20-359:25" data-file-name="app/admin/errors/page.tsx">
-                      <h4 className="text-sm font-medium text-gray-500" data-unique-id="2e794e53-0fab-4f37-88ac-31cea274c35a" data-loc="360:22-360:72" data-file-name="app/admin/errors/page.tsx">Resolved At</h4>
-                      <p className="mt-1 text-sm text-gray-900" data-unique-id="f1c0430f-6f4b-43f8-bf8c-ddae51367f92" data-loc="361:22-361:64" data-file-name="app/admin/errors/page.tsx">
+                {selectedError.resolvedAt && <div className="grid grid-cols-2 gap-4" data-unique-id="a188a1e5-e31c-429e-afa7-079e61fc7c77" data-loc="358:45-358:85" data-file-name="app/admin/errors/page.tsx">
+                    <div data-unique-id="b768b530-7880-4047-8294-ef9067a792a2" data-loc="359:20-359:25" data-file-name="app/admin/errors/page.tsx">
+                      <h4 className="text-sm font-medium text-gray-500" data-unique-id="3ec02813-8ae0-4ae2-b42e-b66e7b61cda3" data-loc="360:22-360:72" data-file-name="app/admin/errors/page.tsx">Resolved At</h4>
+                      <p className="mt-1 text-sm text-gray-900" data-unique-id="0f6a3e25-9ce8-472e-b03b-3c91ad0df798" data-loc="361:22-361:64" data-file-name="app/admin/errors/page.tsx">
                         {format(new Date(selectedError.resolvedAt), 'MMM d, yyyy HH:mm:ss')}
                       </p>
                     </div>
-                    <div data-unique-id="dca3f27c-e2c4-4c2b-8dcd-0e8cc2a3ac3d" data-loc="365:20-365:25" data-file-name="app/admin/errors/page.tsx">
-                      <h4 className="text-sm font-medium text-gray-500" data-unique-id="f07d14db-a54a-4865-93dc-086cd4b93326" data-loc="366:22-366:72" data-file-name="app/admin/errors/page.tsx">Resolved By</h4>
-                      <p className="mt-1 text-sm text-gray-900" data-unique-id="6001ee67-b406-4cfc-b1b9-74b38fa81342" data-loc="367:22-367:64" data-file-name="app/admin/errors/page.tsx">{selectedError.resolvedBy || 'N/A'}</p>
+                    <div data-unique-id="35d9c2e9-3e42-465a-9117-3a78c50844f4" data-loc="365:20-365:25" data-file-name="app/admin/errors/page.tsx">
+                      <h4 className="text-sm font-medium text-gray-500" data-unique-id="7238f1c8-090c-49c1-a492-9781f8ee42ff" data-loc="366:22-366:72" data-file-name="app/admin/errors/page.tsx">Resolved By</h4>
+                      <p className="mt-1 text-sm text-gray-900" data-unique-id="7f9408e6-df09-4be4-baf9-029cb58ad3dc" data-loc="367:22-367:64" data-file-name="app/admin/errors/page.tsx">{selectedError.resolvedBy || 'N/A'}</p>
                     </div>
                   </div>}
                 
-                {selectedError.metadata && <div data-unique-id="0320bf55-9ab6-47f9-a2b9-c14fffe628ff" data-loc="371:43-371:48" data-file-name="app/admin/errors/page.tsx">
-                    <h4 className="text-sm font-medium text-gray-500" data-unique-id="18c07795-4186-4da3-aca3-6333cbb1bb30" data-loc="372:20-372:70" data-file-name="app/admin/errors/page.tsx">Metadata</h4>
-                    <pre className="mt-1 bg-gray-100 p-2 rounded text-xs overflow-x-auto max-h-40" data-unique-id="ff9ee65d-caf8-405a-a802-7214ae816bcc" data-loc="373:20-373:99" data-file-name="app/admin/errors/page.tsx">
+                {selectedError.metadata && <div data-unique-id="f44ed015-3576-4e89-8f57-896ca2788b3b" data-loc="371:43-371:48" data-file-name="app/admin/errors/page.tsx">
+                    <h4 className="text-sm font-medium text-gray-500" data-unique-id="010238c7-6612-48b0-bd86-c42c3266f1c8" data-loc="372:20-372:70" data-file-name="app/admin/errors/page.tsx">Metadata</h4>
+                    <pre className="mt-1 bg-gray-100 p-2 rounded text-xs overflow-x-auto max-h-40" data-unique-id="ac7d6b92-cf59-4b41-a85b-a8f54f837df7" data-loc="373:20-373:99" data-file-name="app/admin/errors/page.tsx">
                       {JSON.stringify(selectedError.metadata, null, 2)}
                     </pre>
                   </div>}
                 
-                {selectedError.stack && <div data-unique-id="be7333ce-5d67-41ef-be91-3fde552cadf5" data-loc="378:40-378:45" data-file-name="app/admin/errors/page.tsx">
-                    <h4 className="text-sm font-medium text-gray-500" data-unique-id="c057cde7-86ea-4698-a0ce-597674eb9965" data-loc="379:20-379:70" data-file-name="app/admin/errors/page.tsx">Stack Trace</h4>
-                    <pre className="mt-1 bg-gray-100 p-2 rounded text-xs overflow-x-auto max-h-60" data-unique-id="bca4148c-f3a4-449e-8aff-58e9ffc1dd2d" data-loc="380:20-380:99" data-file-name="app/admin/errors/page.tsx">
+                {selectedError.stack && <div data-unique-id="a65dda06-545e-4414-b70e-62950b826310" data-loc="378:40-378:45" data-file-name="app/admin/errors/page.tsx">
+                    <h4 className="text-sm font-medium text-gray-500" data-unique-id="723f91f9-0ca1-4d14-8018-cda1b591302e" data-loc="379:20-379:70" data-file-name="app/admin/errors/page.tsx">Stack Trace</h4>
+                    <pre className="mt-1 bg-gray-100 p-2 rounded text-xs overflow-x-auto max-h-60" data-unique-id="732c51f1-f4dd-4cfc-ae4e-489625b4c6c5" data-loc="380:20-380:99" data-file-name="app/admin/errors/page.tsx">
                       {selectedError.stack}
                     </pre>
                   </div>}
               </div>
               
-              <div className="mt-6 flex justify-end space-x-3" data-unique-id="f3990f58-1439-497e-a440-bd0d2c4d41bb" data-loc="386:14-386:63" data-file-name="app/admin/errors/page.tsx">
-                <button onClick={() => setSelectedError(null)} className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" data-unique-id="91e9175b-bb9e-4d7d-9360-bb93b9d322ac" data-loc="387:16-387:261" data-file-name="app/admin/errors/page.tsx">
+              <div className="mt-6 flex justify-end space-x-3" data-unique-id="2727d4b5-27d8-4feb-83a7-816a6b920295" data-loc="386:14-386:63" data-file-name="app/admin/errors/page.tsx">
+                <button onClick={() => setSelectedError(null)} className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" data-unique-id="4b86714e-4ae0-4163-9d22-2fbb5568f080" data-loc="387:16-387:261" data-file-name="app/admin/errors/page.tsx">
                   Close
                 </button>
                 
                 {selectedError.status !== 'resolved' && <button onClick={() => {
               updateErrorStatus(selectedError.id, 'resolved');
-            }} className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" data-unique-id="e6cf3583-e7ab-4850-a4a7-4c8abba6afb8" data-loc="391:56-393:220" data-file-name="app/admin/errors/page.tsx">
+            }} className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" data-unique-id="63d9f03f-b802-4ea2-a6f5-cd2f44c62acb" data-loc="391:56-393:220" data-file-name="app/admin/errors/page.tsx">
                     Mark as Resolved
                   </button>}
               </div>
