@@ -4,30 +4,24 @@ import { useAuth } from "@/contexts/auth-context";
 import ProtectedRoute from "@/components/protected-route";
 import { ArrowLeft, Phone, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
-
 export default function ProfilePage() {
-  const { authState, signOut } = useAuth();
+  const {
+    authState,
+    signOut
+  } = useAuth();
   const router = useRouter();
-
-  return (
-    <ProtectedRoute>
+  return <ProtectedRoute>
       <div className="min-h-screen bg-gray-50">
         <header className="bg-white shadow">
           <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center">
-                <button 
-                  onClick={() => router.push("/dashboard")}
-                  className="mr-4 p-1 rounded-full hover:bg-gray-100"
-                >
+                <button onClick={() => router.push("/dashboard")} className="mr-4 p-1 rounded-full hover:bg-gray-100">
                   <ArrowLeft className="h-5 w-5 text-gray-600" />
                 </button>
                 <h1 className="text-xl font-bold text-gray-900">My Profile</h1>
               </div>
-              <button 
-                onClick={signOut}
-                className="flex items-center text-sm font-medium text-red-600 hover:text-red-800"
-              >
+              <button onClick={signOut} className="flex items-center text-sm font-medium text-red-600 hover:text-red-800">
                 <LogOut className="h-4 w-4 mr-1" /> Sign Out
               </button>
             </div>
@@ -75,6 +69,5 @@ export default function ProfilePage() {
           </div>
         </main>
       </div>
-    </ProtectedRoute>
-  );
+    </ProtectedRoute>;
 }

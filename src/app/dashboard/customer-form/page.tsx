@@ -5,10 +5,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { 
-  ArrowLeft, User, Phone, Mail, Calendar, CreditCard,
-  MapPin, DollarSign, FileText, AlertCircle, CheckCircle
-} from "lucide-react";
+import { ArrowLeft, User, Phone, Mail, Calendar, CreditCard, MapPin, DollarSign, FileText, AlertCircle, CheckCircle } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { cn } from "@/lib/utils";
 import { customersApi, supabaseApi } from "@/lib/api-service";
@@ -28,28 +25,29 @@ const customerSchema = z.object({
   salary: z.number().min(5000, "Minimum salary is ₹5,000"),
   pin: z.string().regex(/^\d{6}$/, "PIN code must be 6 digits"),
   address: z.string().min(10, "Address must be at least 10 characters"),
-  cibilScore: z.number().optional(),
+  cibilScore: z.number().optional()
 });
-
 type CustomerFormData = z.infer<typeof customerSchema>;
-
 export default function CustomerFormPage() {
   const router = useRouter();
-  const [agent, setAgent] = useState<{ name: string; phone: string } | null>(null);
+  const [agent, setAgent] = useState<{
+    name: string;
+    phone: string;
+  } | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
-  const { 
-    register, 
-    handleSubmit, 
-    formState: { errors },
+  const {
+    register,
+    handleSubmit,
+    formState: {
+      errors
+    },
     setValue
   } = useForm<CustomerFormData>({
     resolver: zodResolver(customerSchema),
     defaultValues: {
-      salary: 0,
+      salary: 0
     }
   });
-  
   useEffect(() => {
     // Check if user is logged in
     const agentData = localStorage.getItem("salesAgent");
@@ -57,18 +55,14 @@ export default function CustomerFormPage() {
       router.push("/");
       return;
     }
-    
     setAgent(JSON.parse(agentData));
   }, [router]);
-  
   const onSubmit = async (data: CustomerFormData) => {
     if (!agent) return;
-    
     setIsSubmitting(true);
-    
     try {
       console.log("Submitting customer data:", data);
-      
+
       // Create new customer via API
       const response = await customersApi.create({
         name: data.name,
@@ -82,12 +76,10 @@ export default function CustomerFormPage() {
         cibilScore: data.cibilScore,
         linkedAgent: agent.phone
       });
-      
       console.log("API response:", response);
-      
       if (response && response.customer) {
         toast.success("Customer information saved successfully");
-        
+
         // Redirect to eligibility page
         router.push(`/dashboard/eligibility/${response.customer.id}`);
       } else {
@@ -95,7 +87,7 @@ export default function CustomerFormPage() {
       }
     } catch (error) {
       console.error("Error saving customer:", error);
-      
+
       // Check if we're offline
       if (!navigator.onLine) {
         // Store data for later sync
@@ -115,7 +107,6 @@ export default function CustomerFormPage() {
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString()
           });
-          
           toast.success("Customer information saved for later sync (offline mode)");
           // Redirect to dashboard since we can't get an ID for eligibility check while offline
           router.push('/dashboard');
@@ -129,25 +120,17 @@ export default function CustomerFormPage() {
       setIsSubmitting(false);
     }
   };
-  
   if (!agent) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
+    return <div className="flex items-center justify-center min-h-screen">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
-      </div>
-    );
+      </div>;
   }
-  
-  return (
-    <div className="min-h-screen bg-gray-50 pb-12">
+  return <div className="min-h-screen bg-gray-50 pb-12">
       {/* Header */}
       <header className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6">
           <div className="flex items-center">
-            <button 
-              onClick={() => router.push("/dashboard")}
-              className="mr-4 p-1 rounded-full hover:bg-gray-100"
-            >
+            <button onClick={() => router.push("/dashboard")} className="mr-4 p-1 rounded-full hover:bg-gray-100">
               <ArrowLeft className="h-5 w-5 text-gray-600" />
             </button>
             <h1 className="text-xl font-bold text-gray-900">
@@ -177,22 +160,11 @@ export default function CustomerFormPage() {
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <User className="h-5 w-5 text-gray-400" />
                       </div>
-                      <input
-                        type="text"
-                        id="name"
-                        className={cn(
-                          "block w-full pl-10 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500",
-                          errors.name ? "border-red-300" : "border-gray-300"
-                        )}
-                        placeholder="John Doe"
-                        {...register("name")}
-                      />
+                      <input type="text" id="name" className={cn("block w-full pl-10 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500", errors.name ? "border-red-300" : "border-gray-300")} placeholder="John Doe" {...register("name")} />
                     </div>
-                    {errors.name && (
-                      <p className="mt-1 text-sm text-red-600">
+                    {errors.name && <p className="mt-1 text-sm text-red-600">
                         {errors.name.message}
-                      </p>
-                    )}
+                      </p>}
                   </div>
                 </div>
                 
@@ -205,23 +177,11 @@ export default function CustomerFormPage() {
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <Phone className="h-5 w-5 text-gray-400" />
                       </div>
-                      <input
-                        type="tel"
-                        id="phone"
-                        className={cn(
-                          "block w-full pl-10 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500",
-                          errors.phone ? "border-red-300" : "border-gray-300"
-                        )}
-                        placeholder="10-digit number"
-                        maxLength={10}
-                        {...register("phone")}
-                      />
+                      <input type="tel" id="phone" className={cn("block w-full pl-10 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500", errors.phone ? "border-red-300" : "border-gray-300")} placeholder="10-digit number" maxLength={10} {...register("phone")} />
                     </div>
-                    {errors.phone && (
-                      <p className="mt-1 text-sm text-red-600">
+                    {errors.phone && <p className="mt-1 text-sm text-red-600">
                         {errors.phone.message}
-                      </p>
-                    )}
+                      </p>}
                   </div>
                   
                   <div>
@@ -232,22 +192,11 @@ export default function CustomerFormPage() {
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <Mail className="h-5 w-5 text-gray-400" />
                       </div>
-                      <input
-                        type="email"
-                        id="email"
-                        className={cn(
-                          "block w-full pl-10 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500",
-                          errors.email ? "border-red-300" : "border-gray-300"
-                        )}
-                        placeholder="john@example.com"
-                        {...register("email")}
-                      />
+                      <input type="email" id="email" className={cn("block w-full pl-10 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500", errors.email ? "border-red-300" : "border-gray-300")} placeholder="john@example.com" {...register("email")} />
                     </div>
-                    {errors.email && (
-                      <p className="mt-1 text-sm text-red-600">
+                    {errors.email && <p className="mt-1 text-sm text-red-600">
                         {errors.email.message}
-                      </p>
-                    )}
+                      </p>}
                   </div>
                   
                   <div>
@@ -258,21 +207,11 @@ export default function CustomerFormPage() {
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <Calendar className="h-5 w-5 text-gray-400" />
                       </div>
-                      <input
-                        type="date"
-                        id="dob"
-                        className={cn(
-                          "block w-full pl-10 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500",
-                          errors.dob ? "border-red-300" : "border-gray-300"
-                        )}
-                        {...register("dob")}
-                      />
+                      <input type="date" id="dob" className={cn("block w-full pl-10 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500", errors.dob ? "border-red-300" : "border-gray-300")} {...register("dob")} />
                     </div>
-                    {errors.dob && (
-                      <p className="mt-1 text-sm text-red-600">
+                    {errors.dob && <p className="mt-1 text-sm text-red-600">
                         {errors.dob.message}
-                      </p>
-                    )}
+                      </p>}
                   </div>
                   
                   <div>
@@ -283,26 +222,13 @@ export default function CustomerFormPage() {
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <FileText className="h-5 w-5 text-gray-400" />
                       </div>
-                      <input
-                        type="text"
-                        id="pan"
-                        className={cn(
-                          "block w-full pl-10 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 uppercase",
-                          errors.pan ? "border-red-300" : "border-gray-300"
-                        )}
-                        placeholder="ABCDE1234F"
-                        maxLength={10}
-                        {...register("pan")}
-                        onChange={e => {
-                          e.target.value = e.target.value.toUpperCase();
-                        }}
-                      />
+                      <input type="text" id="pan" className={cn("block w-full pl-10 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 uppercase", errors.pan ? "border-red-300" : "border-gray-300")} placeholder="ABCDE1234F" maxLength={10} {...register("pan")} onChange={e => {
+                      e.target.value = e.target.value.toUpperCase();
+                    }} />
                     </div>
-                    {errors.pan && (
-                      <p className="mt-1 text-sm text-red-600">
+                    {errors.pan && <p className="mt-1 text-sm text-red-600">
                         {errors.pan.message}
-                      </p>
-                    )}
+                      </p>}
                   </div>
                 </div>
               </div>
@@ -322,22 +248,13 @@ export default function CustomerFormPage() {
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <DollarSign className="h-5 w-5 text-gray-400" />
                       </div>
-                      <input
-                        type="number"
-                        id="salary"
-                        className={cn(
-                          "block w-full pl-10 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500",
-                          errors.salary ? "border-red-300" : "border-gray-300"
-                        )}
-                        placeholder="30000"
-                        {...register("salary", { valueAsNumber: true })}
-                      />
+                      <input type="number" id="salary" className={cn("block w-full pl-10 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500", errors.salary ? "border-red-300" : "border-gray-300")} placeholder="30000" {...register("salary", {
+                      valueAsNumber: true
+                    })} />
                     </div>
-                    {errors.salary && (
-                      <p className="mt-1 text-sm text-red-600">
+                    {errors.salary && <p className="mt-1 text-sm text-red-600">
                         {errors.salary.message}
-                      </p>
-                    )}
+                      </p>}
                   </div>
                   
                   <div>
@@ -348,23 +265,11 @@ export default function CustomerFormPage() {
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <MapPin className="h-5 w-5 text-gray-400" />
                       </div>
-                      <input
-                        type="text"
-                        id="pin"
-                        className={cn(
-                          "block w-full pl-10 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500",
-                          errors.pin ? "border-red-300" : "border-gray-300"
-                        )}
-                        placeholder="6-digit PIN code"
-                        maxLength={6}
-                        {...register("pin")}
-                      />
+                      <input type="text" id="pin" className={cn("block w-full pl-10 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500", errors.pin ? "border-red-300" : "border-gray-300")} placeholder="6-digit PIN code" maxLength={6} {...register("pin")} />
                     </div>
-                    {errors.pin && (
-                      <p className="mt-1 text-sm text-red-600">
+                    {errors.pin && <p className="mt-1 text-sm text-red-600">
                         {errors.pin.message}
-                      </p>
-                    )}
+                      </p>}
                   </div>
                 </div>
                 
@@ -372,21 +277,10 @@ export default function CustomerFormPage() {
                   <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
                     Address
                   </label>
-                  <textarea
-                    id="address"
-                    rows={3}
-                    className={cn(
-                      "block w-full py-2 px-3 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500",
-                      errors.address ? "border-red-300" : "border-gray-300"
-                    )}
-                    placeholder="Full residential address"
-                    {...register("address")}
-                  ></textarea>
-                  {errors.address && (
-                    <p className="mt-1 text-sm text-red-600">
+                  <textarea id="address" rows={3} className={cn("block w-full py-2 px-3 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500", errors.address ? "border-red-300" : "border-gray-300")} placeholder="Full residential address" {...register("address")}></textarea>
+                  {errors.address && <p className="mt-1 text-sm text-red-600">
                       {errors.address.message}
-                    </p>
-                  )}
+                    </p>}
                 </div>
                 
                 <div>
@@ -397,18 +291,10 @@ export default function CustomerFormPage() {
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                       <CreditCard className="h-5 w-5 text-gray-400" />
                     </div>
-                    <input
-                      type="number"
-                      id="cibilScore"
-                      min="300"
-                      max="900"
-                      className="block w-full pl-10 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="Enter score (300-900)"
-                      {...register("cibilScore", { 
-                        setValueAs: value => value ? parseInt(value) : undefined,
-                        valueAsNumber: true 
-                      })}
-                    />
+                    <input type="number" id="cibilScore" min="300" max="900" className="block w-full pl-10 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter score (300-900)" {...register("cibilScore", {
+                    setValueAs: value => value ? parseInt(value) : undefined,
+                    valueAsNumber: true
+                  })} />
                   </div>
                   <p className="mt-1 text-sm text-gray-500">
                     *In production, this would be fetched from the CIBIL API
@@ -418,33 +304,21 @@ export default function CustomerFormPage() {
               
               {/* Submit Button */}
               <div>
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className={cn(
-                    "w-full py-3 px-4 border border-transparent rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500",
-                    isSubmitting && "opacity-70 cursor-not-allowed"
-                  )}
-                >
-                  {isSubmitting ? (
-                    <span className="flex items-center justify-center">
+                <button type="submit" disabled={isSubmitting} className={cn("w-full py-3 px-4 border border-transparent rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", isSubmitting && "opacity-70 cursor-not-allowed")}>
+                  {isSubmitting ? <span className="flex items-center justify-center">
                       <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
                       Processing...
-                    </span>
-                  ) : (
-                    <span className="flex items-center justify-center">
+                    </span> : <span className="flex items-center justify-center">
                       Check Credit Card Eligibility <CheckCircle className="ml-2 h-5 w-5" />
-                    </span>
-                  )}
+                    </span>}
                 </button>
               </div>
             </div>
           </form>
         </div>
       </main>
-    </div>
-  );
+    </div>;
 }

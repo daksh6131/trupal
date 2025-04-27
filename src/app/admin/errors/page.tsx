@@ -2,23 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { 
-  AlertTriangle, 
-  CheckCircle, 
-  Clock, 
-  Filter, 
-  Search, 
-  ArrowLeft, 
-  RefreshCw,
-  AlertCircle,
-  XCircle,
-  Eye,
-  ChevronDown,
-  ChevronUp
-} from "lucide-react";
+import { AlertTriangle, CheckCircle, Clock, Filter, Search, ArrowLeft, RefreshCw, AlertCircle, XCircle, Eye, ChevronDown, ChevronUp } from "lucide-react";
 import { format } from "date-fns";
 import { ErrorLog } from "@/db/schema";
-
 export default function ErrorsPage() {
   const router = useRouter();
   const [errors, setErrors] = useState<ErrorLog[]>([]);
@@ -39,10 +25,8 @@ export default function ErrorsPage() {
       const params = new URLSearchParams();
       if (filter.status) params.append('status', filter.status);
       if (filter.severity) params.append('severity', filter.severity);
-      
       const response = await fetch(`/api/errors?${params.toString()}`);
       const data = await response.json();
-      
       if (data.success) {
         setErrors(data.errors);
       } else {
@@ -63,14 +47,8 @@ export default function ErrorsPage() {
   // Filter errors by search term
   const filteredErrors = errors.filter(error => {
     if (!filter.search) return true;
-    
     const searchTerm = filter.search.toLowerCase();
-    return (
-      error.message?.toLowerCase().includes(searchTerm) ||
-      error.type?.toLowerCase().includes(searchTerm) ||
-      error.url?.toLowerCase().includes(searchTerm) ||
-      error.userId?.toLowerCase().includes(searchTerm)
-    );
+    return error.message?.toLowerCase().includes(searchTerm) || error.type?.toLowerCase().includes(searchTerm) || error.url?.toLowerCase().includes(searchTerm) || error.userId?.toLowerCase().includes(searchTerm);
   });
 
   // Update error status
@@ -79,24 +57,25 @@ export default function ErrorsPage() {
       const response = await fetch(`/api/errors/${id}`, {
         method: 'PATCH',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           status,
-          resolvedBy: 'admin', // In a real app, get the actual admin email
-        }),
+          resolvedBy: 'admin' // In a real app, get the actual admin email
+        })
       });
-      
       const data = await response.json();
-      
       if (data.success) {
         // Update local state
-        setErrors(errors.map(error => 
-          error.id === id ? { ...error, status: status as "new" | "investigating" | "resolved" | "ignored" } : error
-        ));
-        
+        setErrors(errors.map(error => error.id === id ? {
+          ...error,
+          status: status as "new" | "investigating" | "resolved" | "ignored"
+        } : error));
         if (selectedError?.id === id) {
-          setSelectedError({ ...selectedError, status: status as "new" | "investigating" | "resolved" | "ignored" });
+          setSelectedError({
+            ...selectedError,
+            status: status as "new" | "investigating" | "resolved" | "ignored"
+          });
         }
       } else {
         console.error("Failed to update error status:", data.error);
@@ -111,7 +90,6 @@ export default function ErrorsPage() {
     try {
       const response = await fetch(`/api/errors/${id}`);
       const data = await response.json();
-      
       if (data.success) {
         setSelectedError(data.error);
       } else {
@@ -133,35 +111,40 @@ export default function ErrorsPage() {
   // Get severity badge color
   const getSeverityColor = (severity: string) => {
     switch (severity) {
-      case 'low': return 'bg-blue-100 text-blue-800';
-      case 'medium': return 'bg-yellow-100 text-yellow-800';
-      case 'high': return 'bg-orange-100 text-orange-800';
-      case 'critical': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'low':
+        return 'bg-blue-100 text-blue-800';
+      case 'medium':
+        return 'bg-yellow-100 text-yellow-800';
+      case 'high':
+        return 'bg-orange-100 text-orange-800';
+      case 'critical':
+        return 'bg-red-100 text-red-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
     }
   };
 
   // Get status badge color
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'new': return 'bg-blue-100 text-blue-800';
-      case 'investigating': return 'bg-purple-100 text-purple-800';
-      case 'resolved': return 'bg-green-100 text-green-800';
-      case 'ignored': return 'bg-gray-100 text-gray-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'new':
+        return 'bg-blue-100 text-blue-800';
+      case 'investigating':
+        return 'bg-purple-100 text-purple-800';
+      case 'resolved':
+        return 'bg-green-100 text-green-800';
+      case 'ignored':
+        return 'bg-gray-100 text-gray-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
     }
   };
-
-  return (
-    <div className="min-h-screen bg-gray-50">
+  return <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6">
           <div className="flex items-center">
-            <button 
-              onClick={() => router.push("/admin")}
-              className="mr-4 p-1 rounded-full hover:bg-gray-100"
-            >
+            <button onClick={() => router.push("/admin")} className="mr-4 p-1 rounded-full hover:bg-gray-100">
               <ArrowLeft className="h-5 w-5 text-gray-600" />
             </button>
             <h1 className="text-xl font-bold text-gray-900">
@@ -179,21 +162,17 @@ export default function ErrorsPage() {
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <Search className="h-5 w-5 text-gray-400" />
             </div>
-            <input
-              type="text"
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              placeholder="Search errors..."
-              value={filter.search || ''}
-              onChange={(e) => setFilter({ ...filter, search: e.target.value })}
-            />
+            <input type="text" className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Search errors..." value={filter.search || ''} onChange={e => setFilter({
+            ...filter,
+            search: e.target.value
+          })} />
           </div>
           
           <div className="flex gap-2">
-            <select
-              className="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
-              value={filter.status || ''}
-              onChange={(e) => setFilter({ ...filter, status: e.target.value || undefined })}
-            >
+            <select className="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md" value={filter.status || ''} onChange={e => setFilter({
+            ...filter,
+            status: e.target.value || undefined
+          })}>
               <option value="">All Statuses</option>
               <option value="new">New</option>
               <option value="investigating">Investigating</option>
@@ -201,11 +180,10 @@ export default function ErrorsPage() {
               <option value="ignored">Ignored</option>
             </select>
             
-            <select
-              className="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
-              value={filter.severity || ''}
-              onChange={(e) => setFilter({ ...filter, severity: e.target.value || undefined })}
-            >
+            <select className="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md" value={filter.severity || ''} onChange={e => setFilter({
+            ...filter,
+            severity: e.target.value || undefined
+          })}>
               <option value="">All Severities</option>
               <option value="low">Low</option>
               <option value="medium">Medium</option>
@@ -213,10 +191,7 @@ export default function ErrorsPage() {
               <option value="critical">Critical</option>
             </select>
             
-            <button
-              onClick={fetchErrors}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
+            <button onClick={fetchErrors} className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
               <RefreshCw className="h-4 w-4 mr-2" /> Refresh
             </button>
           </div>
@@ -224,24 +199,15 @@ export default function ErrorsPage() {
         
         {/* Error List */}
         <div className="bg-white shadow overflow-hidden sm:rounded-md">
-          {loading ? (
-            <div className="text-center py-12">
+          {loading ? <div className="text-center py-12">
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto"></div>
               <p className="mt-4 text-gray-600">Loading error logs...</p>
-            </div>
-          ) : filteredErrors.length > 0 ? (
-            <ul className="divide-y divide-gray-200">
-              {filteredErrors.map((error) => (
-                <li key={error.id} className="px-6 py-4 hover:bg-gray-50">
+            </div> : filteredErrors.length > 0 ? <ul className="divide-y divide-gray-200">
+              {filteredErrors.map(error => <li key={error.id} className="px-6 py-4 hover:bg-gray-50">
                   <div className="flex items-center justify-between">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center">
-                        <AlertTriangle className={`h-5 w-5 mr-2 ${
-                          error.severity === 'critical' ? 'text-red-500' :
-                          error.severity === 'high' ? 'text-orange-500' :
-                          error.severity === 'medium' ? 'text-yellow-500' :
-                          'text-blue-500'
-                        }`} />
+                        <AlertTriangle className={`h-5 w-5 mr-2 ${error.severity === 'critical' ? 'text-red-500' : error.severity === 'high' ? 'text-orange-500' : error.severity === 'medium' ? 'text-yellow-500' : 'text-blue-500'}`} />
                         <p className="text-sm font-medium text-gray-900 truncate">
                           {error.message}
                         </p>
@@ -259,28 +225,17 @@ export default function ErrorsPage() {
                       </div>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <button
-                        onClick={() => toggleExpanded(error.id)}
-                        className="p-1 rounded-full hover:bg-gray-200"
-                      >
-                        {expandedErrors[error.id] ? (
-                          <ChevronUp className="h-5 w-5 text-gray-500" />
-                        ) : (
-                          <ChevronDown className="h-5 w-5 text-gray-500" />
-                        )}
+                      <button onClick={() => toggleExpanded(error.id)} className="p-1 rounded-full hover:bg-gray-200">
+                        {expandedErrors[error.id] ? <ChevronUp className="h-5 w-5 text-gray-500" /> : <ChevronDown className="h-5 w-5 text-gray-500" />}
                       </button>
-                      <button
-                        onClick={() => viewErrorDetails(error.id)}
-                        className="p-1 rounded-full hover:bg-gray-200"
-                      >
+                      <button onClick={() => viewErrorDetails(error.id)} className="p-1 rounded-full hover:bg-gray-200">
                         <Eye className="h-5 w-5 text-gray-500" />
                       </button>
                     </div>
                   </div>
                   
                   {/* Expanded details */}
-                  {expandedErrors[error.id] && (
-                    <div className="mt-3 pl-7 text-sm">
+                  {expandedErrors[error.id] && <div className="mt-3 pl-7 text-sm">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                         <div>
                           <p className="text-gray-500">Type: <span className="text-gray-700">{error.type || 'Unknown'}</span></p>
@@ -290,86 +245,56 @@ export default function ErrorsPage() {
                         </div>
                         <div>
                           <p className="text-gray-500">User Agent: <span className="text-gray-700 truncate block">{error.userAgent || 'N/A'}</span></p>
-                          {error.resolvedAt && (
-                            <p className="text-gray-500">
+                          {error.resolvedAt && <p className="text-gray-500">
                               Resolved: <span className="text-gray-700">
                                 {format(new Date(error.resolvedAt), 'MMM d, yyyy HH:mm:ss')}
                               </span>
                               {error.resolvedBy && <span className="text-gray-700"> by {error.resolvedBy}</span>}
-                            </p>
-                          )}
+                            </p>}
                         </div>
                       </div>
                       
                       {/* Stack trace */}
-                      {error.stack && (
-                        <div className="mt-2">
+                      {error.stack && <div className="mt-2">
                           <p className="text-gray-500 mb-1">Stack Trace:</p>
                           <pre className="bg-gray-100 p-2 rounded text-xs overflow-x-auto max-h-40">
                             {error.stack}
                           </pre>
-                        </div>
-                      )}
+                        </div>}
                       
                       {/* Action buttons */}
                       <div className="mt-3 flex space-x-2">
-                        {error.status !== 'investigating' && (
-                          <button
-                            onClick={() => updateErrorStatus(error.id, 'investigating')}
-                            className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-purple-700 bg-purple-100 hover:bg-purple-200"
-                          >
+                        {error.status !== 'investigating' && <button onClick={() => updateErrorStatus(error.id, 'investigating')} className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-purple-700 bg-purple-100 hover:bg-purple-200">
                             <Clock className="h-3 w-3 mr-1" /> Investigating
-                          </button>
-                        )}
+                          </button>}
                         
-                        {error.status !== 'resolved' && (
-                          <button
-                            onClick={() => updateErrorStatus(error.id, 'resolved')}
-                            className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-green-700 bg-green-100 hover:bg-green-200"
-                          >
+                        {error.status !== 'resolved' && <button onClick={() => updateErrorStatus(error.id, 'resolved')} className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-green-700 bg-green-100 hover:bg-green-200">
                             <CheckCircle className="h-3 w-3 mr-1" /> Resolve
-                          </button>
-                        )}
+                          </button>}
                         
-                        {error.status !== 'ignored' && (
-                          <button
-                            onClick={() => updateErrorStatus(error.id, 'ignored')}
-                            className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-gray-700 bg-gray-100 hover:bg-gray-200"
-                          >
+                        {error.status !== 'ignored' && <button onClick={() => updateErrorStatus(error.id, 'ignored')} className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-gray-700 bg-gray-100 hover:bg-gray-200">
                             <XCircle className="h-3 w-3 mr-1" /> Ignore
-                          </button>
-                        )}
+                          </button>}
                       </div>
-                    </div>
-                  )}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <div className="text-center py-12">
+                    </div>}
+                </li>)}
+            </ul> : <div className="text-center py-12">
               <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-gray-100">
                 <CheckCircle className="h-6 w-6 text-gray-600" />
               </div>
               <h3 className="mt-2 text-sm font-medium text-gray-900">No errors found</h3>
               <p className="mt-1 text-sm text-gray-500">
-                {filter.search || filter.status || filter.severity ? 
-                  'Try changing your search filters' : 
-                  'No errors have been logged yet'}
+                {filter.search || filter.status || filter.severity ? 'Try changing your search filters' : 'No errors have been logged yet'}
               </p>
-            </div>
-          )}
+            </div>}
         </div>
         
         {/* Error Detail Modal */}
-        {selectedError && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        {selectedError && <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white rounded-lg p-6 max-w-2xl w-full max-h-screen overflow-y-auto">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-medium text-gray-900">Error Details</h3>
-                <button
-                  onClick={() => setSelectedError(null)}
-                  className="text-gray-400 hover:text-gray-500"
-                >
+                <button onClick={() => setSelectedError(null)} className="text-gray-400 hover:text-gray-500">
                   <XCircle className="h-5 w-5" />
                 </button>
               </div>
@@ -404,9 +329,7 @@ export default function ErrorsPage() {
                   <div>
                     <h4 className="text-sm font-medium text-gray-500">Timestamp</h4>
                     <p className="mt-1 text-sm text-gray-900">
-                      {selectedError.createdAt ? 
-                        format(new Date(selectedError.createdAt), 'MMM d, yyyy HH:mm:ss') : 
-                        'Unknown'}
+                      {selectedError.createdAt ? format(new Date(selectedError.createdAt), 'MMM d, yyyy HH:mm:ss') : 'Unknown'}
                     </p>
                   </div>
                 </div>
@@ -432,8 +355,7 @@ export default function ErrorsPage() {
                   <p className="mt-1 text-sm text-gray-900 break-all">{selectedError.userAgent || 'N/A'}</p>
                 </div>
                 
-                {selectedError.resolvedAt && (
-                  <div className="grid grid-cols-2 gap-4">
+                {selectedError.resolvedAt && <div className="grid grid-cols-2 gap-4">
                     <div>
                       <h4 className="text-sm font-medium text-gray-500">Resolved At</h4>
                       <p className="mt-1 text-sm text-gray-900">
@@ -444,51 +366,36 @@ export default function ErrorsPage() {
                       <h4 className="text-sm font-medium text-gray-500">Resolved By</h4>
                       <p className="mt-1 text-sm text-gray-900">{selectedError.resolvedBy || 'N/A'}</p>
                     </div>
-                  </div>
-                )}
+                  </div>}
                 
-                {selectedError.metadata && (
-                  <div>
+                {selectedError.metadata && <div>
                     <h4 className="text-sm font-medium text-gray-500">Metadata</h4>
                     <pre className="mt-1 bg-gray-100 p-2 rounded text-xs overflow-x-auto max-h-40">
                       {JSON.stringify(selectedError.metadata, null, 2)}
                     </pre>
-                  </div>
-                )}
+                  </div>}
                 
-                {selectedError.stack && (
-                  <div>
+                {selectedError.stack && <div>
                     <h4 className="text-sm font-medium text-gray-500">Stack Trace</h4>
                     <pre className="mt-1 bg-gray-100 p-2 rounded text-xs overflow-x-auto max-h-60">
                       {selectedError.stack}
                     </pre>
-                  </div>
-                )}
+                  </div>}
               </div>
               
               <div className="mt-6 flex justify-end space-x-3">
-                <button
-                  onClick={() => setSelectedError(null)}
-                  className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                >
+                <button onClick={() => setSelectedError(null)} className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                   Close
                 </button>
                 
-                {selectedError.status !== 'resolved' && (
-                  <button
-                    onClick={() => {
-                      updateErrorStatus(selectedError.id, 'resolved');
-                    }}
-                    className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                  >
+                {selectedError.status !== 'resolved' && <button onClick={() => {
+              updateErrorStatus(selectedError.id, 'resolved');
+            }} className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                     Mark as Resolved
-                  </button>
-                )}
+                  </button>}
               </div>
             </div>
-          </div>
-        )}
+          </div>}
       </main>
-    </div>
-  );
+    </div>;
 }

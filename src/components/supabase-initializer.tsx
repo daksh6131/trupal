@@ -3,16 +3,16 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/db';
 import { toast } from 'react-hot-toast';
-
 export default function SupabaseInitializer(): React.ReactNode {
   const [initialized, setInitialized] = useState(false);
-
   useEffect(() => {
     const initializeSupabase = async () => {
       try {
         // Test the Supabase connection
-        const { data, error } = await supabase.from('agents').select('count').limit(1);
-        
+        const {
+          data,
+          error
+        } = await supabase.from('agents').select('count').limit(1);
         if (error) {
           console.error('Supabase connection error:', error);
           toast.error('Failed to connect to database. Some features may not work properly.');
@@ -24,7 +24,6 @@ export default function SupabaseInitializer(): React.ReactNode {
         console.error('Error initializing Supabase:', error);
       }
     };
-
     initializeSupabase();
   }, []);
 

@@ -2,62 +2,54 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { 
-  UserPlus, ClipboardList, LogOut, ChevronRight, 
-  Phone, Mail, Calendar, CreditCard, DollarSign
-} from "lucide-react";
+import { UserPlus, ClipboardList, LogOut, ChevronRight, Phone, Mail, Calendar, CreditCard, DollarSign } from "lucide-react";
 import { Customer } from "@/types";
 import { format } from "date-fns";
 import { authApi, customersApi, supabaseApi } from "@/lib/api-service";
 import ErrorTest from "@/components/error-test";
-
 export default function DashboardPage() {
   const router = useRouter();
-  const [agent, setAgent] = useState<{ name: string; phone: string } | null>(null);
+  const [agent, setAgent] = useState<{
+    name: string;
+    phone: string;
+  } | null>(null);
   const [recentCustomers, setRecentCustomers] = useState<Customer[]>([]);
-  
   useEffect(() => {
     // Check if user is logged in
     const isBrowser = typeof window !== 'undefined';
     const agentData = isBrowser ? localStorage.getItem("salesAgent") : null;
-    
     if (!agentData) {
       router.push("/");
       return;
     }
-    
     const parsedAgent = JSON.parse(agentData);
     setAgent(parsedAgent);
-    
+
     // Get recent customers for this agent
     const fetchCustomers = async () => {
       try {
-        const { customers } = await customersApi.getAll();
-        setRecentCustomers(
+        const {
           customers
-            .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-            .slice(0, 5)
-        );
+        } = await customersApi.getAll();
+        setRecentCustomers(customers.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 5));
       } catch (error) {
         console.error("Error fetching customers:", error);
       }
     };
-    
     fetchCustomers();
-    
+
     // Subscribe to real-time updates for customers
-    const unsubscribe = supabaseApi.subscribeToTable('customers', (payload) => {
+    const unsubscribe = supabaseApi.subscribeToTable('customers', payload => {
       console.log('Customer data changed:', payload);
       // Refresh customer data when changes occur
       fetchCustomers();
     });
-    
+
     // Clean up subscription on unmount
     return () => {
       unsubscribe();
     };
   }, [router]);
-  
   const handleLogout = async () => {
     try {
       await authApi.logout();
@@ -70,17 +62,12 @@ export default function DashboardPage() {
       router.push("/");
     }
   };
-  
   if (!agent) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
+    return <div className="flex items-center justify-center min-h-screen">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
-      </div>
-    );
+      </div>;
   }
-  
-  return (
-    <div className="min-h-screen bg-gray-50">
+  return <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 flex justify-between items-center">
@@ -89,10 +76,7 @@ export default function DashboardPage() {
             <span className="text-sm font-medium text-gray-600 mr-4">
               Welcome, {agent.name}
             </span>
-            <button 
-              onClick={handleLogout}
-              className="flex items-center text-sm font-medium text-red-600 hover:text-red-800"
-            >
+            <button onClick={handleLogout} className="flex items-center text-sm font-medium text-red-600 hover:text-red-800">
               <LogOut className="h-4 w-4 mr-1" /> Logout
             </button>
           </div>
@@ -103,10 +87,7 @@ export default function DashboardPage() {
       <main className="max-w-7xl mx-auto px-4 py-8 sm:px-6">
         {/* Action Cards */}
         <div className="grid grid-cols-2 gap-6 mb-8">
-          <button 
-            onClick={() => router.push("/dashboard/customer-form")}
-            className="flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow-md border border-gray-100 hover:border-blue-500 transition-colors"
-          >
+          <button onClick={() => router.push("/dashboard/customer-form")} className="flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow-md border border-gray-100 hover:border-blue-500 transition-colors">
             <div className="h-16 w-16 rounded-full bg-blue-50 flex items-center justify-center mb-4">
               <UserPlus className="h-8 w-8 text-blue-600" />
             </div>
@@ -116,10 +97,7 @@ export default function DashboardPage() {
             </p>
           </button>
           
-          <button 
-            onClick={() => router.push("/dashboard/customers")}
-            className="flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow-md border border-gray-100 hover:border-blue-500 transition-colors"
-          >
+          <button onClick={() => router.push("/dashboard/customers")} className="flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow-md border border-gray-100 hover:border-blue-500 transition-colors">
             <div className="h-16 w-16 rounded-full bg-green-50 flex items-center justify-center mb-4">
               <ClipboardList className="h-8 w-8 text-green-600" />
             </div>
@@ -134,16 +112,12 @@ export default function DashboardPage() {
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-medium text-gray-900">Recent Customers</h2>
-            <button 
-              onClick={() => router.push("/dashboard/customers")}
-              className="text-sm text-blue-600 hover:text-blue-800 flex items-center"
-            >
+            <button onClick={() => router.push("/dashboard/customers")} className="text-sm text-blue-600 hover:text-blue-800 flex items-center">
               View all <ChevronRight className="h-4 w-4 ml-1" />
             </button>
           </div>
             
-          {recentCustomers.length > 0 ? (
-            <div className="overflow-x-auto">
+          {recentCustomers.length > 0 ? <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
@@ -165,8 +139,7 @@ export default function DashboardPage() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {recentCustomers.map((customer) => (
-                    <tr key={customer._id} className="hover:bg-gray-50">
+                  {recentCustomers.map(customer => <tr key={customer._id} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm font-medium text-gray-900">{customer.name}</div>
                         <div className="text-sm text-gray-500">{customer.pan}</div>
@@ -180,12 +153,7 @@ export default function DashboardPage() {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          (customer.cibilScore ?? 0) >= 750 ? 'bg-green-100 text-green-800' :
-                          (customer.cibilScore ?? 0) >= 700 ? 'bg-blue-100 text-blue-800' :
-                          (customer.cibilScore ?? 0) >= 650 ? 'bg-yellow-100 text-yellow-800' :
-                          'bg-red-100 text-red-800'
-                        }`}>
+                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${(customer.cibilScore ?? 0) >= 750 ? 'bg-green-100 text-green-800' : (customer.cibilScore ?? 0) >= 700 ? 'bg-blue-100 text-blue-800' : (customer.cibilScore ?? 0) >= 650 ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'}`}>
                           {customer.cibilScore ?? 'N/A'}
                         </span>
                       </td>
@@ -193,33 +161,23 @@ export default function DashboardPage() {
                         {format(new Date(customer.createdAt), 'dd MMM yyyy')}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm">
-                        <button 
-                          onClick={() => router.push(`/dashboard/eligibility/${customer._id}`)}
-                          className="text-blue-600 hover:text-blue-900"
-                        >
+                        <button onClick={() => router.push(`/dashboard/eligibility/${customer._id}`)} className="text-blue-600 hover:text-blue-900">
                           View Cards
                         </button>
                       </td>
-                    </tr>
-                  ))}
+                    </tr>)}
                 </tbody>
               </table>
-            </div>
-          ) : (
-            <div className="text-center py-8">
+            </div> : <div className="text-center py-8">
               <div className="flex justify-center mb-4">
                 <CreditCard className="h-12 w-12 text-gray-300" />
               </div>
               <h3 className="text-lg font-medium text-gray-900 mb-1">No customers yet</h3>
               <p className="text-gray-500 mb-4">Start by registering your first customer</p>
-              <button
-                onClick={() => router.push("/dashboard/customer-form")}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700"
-              >
+              <button onClick={() => router.push("/dashboard/customer-form")} className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700">
                 <UserPlus className="h-4 w-4 mr-2" /> Add Customer
               </button>
-            </div>
-          )}
+            </div>}
         </div>
         
         {/* Error Test Component (for development/testing) */}
@@ -284,6 +242,5 @@ export default function DashboardPage() {
           </div>
         </div>
       </main>
-    </div>
-  );
+    </div>;
 }

@@ -6,40 +6,40 @@ import { logErrorWithContext } from "@/lib/error-logger";
 import { ErrorBoundary } from "./error-boundary";
 
 // Component that will throw an error when the flag is true
-function BuggyCounter({ shouldThrow }: { shouldThrow: boolean }) {
+function BuggyCounter({
+  shouldThrow
+}: {
+  shouldThrow: boolean;
+}) {
   if (shouldThrow) {
     throw new Error("Simulated error in component rendering");
   }
-  
-  return (
-    <div className="p-4 bg-gray-100 rounded-md">
+  return <div className="p-4 bg-gray-100 rounded-md">
       <p className="text-gray-800">Component rendered successfully!</p>
-    </div>
-  );
+    </div>;
 }
-
 export default function ErrorTest() {
   const [severity, setSeverity] = useState<'low' | 'medium' | 'high' | 'critical'>('medium');
   const [message, setMessage] = useState('Test error message');
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<{ success?: boolean; message?: string }>({});
+  const [result, setResult] = useState<{
+    success?: boolean;
+    message?: string;
+  }>({});
   const [shouldThrow, setShouldThrow] = useState(false);
-
   const triggerError = async () => {
     setLoading(true);
     setResult({});
-    
     try {
       // Create a test error
       const error = new Error(message);
       error.name = `Test${severity.charAt(0).toUpperCase() + severity.slice(1)}Error`;
-      
+
       // Log the error
       await logErrorWithContext({
         ...error,
-        severity,
+        severity
       });
-      
       setResult({
         success: true,
         message: 'Error logged successfully'
@@ -53,13 +53,11 @@ export default function ErrorTest() {
       setLoading(false);
     }
   };
-
   const triggerRuntimeError = () => {
     // This will cause a runtime error
     const obj: any = null;
     obj.nonExistentMethod();
   };
-
   const triggerPromiseError = async () => {
     // This will cause an unhandled promise rejection
     return new Promise((_, reject) => {
@@ -68,9 +66,7 @@ export default function ErrorTest() {
       }, 100);
     });
   };
-
-  return (
-    <div className="bg-white shadow rounded-lg p-6">
+  return <div className="bg-white shadow rounded-lg p-6">
       <h2 className="text-lg font-medium text-gray-900 mb-4 flex items-center">
         <AlertTriangle className="h-5 w-5 mr-2 text-yellow-500" />
         Test Error Logger
@@ -82,25 +78,14 @@ export default function ErrorTest() {
             <label htmlFor="message" className="block text-sm font-medium text-gray-700">
               Error Message
             </label>
-            <input
-              type="text"
-              id="message"
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-            />
+            <input type="text" id="message" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" value={message} onChange={e => setMessage(e.target.value)} />
           </div>
           
           <div>
             <label htmlFor="severity" className="block text-sm font-medium text-gray-700">
               Severity
             </label>
-            <select
-              id="severity"
-              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
-              value={severity}
-              onChange={(e) => setSeverity(e.target.value as any)}
-            >
+            <select id="severity" className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md" value={severity} onChange={e => setSeverity(e.target.value as any)}>
               <option value="low">Low</option>
               <option value="medium">Medium</option>
               <option value="high">High</option>
@@ -109,33 +94,22 @@ export default function ErrorTest() {
           </div>
           
           <div className="flex flex-col sm:flex-row gap-2">
-            <button
-              onClick={triggerError}
-              disabled={loading}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
-            >
+            <button onClick={triggerError} disabled={loading} className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50">
               {loading ? 'Logging...' : 'Log Test Error'}
             </button>
             
-            <button
-              onClick={triggerRuntimeError}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-            >
+            <button onClick={triggerRuntimeError} className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
               Trigger Runtime Error
             </button>
             
-            <button
-              onClick={() => {
-                triggerPromiseError().catch(() => {});
-              }}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
-            >
+            <button onClick={() => {
+            triggerPromiseError().catch(() => {});
+          }} className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
               Trigger Promise Error
             </button>
           </div>
           
-          {result.message && (
-            <div className={`mt-2 p-2 rounded ${result.success ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`}>
+          {result.message && <div className={`mt-2 p-2 rounded ${result.success ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`}>
               <div className="flex">
                 <div className="flex-shrink-0">
                   <AlertCircle className={`h-5 w-5 ${result.success ? 'text-green-400' : 'text-red-400'}`} />
@@ -144,8 +118,7 @@ export default function ErrorTest() {
                   <p className="text-sm font-medium">{result.message}</p>
                 </div>
               </div>
-            </div>
-          )}
+            </div>}
         </div>
         
         {/* Error Boundary Test Section */}
@@ -162,10 +135,7 @@ export default function ErrorTest() {
             </p>
             
             <div className="flex items-center space-x-4">
-              <button
-                onClick={() => setShouldThrow(!shouldThrow)}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
-              >
+              <button onClick={() => setShouldThrow(!shouldThrow)} className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
                 {shouldThrow ? 'Fix Component' : 'Break Component'}
               </button>
               
@@ -182,6 +152,5 @@ export default function ErrorTest() {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 }
