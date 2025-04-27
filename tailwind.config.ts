@@ -6,6 +6,11 @@ import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 export default {
 	darkMode: ["class"],
 	content: ["./src/**/*.tsx"],
+	safelist: [
+		{
+			pattern: /border-border/,
+		},
+	],
 	theme: {
 		extend: {
 			fontFamily: {
